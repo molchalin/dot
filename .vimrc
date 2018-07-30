@@ -1,6 +1,7 @@
 "несовместимость с vi
 set nocompatible
 
+#!/usr/local/bin/perl 
 "распознование типов файлов
 filetype plugin on
 
@@ -18,15 +19,13 @@ set smartindent
 set shiftwidth=4
 set expandtab
 
-"маппинг символов в командном режиме
-set langmap=ёйцукенгшщзхъфывапролджэячсмитьбю.;`qwertyuiop[]asdfghjkl\;'zxcvbnm\\,./,ЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ\\,;QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?
-
 "автоотступы
 set ai
 set cin
 
 "показывать парную скобку при вводе
 set showmatch
+
 "поиск: подстветка, регистр
 set hlsearch
 set incsearch
@@ -59,3 +58,11 @@ set background=dark
 "curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 "    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+
+"my mapps
+let mapleader = ","
+noremap <leader>n :tabn<cr>
+noremap <leader>p :tabp<cr>
+noremap <leader>e :tabe 
+
+exec ":iabbrev perlbin #!".system("which perl")
