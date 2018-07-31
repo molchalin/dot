@@ -1,7 +1,6 @@
 "несовместимость с vi
 set nocompatible
 
-#!/usr/local/bin/perl 
 "распознование типов файлов
 filetype plugin on
 
