@@ -64,15 +64,21 @@ noremap <leader>n :tabn<cr>
 noremap <leader>p :tabp<cr>
 noremap <leader>e :tabe<space>
 
-exec ":iabbrev perlbin #!".system("which perl")
 augroup MyAu
     autocmd!
     autocmd BufWritePost *.go :!go fmt %
     autocmd FileType go nnoremap <buffer> <leader>c I//<esc>
     autocmd FileType perl nnoremap <buffer> <leader>c I#<esc>
+    autocmd FileType perl iabbrev <buffer> perlbin #!/usr/bin/env perl
+       
 augroup END
 
 inoremap <Up> <nop>
 inoremap <Down> <nop>
 inoremap <Left> <nop>
 inoremap <Right> <nop>
+
+
+"Показывать статус лайн ВСЕГДА
+set laststatus=2
+set statusline=%F%y\ %l\ \/%L
