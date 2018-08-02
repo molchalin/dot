@@ -62,6 +62,17 @@ set background=dark
 let mapleader = ","
 noremap <leader>n :tabn<cr>
 noremap <leader>p :tabp<cr>
-noremap <leader>e :tabe 
+noremap <leader>e :tabe<space>
 
 exec ":iabbrev perlbin #!".system("which perl")
+augroup MyAu
+    autocmd!
+    autocmd BufWritePost *.go :!go fmt %
+    autocmd FileType go nnoremap <buffer> <leader>c I//<esc>
+    autocmd FileType perl nnoremap <buffer> <leader>c I#<esc>
+augroup END
+
+inoremap <Up> <nop>
+inoremap <Down> <nop>
+inoremap <Left> <nop>
+inoremap <Right> <nop>
