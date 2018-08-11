@@ -60,17 +60,16 @@ set background=dark
 
 "my mapps
 let mapleader = ","
-noremap <leader>n :tabn<cr>
-noremap <leader>p :tabp<cr>
-noremap <leader>e :tabe<space>
+noremap <leader>n :tabnext<cr>
+noremap <leader>p :tabprev<cr>
+noremap <leader>e :tabedit<space>
 
 augroup MyAu
     autocmd!
     autocmd BufWritePost *.go :!go fmt %
     autocmd FileType go nnoremap <buffer> <leader>c I//<esc>
     autocmd FileType perl nnoremap <buffer> <leader>c I#<esc>
-    autocmd FileType perl iabbrev <buffer> perlbin #!/usr/bin/env perl
-       
+    "autocmd FileType perl iabbrev <buffer> perlbin #!/usr/bin/env perl
 augroup END
 
 inoremap <Up> <nop>
@@ -82,3 +81,23 @@ inoremap <Right> <nop>
 "Показывать статус лайн ВСЕГДА
 set laststatus=2
 set statusline=%F%y\ %l\ \/%L
+
+
+
+
+
+
+"мои функции
+function! PerlBin()
+    execute "normal! ggO#!/usr/bin/env perl"
+endfunction
+
+function! PerlPackage()
+    let list = split(expand("%:p:r"), '/')
+    let idx = index(list, "lib")
+    if idx == -1
+        echo "Can't find lib in path"
+        return
+    endif
+    execute "normal! ggOpackage " . join(list[idx+1:], "::") . ";"
+endfunction
