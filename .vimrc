@@ -101,3 +101,13 @@ function! PerlPackage()
     endif
     execute "normal! ggOpackage " . join(list[idx+1:], "::") . ";"
 endfunction
+
+function! Header()
+    let ext = expand('%:e')
+    if ext ==# "pl"
+        call PerlBin()
+    elseif ext ==# "pm"
+        call PerlPackage()
+    endif
+endfunction
+
