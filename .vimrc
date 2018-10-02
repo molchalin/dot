@@ -37,8 +37,8 @@ set confirm
 set hidden
 
 "фолдинг перлового кода
-"let perl_fold = 1
-"nmap <S-F> za
+let perl_fold = 1
+noremap <leader>f za
 
 "чистим хвостовые проблемы при сохранении
 "au! BufWritePre * %s/\s\+$//e
@@ -67,9 +67,8 @@ noremap <leader>e :tabedit<space>
 augroup MyAu
     autocmd!
     autocmd BufWritePost *.go :!go fmt %
-    autocmd FileType go nnoremap <buffer> <leader>c I//<esc>
+    autocmd FileType go,c nnoremap <buffer> <leader>c I//<esc>
     autocmd FileType perl nnoremap <buffer> <leader>c I#<esc>
-    "autocmd FileType perl iabbrev <buffer> perlbin #!/usr/bin/env perl
 augroup END
 
 inoremap <Up> <nop>
@@ -87,7 +86,6 @@ set statusline=%F%y\ %l\ \/%L
 
 
 
-"мои функции
 function! PerlBin()
     execute "normal! ggO#!/usr/bin/env perl"
 endfunction
