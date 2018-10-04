@@ -37,8 +37,8 @@ set confirm
 set hidden
 
 "фолдинг перлового кода
-let perl_fold = 1
-noremap <leader>f za
+"let perl_fold = 1
+"noremap <leader>f za
 
 "чистим хвостовые проблемы при сохранении
 "au! BufWritePre * %s/\s\+$//e
@@ -69,6 +69,7 @@ augroup MyAu
     autocmd BufWritePost *.go :!go fmt %
     autocmd FileType go,c nnoremap <buffer> <leader>c I//<esc>
     autocmd FileType perl nnoremap <buffer> <leader>c I#<esc>
+    autocmd FileType perl nnoremap <buffer> <leader>o :call FindPerlPackage()<cr>
 augroup END
 
 inoremap <Up> <nop>
@@ -86,26 +87,40 @@ set statusline=%F%y\ %l\ \/%L
 
 
 
-function! PerlBin()
-    execute "normal! ggO#!/usr/bin/env perl"
-endfunction
-
-function! PerlPackage()
-    let list = split(expand("%:p:r"), '/')
+function! PerlPackageFromPath(path)
+    let list = split(a:path, '/')
     let idx = index(list, "lib")
     if idx == -1
         echo "Can't find lib in path"
         return
     endif
-    execute "normal! ggOpackage " . join(list[idx+1:], "::") . ";"
+    return join(list[idx+1:], "::")
+endfunction
+
+function! PerlPathFromPackage(package)
+    let list = split(a:package, "::")
+    return join(list, "/").".pm"
 endfunction
 
 function! Header()
     let ext = expand('%:e')
+    let text = ""
     if ext ==# "pl"
-        call PerlBin()
+        let text = "#!/usr/bin/env perl"
     elseif ext ==# "pm"
-        call PerlPackage()
+        let text = "package ".PerlPackageFromPath(expand("%:p:r")).";"
     endif
+    execute "normal ggO".text
 endfunction
 
+function! FindPerlPackage()
+    let rel_path = PerlPathFromPackage(expand("<cword>"))
+    let list = split(expand("%:p:r"), "/")
+    let idx = index(list, "lib")
+    if idx == -1
+        echo "Can't find lib in path"
+        return
+    endif
+    let path_base = "/".join(list[:idx], "/")."/".rel_path
+    execute ":tabedit ".path_base
+endfunction
