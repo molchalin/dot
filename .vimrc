@@ -72,10 +72,10 @@ augroup MyAu
     autocmd FileType perl nnoremap <buffer> <leader>o :call FindPerlPackage()<cr>
 augroup END
 
-inoremap <Up> <nop>
-inoremap <Down> <nop>
-inoremap <Left> <nop>
-inoremap <Right> <nop>
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
 
 
 "Показывать статус лайн ВСЕГДА
