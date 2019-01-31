@@ -1,4 +1,5 @@
-export ZSH="/Users/a.eremeev/.oh-my-zsh"
+export ZSH="/Users/work/.oh-my-zsh"
+export PATH=$PATH:/Users/work/homebrew/bin/
 ZSH_THEME="simple"
 plugins=(
   git
