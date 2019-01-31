@@ -49,7 +49,10 @@ set backspace=indent,eol,start
 call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'airblade/vim-gitgutter'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'bling/vim-airline'
 call plug#end()
+
 
 colorscheme gruvbox
 set background=dark
@@ -66,22 +69,12 @@ noremap <leader>e :tabedit<space>
 
 augroup MyAu
     autocmd!
-    autocmd BufWritePost *.go :!go fmt %
     autocmd FileType go,c nnoremap <buffer> <leader>c I//<esc>
+    autocmd FileType go nnoremap <buffer> <leader>o :GoDef<esc>
+    autocmd FileType go nnoremap <buffer> <leader>b :GoDefPop<esc>
     autocmd FileType perl nnoremap <buffer> <leader>c I#<esc>
     autocmd FileType perl nnoremap <buffer> <leader>o :call FindPerlPackage()<cr>
 augroup END
-
-noremap <Up> <nop>
-noremap <Down> <nop>
-noremap <Left> <nop>
-noremap <Right> <nop>
-
-
-"Показывать статус лайн ВСЕГДА
-set laststatus=2
-set statusline=%F%y\ %l\ \/%L
-
 
 
 
