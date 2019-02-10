@@ -52,6 +52,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
 
 
 colorscheme gruvbox
