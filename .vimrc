@@ -36,10 +36,6 @@ set confirm
 "скрытые буферы
 set hidden
 
-"фолдинг перлового кода
-"let perl_fold = 1
-"noremap <leader>f za
-
 "чистим хвостовые проблемы при сохранении
 "au! BufWritePre * %s/\s\+$//e
 
@@ -50,9 +46,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'SirVer/ultisnips'
+Plug 'kien/ctrlp.vim'
 call plug#end()
 let g:go_fmt_command = "goimports"
-let g:go_auto_type_info = 1
 
 
 colorscheme gruvbox
@@ -74,8 +71,6 @@ augroup MyAu
     autocmd FileType go nnoremap <buffer> <leader>o :GoDef<esc>
     autocmd FileType go nnoremap <buffer> <leader>b :GoDefPop<esc>
     autocmd FileType perl nnoremap <buffer> <leader>c I#<esc>
-    autocmd FileType go nnoremap <buffer> <leader>o :GoDef<esc>
-    autocmd FileType go  nnoremap <buffer> <leader>b :GoDefPop<esc>
 augroup END
 
 "Показывать статус лайн ВСЕГДА

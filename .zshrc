@@ -7,4 +7,6 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-PATH=$PATH:$(go env GOPATH)/bin/
+export PATH=$PATH:$(go env GOPATH)/bin/
+
+PROMPT=$PROMPT$'%{%F{166}%}\u03bb%{%f%} '
