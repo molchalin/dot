@@ -4,6 +4,8 @@ export PATH=$PATH:~/homebrew/bin/
 ZSH_THEME="simple"
 plugins=(
   git
+  docker
+  golang
   zshmarks
 )
 
