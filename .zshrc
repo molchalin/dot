@@ -5,6 +5,7 @@ ZSH_THEME="simple"
 plugins=(
   git
   docker
+  docker-compose
   golang
   zshmarks
 )
