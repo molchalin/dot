@@ -48,6 +48,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'SirVer/ultisnips'
 Plug 'kien/ctrlp.vim'
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'
 call plug#end()
 let g:go_fmt_command = "goimports"
 
