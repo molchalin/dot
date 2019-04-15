@@ -46,10 +46,12 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 Plug 'SirVer/ultisnips'
 Plug 'kien/ctrlp.vim'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
+Plug 'posva/vim-vue'
 call plug#end()
 let g:go_fmt_command = "goimports"
 
