@@ -46,15 +46,20 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 Plug 'SirVer/ultisnips'
 Plug 'kien/ctrlp.vim'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
-Plug 'posva/vim-vue'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'chr4/nginx.vim'
+Plug 'scrooloose/nerdcommenter'
 call plug#end()
 let g:go_fmt_command = "goimports"
 
+let g:UltiSnipsExpandTrigger="<tab>"                                            
+let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>" 
+let g:NERDSpaceDelims = 1
 
 colorscheme gruvbox
 set background=dark
@@ -68,13 +73,14 @@ let mapleader = ","
 noremap <leader>n :tabnext<cr>
 noremap <leader>p :tabprev<cr>
 noremap <leader>e :tabedit<space>
+noremap <leader>td oTODO(a.eremeev) <esc>:call NERDComment(0, "comment")<cr>A
+noremap <Enter> o<esc>
 
 augroup MyAu
     autocmd!
-    autocmd FileType go,c nnoremap <buffer> <leader>c I//<esc>
     autocmd FileType go nnoremap <buffer> <leader>o :GoDef<esc>
     autocmd FileType go nnoremap <buffer> <leader>b :GoDefPop<esc>
-    autocmd FileType perl nnoremap <buffer> <leader>c I#<esc>
+    autocmd FileType go nnoremap <buffer> <leader>i :GoIfErr<esc>
 augroup END
 
 "Показывать статус лайн ВСЕГДА
