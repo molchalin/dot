@@ -32,12 +32,23 @@ set ignorecase
 
 "запрашивать подтверждения (запись файлов)
 set confirm
-
 "скрытые буферы
 set hidden
 
 "чистим хвостовые проблемы при сохранении
 "au! BufWritePre * %s/\s\+$//e
+
+" russian support
+set keymap=russian-jcukenwin
+set spelllang=ru_yo,en_us
+set iskeyword=@,48-57,_,192-255
+set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
+set iminsert=0
+set imsearch=0
+
+
+
+imap § <Esc>
 
 "если не работает backspace
 set backspace=indent,eol,start
@@ -60,6 +71,7 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>" 
 let g:NERDSpaceDelims = 1
+let g:ctrlp_open_new_file = 't'
 
 colorscheme gruvbox
 set background=dark
@@ -74,7 +86,6 @@ noremap <leader>n :tabnext<cr>
 noremap <leader>p :tabprev<cr>
 noremap <leader>e :tabedit<space>
 noremap <leader>td oTODO(a.eremeev) <esc>:call NERDComment(0, "comment")<cr>A
-noremap <Enter> o<esc>
 
 augroup MyAu
     autocmd!
