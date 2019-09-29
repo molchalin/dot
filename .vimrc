@@ -41,6 +41,10 @@ set hidden
 
 "если не работает backspace
 set backspace=indent,eol,start
+set keymap=russian-jcukenmac
+set iminsert=0
+set imsearch=0
+highlight lCursor guifg=NONE guibg=Cyan
 
 call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
@@ -50,6 +54,8 @@ Plug 'SirVer/ultisnips'
 Plug 'kien/ctrlp.vim'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
+Plug 'JulesWang/css.vim'
+Plug 'ElmCast/elm-vim'
 call plug#end()
 let g:go_fmt_command = "goimports"
 
