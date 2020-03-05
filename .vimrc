@@ -48,7 +48,6 @@ set imsearch=0
 
 
 
-imap § <Esc>
 
 "если не работает backspace
 set backspace=indent,eol,start
@@ -64,6 +63,8 @@ Plug 'mattn/gist-vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'chr4/nginx.vim'
 Plug 'scrooloose/nerdcommenter'
+Plug 'posva/vim-vue'
+Plug 'leafgarland/typescript-vim'
 call plug#end()
 let g:go_fmt_command = "goimports"
 
@@ -86,6 +87,9 @@ noremap <leader>n :tabnext<cr>
 noremap <leader>p :tabprev<cr>
 noremap <leader>e :tabedit<space>
 noremap <leader>td oTODO(a.eremeev) <esc>:call NERDComment(0, "comment")<cr>A
+nnoremap * *``
+map § <Esc>
+map! § <Esc>
 
 augroup MyAu
     autocmd!
