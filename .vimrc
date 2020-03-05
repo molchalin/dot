@@ -39,7 +39,6 @@ set hidden
 "au! BufWritePre * %s/\s\+$//e
 
 " russian support
-set keymap=russian-jcukenwin
 set spelllang=ru_yo,en_us
 set iskeyword=@,48-57,_,192-255
 set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
