@@ -28,7 +28,7 @@ set showmatch
 "поиск: подстветка, регистр
 set hlsearch
 set incsearch
-set ignorecase
+"set ignorecase
 
 "запрашивать подтверждения (запись файлов)
 set confirm
@@ -38,22 +38,9 @@ set hidden
 "чистим хвостовые проблемы при сохранении
 "au! BufWritePre * %s/\s\+$//e
 
-" russian support
-set spelllang=ru_yo,en_us
-set iskeyword=@,48-57,_,192-255
-set langmap=ёйцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
-set iminsert=0
-set imsearch=0
-
-
-
 
 "если не работает backspace
 set backspace=indent,eol,start
-set keymap=russian-jcukenmac
-set iminsert=0
-set imsearch=0
-highlight lCursor guifg=NONE guibg=Cyan
 
 call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
@@ -69,6 +56,7 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'chr4/nginx.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'posva/vim-vue'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'leafgarland/typescript-vim'
 call plug#end()
 let g:go_fmt_command = "goimports"
@@ -78,6 +66,11 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>" 
 let g:NERDSpaceDelims = 1
 let g:ctrlp_open_new_file = 't'
+let g:ctrlp_regexp = 0
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/](bin|project|target)',
+    \ 'file': '\v\.class$',
+    \ }
 
 colorscheme gruvbox
 set background=dark
