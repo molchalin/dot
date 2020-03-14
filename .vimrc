@@ -46,17 +46,19 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+
 Plug 'SirVer/ultisnips'
 Plug 'kien/ctrlp.vim'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
+Plug 'scrooloose/nerdcommenter'
+
 Plug 'JulesWang/css.vim'
 Plug 'ElmCast/elm-vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'chr4/nginx.vim'
-Plug 'scrooloose/nerdcommenter'
 Plug 'posva/vim-vue'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'leafgarland/typescript-vim'
 call plug#end()
 let g:go_fmt_command = "goimports"
@@ -65,6 +67,7 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>" 
 let g:NERDSpaceDelims = 1
+let g:NERDCreateDefaultMappings = 0
 let g:ctrlp_open_new_file = 't'
 let g:ctrlp_regexp = 0
 let g:ctrlp_custom_ignore = {
@@ -84,7 +87,8 @@ let mapleader = ","
 noremap <leader>n :tabnext<cr>
 noremap <leader>p :tabprev<cr>
 noremap <leader>e :tabedit<space>
-noremap <leader>td oTODO(a.eremeev) <esc>:call NERDComment(0, "comment")<cr>A
+noremap <leader>td oTODO(a.eremeev) <esc>:call NERDComment(0, 'comment')<cr>A
+map <Leader>cc <Leader>c<Space>
 nnoremap * *``
 map § <Esc>
 map! § <Esc>
