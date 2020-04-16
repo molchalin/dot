@@ -74,6 +74,7 @@ Plug 'posva/vim-vue'
 Plug 'leafgarland/typescript-vim'
 Plug '907th/vim-auto-save'
 Plug 'jiangmiao/auto-pairs'
+Plug 'iamcco/markdown-preview.nvim', { 'do':  'cd app & yarn install'  }
 call plug#end()
 let g:go_fmt_command = "goimports"
 let g:rainbow_active = 0
