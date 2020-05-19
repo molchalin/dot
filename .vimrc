@@ -53,10 +53,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'lervag/vimtex'
-Plug 'luochen1990/rainbow'
-Plug 'wellle/context.vim'
+Plug 'tpope/vim-surround'
 
 Plug 'SirVer/ultisnips'
 Plug 'kien/ctrlp.vim'
@@ -67,18 +65,20 @@ Plug 'itchyny/calendar.vim'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 
 Plug 'JulesWang/css.vim'
-Plug 'ElmCast/elm-vim'
 Plug 'neovimhaskell/haskell-vim'
-Plug 'chr4/nginx.vim'
-Plug 'posva/vim-vue'
-Plug 'leafgarland/typescript-vim'
 Plug '907th/vim-auto-save'
 Plug 'jiangmiao/auto-pairs'
 Plug 'iamcco/markdown-preview.nvim', { 'do':  'cd app & yarn install'  }
+Plug 'mileszs/ack.vim'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+
 call plug#end()
 let g:go_fmt_command = "goimports"
-let g:rainbow_active = 0
-let g:context_enabled = 0
+let g:go_version_warning = 0
+let g:go_rename_command = 'gopls'
+
+let s:ignore_paths = '(bin|project|target|node_modules|vendor)'
+let g:ackprg = "ag --vimgrep"
 
 let g:tex_flavor = 'latex'
 "let g:vimtex_quickfix_mode = 0
@@ -86,16 +86,33 @@ let g:tex_flavor = 'latex'
 let g:UltiSnipsExpandTrigger="<tab>"                                            
 let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>" 
+
 let g:NERDSpaceDelims = 1
 let g:NERDCreateDefaultMappings = 0
+
 let g:ctrlp_open_new_file = 't'
 let g:ctrlp_regexp = 0
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/](bin|project|target)',
+    \ 'dir':  '\v[\/]' . s:ignore_paths,
     \ 'file': '\v\.class$',
     \ }
+
+
 let g:vimtex_compiler_engine = 'xelatex'
 let g:vimtex_view_method = 'skim'
+let g:vimtex_compiler_latexmk_engines = {
+    \ '_'                : '-xelatex',
+    \ 'pdflatex'         : '-pdf',
+    \ 'dvipdfex'         : '-pdfdvi',
+    \ 'lualatex'         : '-lualatex',
+    \ 'xelatex'          : '-xelatex',
+    \ 'context (pdftex)' : '-pdf -pdflatex=texexec',
+    \ 'context (luatex)' : '-pdf -pdflatex=context',
+    \ 'context (xetex)'  : '-pdf -pdflatex=''texexec --xtx''',
+    \}
+
+
+let g:neoformat_enabled_js = ['prettier']
 
 colorscheme gruvbox
 set background=dark
@@ -116,8 +133,15 @@ augroup MyAu
     autocmd FileType go nnoremap <buffer> <leader>o :GoDef<esc>
     autocmd FileType go nnoremap <buffer> <leader>b :GoDefPop<esc>
     autocmd FileType go nnoremap <buffer> <leader>i :GoIfErr<esc>
+    augroup fmt
+    autocmd FileType js autocmd BufWritePre <buffer> Neoformat
 augroup END
 
 "Показывать статус лайн ВСЕГДА
 set laststatus=2
 set statusline=%F%y\ %l\ \/%L
+
+
+"Напоминает о том, что длинные строки это плохо
+highlight ColorColumn ctermbg=LightYellow
+call matchadd('ColorColumn', '\%81v', 120)
