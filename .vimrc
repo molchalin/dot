@@ -67,7 +67,6 @@ Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'JulesWang/css.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug '907th/vim-auto-save'
-Plug 'jiangmiao/auto-pairs'
 Plug 'iamcco/markdown-preview.nvim', { 'do':  'cd app & yarn install'  }
 Plug 'mileszs/ack.vim'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
@@ -101,7 +100,7 @@ let g:ctrlp_custom_ignore = {
 let g:vimtex_compiler_engine = 'xelatex'
 let g:vimtex_view_method = 'skim'
 let g:vimtex_compiler_latexmk_engines = {
-    \ '_'                : '-xelatex',
+    \ '_'                : '-xelatex -shell-escape',
     \ 'pdflatex'         : '-pdf',
     \ 'dvipdfex'         : '-pdfdvi',
     \ 'lualatex'         : '-lualatex',
@@ -139,7 +138,7 @@ augroup END
 
 "Показывать статус лайн ВСЕГДА
 set laststatus=2
-set statusline=%F%y\ %l\ \/%L
+set statusline=%F%y\ %l\/%L
 
 
 "Напоминает о том, что длинные строки это плохо
