@@ -1,5 +1,4 @@
 export ZSH=~/.oh-my-zsh
-export PATH=$PATH:~/homebrew/bin/
 export PATH=$PATH:$HOME/brew/bin/
 export EDITOR=nvim
 
@@ -9,7 +8,6 @@ plugins=(
   docker
   docker-compose
   golang
-  zshmarks
 )
 
 source $ZSH/oh-my-zsh.sh
