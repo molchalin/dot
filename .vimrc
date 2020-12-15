@@ -53,23 +53,19 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'lervag/vimtex'
+"Plug 'lervag/vimtex'
 Plug 'tpope/vim-surround'
 
 Plug 'SirVer/ultisnips'
 Plug 'kien/ctrlp.vim'
-Plug 'mattn/webapi-vim'
-Plug 'mattn/gist-vim'
 Plug 'scrooloose/nerdcommenter'
-Plug 'itchyny/calendar.vim'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 
 Plug 'JulesWang/css.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug '907th/vim-auto-save'
-Plug 'iamcco/markdown-preview.nvim', { 'do':  'cd app & yarn install'  }
+"Plug 'iamcco/markdown-preview.nvim', { 'do':  'cd app & yarn install'  }
 Plug 'mileszs/ack.vim'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 
 call plug#end()
 let g:go_fmt_command = "goimports"
@@ -80,7 +76,7 @@ let s:ignore_paths = '(bin|project|target|node_modules|vendor)'
 let g:ackprg = "ag --vimgrep"
 
 let g:tex_flavor = 'latex'
-"let g:vimtex_quickfix_mode = 0
+let g:vimtex_quickfix_mode = 0
 
 let g:UltiSnipsExpandTrigger="<tab>"                                            
 let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
@@ -110,8 +106,6 @@ let g:vimtex_compiler_latexmk_engines = {
     \ 'context (xetex)'  : '-pdf -pdflatex=''texexec --xtx''',
     \}
 
-
-let g:neoformat_enabled_js = ['prettier']
 
 colorscheme gruvbox
 set background=dark
