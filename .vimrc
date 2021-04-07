@@ -22,6 +22,7 @@ set expandtab
 set ai
 set cin
 
+"отучаем бибикать
 set visualbell t_vb=
 
 "показывать парную скобку при вводе
@@ -117,6 +118,7 @@ noremap <leader>p :tabprev<cr>
 noremap <leader>e :tabedit<space>
 noremap <leader>td oTODO(a.eremeev) <esc>:call NERDComment(0, 'comment')<cr>A
 map <Leader>cc <Leader>c<Space>
+"при вызове * не прыгает на следующее совпадение, а остается на текущем
 nnoremap * *``
 map § <Esc>
 map! § <Esc>
