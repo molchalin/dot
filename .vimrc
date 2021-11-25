@@ -19,6 +19,8 @@ set shiftwidth=4
 set expandtab
 
 autocmd Filetype lua setlocal ts=4 sw=4 noexpandtab
+autocmd Filetype yaml setlocal ts=2 sw=2 expandtab
+autocmd Filetype go setlocal ts=4 sw=4 noexpandtab
 
 "автоотступы
 set ai
@@ -33,7 +35,7 @@ set showmatch
 "поиск: подстветка, регистр
 set hlsearch
 set incsearch
-"set ignorecase
+set ignorecase
 
 "запрашивать подтверждения (запись файлов)
 set confirm
@@ -45,7 +47,7 @@ au! BufWritePre * %s/\s\+$//e
 
 if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
       autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -54,46 +56,56 @@ set backspace=indent,eol,start
 
 call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
-Plug 'airblade/vim-gitgutter'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'lervag/vimtex'
-Plug 'tpope/vim-surround'
-Plug 'vim-airline/vim-airline'
 
-Plug 'SirVer/ultisnips'
-Plug 'kien/ctrlp.vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
+
+"Functionality
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
+Plug 'kien/ctrlp.vim'
+Plug 'SirVer/ultisnips'
+Plug 'mileszs/ack.vim'
+Plug 'easymotion/vim-easymotion'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 
-Plug 'JulesWang/css.vim'
-Plug 'neovimhaskell/haskell-vim'
-Plug '907th/vim-auto-save'
+"syntax support
+Plug 'HerringtonDarkholme/yats.vim', {'for': 'typescript'}
+Plug 'JulesWang/css.vim', {'for': 'css'}
+Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
+Plug 'elmcast/elm-vim', {'for': 'elm'}
+Plug 'maxmellon/vim-jsx-pretty', {'for': ['javascript', 'typescript']}
+
+"Markdown + TeX
+Plug '907th/vim-auto-save', {'for': 'tex'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'mileszs/ack.vim'
-Plug 'elmcast/elm-vim'
+Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'maxmellon/vim-jsx-pretty'
-
+Plug 'lervag/vimtex', {'for': 'tex'}
 call plug#end()
+
+"vim-go
 let g:go_fmt_command = "goimports"
 let g:go_version_warning = 0
 let g:go_rename_command = 'gopls'
 let g:go_fill_struct_mode = 'gopls'
 
+"ack
 let s:ignore_paths = '(bin|project|target|node_modules|vendor)'
 let g:ackprg = "ag --vimgrep"
 
-let g:tex_flavor = 'latex'
-let g:vimtex_quickfix_mode = 0
-
+"ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
+"nerdcommenter
 let g:NERDSpaceDelims = 1
 let g:NERDCreateDefaultMappings = 0
 
+"ctrlp
 let g:ctrlp_open_new_file = 't'
 let g:ctrlp_regexp = 0
 let g:ctrlp_custom_ignore = {
@@ -101,7 +113,9 @@ let g:ctrlp_custom_ignore = {
     \ 'file': '\v\.class$',
     \ }
 
-
+"vimtex
+let g:tex_flavor = 'latex'
+let g:vimtex_quickfix_mode = 0
 let g:vimtex_compiler_engine = 'xelatex'
 let g:vimtex_view_method = 'skim'
 let g:vimtex_compiler_latexmk_engines = {
@@ -133,10 +147,6 @@ augroup MyAu
     autocmd!
     autocmd FileType go nnoremap <buffer> <leader>i :GoIfErr<esc>
 augroup END
-
-"Показывать статус лайн ВСЕГДА
-set laststatus=2
-set statusline=%F%y\ %l\/%L
 
 
 "Напоминает о том, что длинные строки это плохо
