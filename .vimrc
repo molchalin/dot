@@ -72,6 +72,7 @@ call plug#end()
 let g:go_fmt_command = "goimports"
 let g:go_version_warning = 0
 let g:go_rename_command = 'gopls'
+let g:go_fill_struct_mode = 'gopls'
 
 let s:ignore_paths = '(bin|project|target|node_modules|vendor)'
 let g:ackprg = "ag --vimgrep"
@@ -79,9 +80,9 @@ let g:ackprg = "ag --vimgrep"
 let g:tex_flavor = 'latex'
 let g:vimtex_quickfix_mode = 0
 
-let g:UltiSnipsExpandTrigger="<tab>"                                            
-let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>" 
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 let g:NERDSpaceDelims = 1
 let g:NERDCreateDefaultMappings = 0
@@ -125,11 +126,7 @@ map! § <Esc>
 
 augroup MyAu
     autocmd!
-    autocmd FileType go nnoremap <buffer> <leader>o :GoDef<esc>
-    autocmd FileType go nnoremap <buffer> <leader>b :GoDefPop<esc>
     autocmd FileType go nnoremap <buffer> <leader>i :GoIfErr<esc>
-    augroup fmt
-    autocmd FileType js autocmd BufWritePre <buffer> Neoformat
 augroup END
 
 "Показывать статус лайн ВСЕГДА
@@ -139,4 +136,4 @@ set statusline=%F%y\ %l\/%L
 
 "Напоминает о том, что длинные строки это плохо
 highlight ColorColumn ctermbg=LightYellow
-call matchadd('ColorColumn', '\%81v', 120)
+call matchadd('ColorColumn', '\%81v', 140)
