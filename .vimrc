@@ -18,6 +18,8 @@ set smartindent
 set shiftwidth=4
 set expandtab
 
+autocmd Filetype lua setlocal ts=4 sw=4 noexpandtab
+
 "автоотступы
 set ai
 set cin
@@ -39,7 +41,7 @@ set confirm
 set hidden
 
 "чистим хвостовые проблемы при сохранении
-"au! BufWritePre * %s/\s\+$//e
+au! BufWritePre * %s/\s\+$//e
 
 if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -54,8 +56,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-"Plug 'lervag/vimtex'
+Plug 'lervag/vimtex'
 Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
 
 Plug 'SirVer/ultisnips'
 Plug 'kien/ctrlp.vim'
@@ -65,8 +68,12 @@ Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'JulesWang/css.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug '907th/vim-auto-save'
-"Plug 'iamcco/markdown-preview.nvim', { 'do':  'cd app & yarn install'  }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'mileszs/ack.vim'
+Plug 'elmcast/elm-vim'
+
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'maxmellon/vim-jsx-pretty'
 
 call plug#end()
 let g:go_fmt_command = "goimports"
@@ -121,8 +128,6 @@ noremap <leader>td oTODO(a.eremeev) <esc>:call NERDComment(0, 'comment')<cr>A
 map <Leader>cc <Leader>c<Space>
 "при вызове * не прыгает на следующее совпадение, а остается на текущем
 nnoremap * *``
-map § <Esc>
-map! § <Esc>
 
 augroup MyAu
     autocmd!
