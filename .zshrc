@@ -18,3 +18,7 @@ export PATH=$PATH:$(go env GOPATH)/bin/
 alias vi=nvim
 
 PROMPT=$PROMPT$'%{%F{166}%}\u03bb%{%f%} '
+
+function git-vimdiff () {
+    GIT_EXTERNAL_DIFF=~/.git_diff_wrapper git --no-pager diff $@;
+}
