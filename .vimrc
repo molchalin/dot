@@ -1,53 +1,39 @@
-"несовместимость с vi
 set nocompatible
 
-"распознование типов файлов
 filetype plugin on
 
-"подсветка синтаксиса
 syntax on
-
-"включить нумерацию, включить относительную нумерацию
 set number
 set relativenumber
 
-"таб == 4 пробела
 set tabstop=4
 set smarttab
 set smartindent
 set shiftwidth=4
 set expandtab
-
-set keymap=russian-jcukenmac
-set iminsert=0
-set imsearch=0
-
 autocmd Filetype lua setlocal ts=4 sw=4 noexpandtab
 autocmd Filetype yaml setlocal ts=2 sw=2 expandtab
 autocmd Filetype go setlocal ts=4 sw=4 noexpandtab
 
-"автоотступы
-set ai
-set cin
+set list
+set listchars=tab:▶\ ,trail:∙
 
-"отучаем бибикать
+set scrolloff=8
+set sidescrolloff=8
+
+set autoindent
+set cindent
+
 set visualbell t_vb=
 
-"показывать парную скобку при вводе
 set showmatch
-
-"поиск: подстветка, регистр
 set hlsearch
 set incsearch
 set ignorecase
+set smartcase
 
-"запрашивать подтверждения (запись файлов)
 set confirm
-"скрытые буферы
 set hidden
-
-"чистим хвостовые проблемы при сохранении
-"au! BufWritePre * %s/\s\+$//e
 
 if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -68,7 +54,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-surround'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
 Plug 'kien/ctrlp.vim'
 Plug 'SirVer/ultisnips'
 Plug 'mileszs/ack.vim'
@@ -105,10 +91,6 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-"nerdcommenter
-let g:NERDSpaceDelims = 1
-let g:NERDCreateDefaultMappings = 0
-
 "ctrlp
 let g:ctrlp_open_new_file = 't'
 let g:ctrlp_regexp = 0
@@ -142,10 +124,9 @@ let mapleader = ","
 noremap <leader>n :tabnext<cr>
 noremap <leader>p :tabprev<cr>
 noremap <leader>e :tabedit<space>
-noremap <leader>td oTODO(a.eremeev) <esc>:call NERDComment(0, 'comment')<cr>A
-map <Leader>cc <Leader>c<Space>
-"при вызове * не прыгает на следующее совпадение, а остается на текущем
+noremap <leader>td oTODO(a.eremeev) <esc>:Commentary<cr>A
 nnoremap * *``
+map <Leader> <Plug>(easymotion-prefix)
 
 augroup MyAu
     autocmd!
