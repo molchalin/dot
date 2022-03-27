@@ -18,6 +18,10 @@ set smartindent
 set shiftwidth=4
 set expandtab
 
+set keymap=russian-jcukenmac
+set iminsert=0
+set imsearch=0
+
 autocmd Filetype lua setlocal ts=4 sw=4 noexpandtab
 autocmd Filetype yaml setlocal ts=2 sw=2 expandtab
 autocmd Filetype go setlocal ts=4 sw=4 noexpandtab
@@ -43,7 +47,7 @@ set confirm
 set hidden
 
 "чистим хвостовые проблемы при сохранении
-au! BufWritePre * %s/\s\+$//e
+"au! BufWritePre * %s/\s\+$//e
 
 if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
