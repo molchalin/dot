@@ -3,6 +3,11 @@
 * [iterm2](https://iterm2.com/downloads.html)
 * [key arrow](https://apple.stackexchange.com/questions/154292/iterm-going-one-word-backwards-and-forwards)
 * [gruvbox iterm2 theme](https://github.com/morhetz/gruvbox-contrib/blob/master/iterm2/gruvbox-dark.itermcolors)
+* System Preferences > Keyboard > Key Repeat - Fast, Delay Until Repeat - Short
+* System Preferences > General > Recent Items > None
+* System Preferences > Spotlight > Disable all exculding Calculator and Applications.
+* System Preferences > Keyboard > Text > Disable "Correct spelling automaticly", "Capitalise words automaticly"
+* sudo mdutil -i off
 * brew
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -21,6 +26,11 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 brew install neovim
 ```
 
+* python3 nvim provider
+```
+python3 -m pip install --user --upgrade pynvim
+```
+
 * ag
 ```
 brew install the_silver_searcher
@@ -30,3 +40,8 @@ brew install the_silver_searcher
 ```
 brew install fzf
 ```
+
+AppStore:
+* Telegram
+* Todoist
+* Outline

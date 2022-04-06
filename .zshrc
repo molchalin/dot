@@ -1,9 +1,10 @@
 export ZSH=~/.oh-my-zsh
-export PATH=$PATH:$HOME/brew/bin/
 export EDITOR=nvim
 
 eval $(ssh-agent)
 ssh-add
+
+set -o vi
 
 ZSH_THEME="simple"
 plugins=(
