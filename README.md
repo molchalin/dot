@@ -20,6 +20,7 @@ brew install tmux
 ```
 brew install zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/jeffreytse/zsh-vi-mode $ZSH_CUSTOM/plugins/zsh-vi-mode
 ```
 * nvim
 ```
@@ -45,3 +46,6 @@ AppStore:
 * Telegram
 * Todoist
 * Outline
+Another Desktop:
+* [docker](https://www.docker.com/products/docker-desktop/)
+* [Zoom](https://zoom.us/download#client_4meeting)
