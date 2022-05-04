@@ -67,6 +67,7 @@ Plug 'JulesWang/css.vim', {'for': 'css'}
 Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
 Plug 'elmcast/elm-vim', {'for': 'elm'}
 Plug 'maxmellon/vim-jsx-pretty', {'for': ['javascript', 'typescript']}
+Plug 'editorconfig/editorconfig-vim'
 
 "Markdown + TeX
 Plug '907th/vim-auto-save', {'for': 'tex'}
