@@ -16,7 +16,7 @@ autocmd Filetype yaml setlocal ts=2 sw=2 expandtab
 autocmd Filetype go setlocal ts=4 sw=4 noexpandtab
 
 set list
-set listchars=tab:▶\ ,trail:∙
+set listchars=tab:│·,trail:·
 
 set scrolloff=8
 set sidescrolloff=8
@@ -67,7 +67,6 @@ Plug 'JulesWang/css.vim', {'for': 'css'}
 Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
 Plug 'elmcast/elm-vim', {'for': 'elm'}
 Plug 'maxmellon/vim-jsx-pretty', {'for': ['javascript', 'typescript']}
-Plug 'editorconfig/editorconfig-vim'
 
 "Markdown + TeX
 Plug '907th/vim-auto-save', {'for': 'tex'}
@@ -126,6 +125,7 @@ noremap <leader>n :tabnext<cr>
 noremap <leader>p :tabprev<cr>
 noremap <leader>e :tabedit<space>
 noremap <leader>td oTODO(a.eremeev) <esc>:Commentary<cr>A
+noremap <leader>c :GoTestCompile<cr>
 nnoremap * *``
 map <Leader> <Plug>(easymotion-prefix)
 
