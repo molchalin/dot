@@ -77,7 +77,8 @@ Plug 'lervag/vimtex', {'for': 'tex'}
 call plug#end()
 
 "vim-go
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = 'gofmt'
+let g:go_fmt_options = '-s'
 let g:go_version_warning = 0
 let g:go_rename_command = 'gopls'
 let g:go_fill_struct_mode = 'gopls'
