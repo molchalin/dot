@@ -46,6 +46,11 @@ AppStore:
 * Telegram
 * Todoist
 * Outline
+* Slack
+* Grammarly
 Another Desktop:
 * [docker](https://www.docker.com/products/docker-desktop/)
 * [Zoom](https://zoom.us/download#client_4meeting)
+* [SelfControl](http://selfcontrolapp.com)
+* [Obsidian](https://obsidian.md)
+* [Anki](https://apps.ankiweb.net)
