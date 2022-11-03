@@ -1,5 +1,8 @@
+. ~/.localzshrc
+
 export ZSH=~/.oh-my-zsh
 export EDITOR=nvim
+
 
 eval $(ssh-agent)
 ssh-add
@@ -19,7 +22,13 @@ source $ZSH/oh-my-zsh.sh
 export PATH=$PATH:$(go env GOPATH)/bin/
 alias vi=nvim
 
+if [[ "$(uname)" == 'Linux' ]]; then
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
+fi
+
 PROMPT=$PROMPT$'%{%F{166}%}\u03bb%{%f%} '
+
 
 function git-vimdiff () {
     GIT_EXTERNAL_DIFF=~/.git_diff_wrapper git --no-pager diff $@;

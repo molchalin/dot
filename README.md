@@ -1,6 +1,6 @@
 # soft
 
-* [iterm2](https://iterm2.com/downloads.html)
+* [iterm2](https://iterm2.com/downloads.html) or [kitty](https://sw.kovidgoyal.net/kitty/)
 * [key arrow](https://apple.stackexchange.com/questions/154292/iterm-going-one-word-backwards-and-forwards)
 * [gruvbox iterm2 theme](https://github.com/morhetz/gruvbox-contrib/blob/master/iterm2/gruvbox-dark.itermcolors)
 * System Preferences > Keyboard > Key Repeat - Fast, Delay Until Repeat - Short
@@ -44,10 +44,10 @@ brew install fzf
 
 AppStore:
 * Telegram
-* Todoist
 * Outline
 * Slack
 * Grammarly
+
 Another Desktop:
 * [docker](https://www.docker.com/products/docker-desktop/)
 * [Zoom](https://zoom.us/download#client_4meeting)
