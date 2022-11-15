@@ -42,6 +42,11 @@ brew install the_silver_searcher
 brew install fzf
 ```
 
+* ctags
+```
+brew install ctags
+```
+
 AppStore:
 * Telegram
 * Outline

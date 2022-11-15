@@ -49,10 +49,14 @@ Plug 'morhetz/gruvbox'
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 
+Plug 'tpope/vim-sensible'
+
 "Functionality
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
+Plug 'edkolev/tmuxline.vim'
+Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'kien/ctrlp.vim'
@@ -127,6 +131,7 @@ noremap <leader>p :tabprev<cr>
 noremap <leader>e :tabedit<space>
 noremap <leader>td oTODO(a.eremeev) <esc>:Commentary<cr>A
 noremap <leader>c :GoTestCompile<cr>
+noremap <leader>tb :TagbarToggle<cr>
 nnoremap * *``
 map <Leader> <Plug>(easymotion-prefix)
 
