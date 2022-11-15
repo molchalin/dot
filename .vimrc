@@ -135,6 +135,8 @@ augroup MyAu
     autocmd FileType go nnoremap <buffer> <leader>i :GoIfErr<esc>
 augroup END
 
+au BufNewFile,BufRead Jenkinsfile setf groovy
+
 
 "Напоминает о том, что длинные строки это плохо
 highlight ColorColumn ctermbg=LightYellow
