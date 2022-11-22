@@ -45,18 +45,19 @@ endif
 set backspace=indent,eol,start
 
 call plug#begin('~/.vim/plugged')
+"Design
 Plug 'morhetz/gruvbox'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-airline/vim-airline'
+Plug 'majutsushi/tagbar'
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 
 Plug 'tpope/vim-sensible'
 
 "Functionality
-Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline'
 Plug 'edkolev/tmuxline.vim'
-Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'kien/ctrlp.vim'
@@ -140,7 +141,7 @@ augroup MyAu
     autocmd FileType go nnoremap <buffer> <leader>i :GoIfErr<esc>
 augroup END
 
-au BufNewFile,BufRead Jenkinsfile setf groovy
+au BufNewFile,BufRead *Jenkinsfile setf groovy
 
 
 "Напоминает о том, что длинные строки это плохо

@@ -19,6 +19,7 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+export PATH=$PATH:~/go/bin/
 export PATH=$PATH:$(go env GOPATH)/bin/
 alias vi=nvim
 
