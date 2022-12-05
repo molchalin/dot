@@ -87,6 +87,7 @@ let g:go_fmt_options = '-s'
 let g:go_version_warning = 0
 let g:go_rename_command = 'gopls'
 let g:go_fill_struct_mode = 'gopls'
+let g:go_metalinter_enabled = []
 
 "ack
 let s:ignore_paths = '(bin|project|target|node_modules|vendor)'
