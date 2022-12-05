@@ -42,7 +42,7 @@ brew install the_silver_searcher
 brew install fzf
 ```
 
-* ctags
+* delta
 ```
 brew install ctags
 ```
