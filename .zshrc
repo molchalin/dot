@@ -21,7 +21,9 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 export PATH=$PATH:~/go/bin/
 export PATH=$PATH:$(go env GOPATH)/bin/
-alias vi=nvim
+alias vim=nvim
+alias vi=vim
+alias v=vi
 
 if [[ "$(uname)" == 'Linux' ]]; then
     alias pbcopy='xclip -selection clipboard'

@@ -64,13 +64,10 @@ Plug 'SirVer/ultisnips'
 Plug 'mileszs/ack.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
+Plug 'chaoren/vim-wordmotion'
 
 "syntax support
-Plug 'HerringtonDarkholme/yats.vim', {'for': 'typescript'}
-Plug 'JulesWang/css.vim', {'for': 'css'}
-Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}
-Plug 'elmcast/elm-vim', {'for': 'elm'}
-Plug 'maxmellon/vim-jsx-pretty', {'for': ['javascript', 'typescript']}
+Plug 'sheerun/vim-polyglot'
 
 "Markdown + TeX
 Plug '907th/vim-auto-save', {'for': 'tex'}
@@ -132,7 +129,7 @@ noremap <leader>p :tabprev<cr>
 noremap <leader>e :tabedit<space>
 noremap <leader>td oTODO(a.eremeev) <esc>:Commentary<cr>A
 noremap <leader>c :GoTestCompile<cr>
-noremap <leader>tb :TagbarToggle<cr>
+noremap <leader>q :wqa<cr>
 nnoremap * *``
 map <Leader> <Plug>(easymotion-prefix)
 
