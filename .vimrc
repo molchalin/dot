@@ -79,7 +79,10 @@ call plug#end()
 
 "vim-go
 let g:go_fmt_command = 'gofmt'
-let g:go_fmt_options = '-s'
+let g:go_fmt_options = {
+    \ 'golines': '--shorten-comments -m 120',
+    \ 'gofmt': '-s',
+    \ }
 let g:go_version_warning = 0
 let g:go_rename_command = 'gopls'
 let g:go_fill_struct_mode = 'gopls'
@@ -143,4 +146,4 @@ au BufNewFile,BufRead *Jenkinsfile setf groovy
 
 "Напоминает о том, что длинные строки это плохо
 highlight ColorColumn ctermbg=LightYellow
-call matchadd('ColorColumn', '\%81v', 140)
+call matchadd('ColorColumn', '\%121v', 120)

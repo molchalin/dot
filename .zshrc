@@ -24,6 +24,7 @@ export PATH=$PATH:$(go env GOPATH)/bin/
 alias vim=nvim
 alias vi=vim
 alias v=vi
+alias lint='golangci-lint'
 
 if [[ "$(uname)" == 'Linux' ]]; then
     alias pbcopy='xclip -selection clipboard'
