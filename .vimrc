@@ -65,6 +65,7 @@ Plug 'mileszs/ack.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'chaoren/vim-wordmotion'
+Plug 'ervandew/supertab'
 
 "syntax support
 Plug 'sheerun/vim-polyglot'
@@ -97,6 +98,11 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
+"supertab
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
+
+
 "ctrlp
 let g:ctrlp_open_new_file = 't'
 let g:ctrlp_regexp = 0
@@ -120,7 +126,6 @@ let g:vimtex_compiler_latexmk_engines = {
     \ 'context (luatex)' : '-pdf -pdflatex=context',
     \ 'context (xetex)'  : '-pdf -pdflatex=''texexec --xtx''',
     \}
-
 
 colorscheme gruvbox
 set background=dark
