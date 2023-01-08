@@ -47,6 +47,8 @@ brew install fzf
 brew install ctags
 ```
 
+* fonts for tmux airline [link](https://stackoverflow.com/questions/29769182/powerline-tmuxline-and-vim-airline-not-showing-the-right-characters-iterm2-m)
+
 AppStore:
 * Telegram
 * Outline
