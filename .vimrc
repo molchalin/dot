@@ -52,13 +52,14 @@ Plug 'vim-airline/vim-airline'
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 
-Plug 'tpope/vim-sensible'
 
 "Functionality
 Plug 'tpope/vim-fugitive'
-Plug 'edkolev/tmuxline.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-sensible'
+Plug 'edkolev/tmuxline.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'SirVer/ultisnips'
 Plug 'mileszs/ack.vim'
