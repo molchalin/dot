@@ -32,9 +32,9 @@ brew install neovim
 python3 -m pip install --user --upgrade pynvim
 ```
 
-* ag
+* rg
 ```
-brew install the_silver_searcher
+brew install ripgrep
 ```
 
 * fzf
@@ -44,7 +44,7 @@ brew install fzf
 
 * delta
 ```
-brew install ctags
+brew install git-delta
 ```
 
 * fonts for tmux airline [link](https://stackoverflow.com/questions/29769182/powerline-tmuxline-and-vim-airline-not-showing-the-right-characters-iterm2-m)
@@ -52,7 +52,6 @@ brew install ctags
 AppStore:
 * Telegram
 * Outline
-* Slack
 * Grammarly
 
 Another Desktop:

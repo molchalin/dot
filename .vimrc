@@ -60,13 +60,15 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-sensible'
 Plug 'edkolev/tmuxline.vim'
-Plug 'kien/ctrlp.vim'
 Plug 'SirVer/ultisnips'
-Plug 'mileszs/ack.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'chaoren/vim-wordmotion'
 Plug 'ervandew/supertab'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+
 
 "syntax support
 Plug 'sheerun/vim-polyglot'
@@ -79,6 +81,10 @@ Plug 'junegunn/goyo.vim', {'for': 'markdown'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 call plug#end()
 
+lua <<EOF
+require('telescope').load_extension('fzf')
+EOF
+
 "vim-go
 let g:go_fmt_command = 'gofmt'
 let g:go_fmt_options = {
@@ -90,10 +96,6 @@ let g:go_rename_command = 'gopls'
 let g:go_fill_struct_mode = 'gopls'
 let g:go_metalinter_enabled = []
 
-"ack
-let s:ignore_paths = '(bin|project|target|node_modules|vendor)'
-let g:ackprg = "ag --vimgrep"
-
 "ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -102,15 +104,6 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "supertab
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
-
-
-"ctrlp
-let g:ctrlp_open_new_file = 't'
-let g:ctrlp_regexp = 0
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]' . s:ignore_paths,
-    \ 'file': '\v\.class$',
-    \ }
 
 "vimtex
 let g:tex_flavor = 'latex'
@@ -133,14 +126,15 @@ set background=dark
 
 "my mapps
 let mapleader = ","
-noremap <leader>n :tabnext<cr>
-noremap <leader>p :tabprev<cr>
 noremap <leader>e :tabedit<space>
 noremap <leader>td oTODO(a.eremeev) <esc>:Commentary<cr>A
 noremap <leader>c :GoTestCompile<cr>
 noremap <leader>q :wqa<cr>
 nnoremap * *``
 map <Leader> <Plug>(easymotion-prefix)
+
+nnoremap <C-p> <cmd>Telescope find_files<cr>
+nnoremap <C-f> <cmd>Telescope live_grep<cr>
 
 augroup MyAu
     autocmd!
