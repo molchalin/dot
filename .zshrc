@@ -16,7 +16,6 @@ plugins=(
   docker-compose
   golang
   zsh-vi-mode
-  fzf-zsh-plugin
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -52,3 +51,5 @@ function rmake() {
     " 2>&1 | tee build.log
 }
 complete -o default -o nospace -F _ssh rmake
+
+zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
