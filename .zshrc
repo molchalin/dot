@@ -16,6 +16,7 @@ plugins=(
   docker-compose
   golang
   zsh-vi-mode
+  fzf-zsh-plugin
 )
 
 source $ZSH/oh-my-zsh.sh
