@@ -121,6 +121,9 @@ let g:vimtex_compiler_latexmk_engines = {
     \ 'context (xetex)'  : '-pdf -pdflatex=''texexec --xtx''',
     \}
 
+let g:goyo_width = 120
+
+
 colorscheme gruvbox
 set background=dark
 
@@ -128,7 +131,6 @@ set background=dark
 let mapleader = ","
 noremap <leader>e :tabedit<space>
 noremap <leader>td oTODO(a.eremeev) <esc>:Commentary<cr>A
-noremap <leader>c :GoTestCompile<cr>
 noremap <leader>q :wqa<cr>
 nnoremap * *``
 map <Leader> <Plug>(easymotion-prefix)
@@ -139,6 +141,8 @@ nnoremap <C-f> <cmd>Telescope live_grep<cr>
 augroup MyAu
     autocmd!
     autocmd FileType go nnoremap <buffer> <leader>i :GoIfErr<esc>
+    autocmd FileType go noremap <leader>c :GoTestCompile<cr>
+    autocmd FileType markdown set tw=120
 augroup END
 
 au BufNewFile,BufRead *Jenkinsfile setf groovy
