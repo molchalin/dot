@@ -145,6 +145,14 @@ augroup MyAu
     autocmd FileType markdown set tw=120
 augroup END
 
+
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+
 au BufNewFile,BufRead *Jenkinsfile setf groovy
 
 
