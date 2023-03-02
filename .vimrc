@@ -5,6 +5,7 @@ filetype plugin on
 syntax on
 set number
 set relativenumber
+set mouse=
 
 set tabstop=4
 set smarttab
@@ -35,6 +36,10 @@ set smartcase
 set confirm
 set hidden
 
+"omnifunc
+set completeopt=longest,menuone
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
           \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -64,12 +69,16 @@ Plug 'SirVer/ultisnips'
 Plug 'easymotion/vim-easymotion'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'chaoren/vim-wordmotion'
-Plug 'ervandew/supertab'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-ui-select.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'simrat39/inlay-hints.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'mvllow/modes.nvim'
+Plug 'ervandew/supertab'
+
 
 "syntax support
 Plug 'sheerun/vim-polyglot'
@@ -84,6 +93,10 @@ call plug#end()
 
 lua <<EOF
 require('telescope').load_extension('fzf')
+require("telescope").load_extension("ui-select")
+require('modes').setup({
+  set_cursor = false,
+})
 EOF
 
 
@@ -92,6 +105,7 @@ lua <<EOF
     renderer = "inlay-hints/render/eol",
     only_current_line = false,
     eol = {
+      right_align = true,
       parameter = {
         format = function(hints)
           return string.format(" <- (%s)", hints):gsub(":", "")
@@ -103,8 +117,34 @@ lua <<EOF
         end,
       },
     },
+  })
+EOF
+
+
+lua <<EOF
+require("nvim-treesitter.configs").setup({
+  ensure_installed = {
+    "bash",
+    "c",
+    "cpp",
+    "css",
+    "html",
+    "json",
+    "lua",
+    "yaml",
+    "go",
+    "gomod",
+    "gosum",
+    "markdown",
+    "rust",
+    "make",
+    "perl",
+  },
+  highlight = { enable = true },
+  indent    = { enable = true },
 })
 EOF
+
 
 lua <<EOF
   lspconfig = require "lspconfig"
@@ -116,6 +156,7 @@ lua <<EOF
     on_attach = function(c, b)
       ih.on_attach(c, b)
       vim.lsp.codelens.refresh()
+      vim.api.nvim_buf_set_option(b, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
       local bufopts = { noremap=true, silent=true, buffer=b }
       vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
       vim.keymap.set('n', 'gd', telescope.lsp_definitions, bufopts)
@@ -125,6 +166,7 @@ lua <<EOF
       vim.keymap.set('n', '<leader>D', telescope.lsp_type_definitions, bufopts)
       vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
       vim.keymap.set('n', 'ca', vim.lsp.buf.code_action, bufopts)
+      vim.keymap.set('n', 'cl', vim.lsp.codelens.run, bufopts)
     end,
     cmd = {"gopls", "serve"},
     filetypes = {"go", "gomod"},
@@ -141,11 +183,13 @@ lua <<EOF
           compositeLiteralTypes = true,
           constantValues = true,
           functionTypeParameters = true,
-          parameterNames = true,
+          -- parameterNames = true,
           rangeVariableTypes = true,
         },
         codelenses = {
-          generate = true,
+          generate   = true,
+          tidy       = true,
+          vendor     = true,
           gc_details = true,
         },
       },
