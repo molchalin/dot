@@ -76,7 +76,6 @@ Plug 'nvim-telescope/telescope-ui-select.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'simrat39/inlay-hints.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'mvllow/modes.nvim'
 Plug 'ervandew/supertab'
 
 
@@ -94,9 +93,6 @@ call plug#end()
 lua <<EOF
 require('telescope').load_extension('fzf')
 require("telescope").load_extension("ui-select")
-require('modes').setup({
-  set_cursor = false,
-})
 EOF
 
 
@@ -105,7 +101,7 @@ lua <<EOF
     renderer = "inlay-hints/render/eol",
     only_current_line = false,
     eol = {
-      right_align = true,
+      -- right_align = true,
       parameter = {
         format = function(hints)
           return string.format(" <- (%s)", hints):gsub(":", "")
@@ -178,7 +174,7 @@ lua <<EOF
         },
         staticcheck = true,
         hints = {
-          assignVariableTypes = true,
+          --assignVariableTypes = true,
           compositeLiteralFields = true,
           compositeLiteralTypes = true,
           constantValues = true,
