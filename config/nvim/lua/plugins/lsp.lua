@@ -13,6 +13,24 @@ local is_alive = function(client)
   return true
 end
 
+-- Organize imports.
+--
+-- https://github.com/neovim/nvim-lspconfig/issues/115#issuecomment-902680058
+local organize_imports = function(client, bufnr, timeoutms)
+  local params = vim.lsp.util.make_range_params(nil, client.offset_encoding)
+  params.context = { only = { "source.organizeImports" } }
+  local result = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params, timeoutms)
+  for _, res in pairs(result or {}) do
+    for _, r in pairs(res.result or {}) do
+      if r.edit then
+        vim.lsp.util.apply_workspace_edit(r.edit, client.offset_encoding)
+      else
+        vim.lsp.buf.execute_command(r.command)
+      end
+    end
+  end
+end
+
 local on_attach = function(c, b)
   require("inlay-hints").on_attach(c, b)
   telescope = require("telescope.builtin")
@@ -40,6 +58,16 @@ local on_attach = function(c, b)
             return cli.name == c.name
           end,
         })
+      end,
+      group = group,
+    })
+  end
+
+  if c.server_capabilities.codeActionProvider then
+    vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+      buffer = bufnr,
+      callback = function()
+        organize_imports(c, b, 1500)
       end,
       group = group,
     })
@@ -151,20 +179,6 @@ return {
           },
         },
       }
-      vim.diagnostic.config({
-        underline = true,
-        update_in_insert = false,
-        virtual_text = { spacing = 4, prefix = "●" },
-        severity_sort = true,
-        float = {
-          focusable = false,
-          style = "minimal",
-          border = "rounded",
-          source = "always",
-          header = "",
-          prefix = "",
-        },
-      })
     end
   },
   {
