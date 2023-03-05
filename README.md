@@ -1,13 +1,11 @@
 # soft
 
-* [iterm2](https://iterm2.com/downloads.html) or [kitty](https://sw.kovidgoyal.net/kitty/)
-* [key arrow](https://apple.stackexchange.com/questions/154292/iterm-going-one-word-backwards-and-forwards)
-* [gruvbox iterm2 theme](https://github.com/morhetz/gruvbox-contrib/blob/master/iterm2/gruvbox-dark.itermcolors)
 * System Preferences > Keyboard > Key Repeat - Fast, Delay Until Repeat - Short
 * System Preferences > General > Recent Items > None
 * System Preferences > Spotlight > Disable all exculding Calculator and Applications.
 * System Preferences > Keyboard > Text > Disable "Correct spelling automaticly", "Capitalise words automaticly"
 * sudo mdutil -i off
+
 * brew
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -35,6 +33,7 @@ python3 -m pip install --user --upgrade pynvim
 * rg
 ```
 brew install ripgrep
+brew install bat
 ```
 
 * fzf
@@ -47,8 +46,6 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ```
 brew install git-delta
 ```
-
-* fonts for tmux airline [link](https://stackoverflow.com/questions/29769182/powerline-tmuxline-and-vim-airline-not-showing-the-right-characters-iterm2-m)
 
 AppStore:
 * Telegram

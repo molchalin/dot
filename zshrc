@@ -1,11 +1,10 @@
-. ~/.localzshrc
+if [ -e ~/.localzshrc ]; then
+    . ~/.localzshrc
+fi
 
 export ZSH=~/.oh-my-zsh
 export EDITOR=nvim
 
-
-eval $(ssh-agent)
-ssh-add
 
 set -o vi
 
@@ -19,12 +18,16 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-export PATH=$PATH:~/go/bin/
-export PATH=$PATH:$(go env GOPATH)/bin/
+
+if go env GOPATH 2>&1 > /dev/null; then
+    export PATH=$PATH:$(go env GOPATH)/bin/
+fi
+
+export PATH=$PATH:$PWD/.local/bin/
+
 alias vim=nvim
 alias vi=vim
 alias v=vi
-alias lint='golangci-lint'
 
 if [[ "$(uname)" == 'Linux' ]]; then
     alias pbcopy='xclip -selection clipboard'
@@ -35,7 +38,7 @@ PROMPT=$PROMPT$'%{%F{166}%}\u03bb%{%f%} '
 
 
 function git-vimdiff () {
-    GIT_EXTERNAL_DIFF=~/.git_diff_wrapper git --no-pager diff $@;
+    GIT_EXTERNAL_DIFF=git-diff-wrapper git --no-pager diff $@;
 }
 
 function rmake() {
