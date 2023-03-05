@@ -1,0 +1,22 @@
+return {
+  "nvim-telescope/telescope.nvim",
+  event = "VeryLazy",
+  keys = {
+    { "<C-p>", "<cmd>Telescope find_files<CR>",  remap = false },
+    { "<C-f>", "<cmd>Telescope live_grep<CR>",   remap = false },
+    { "<C-g>", "<cmd>Telescope grep_string<CR>", remap = false },
+    { "ge",    "<cmd>Telescope diagnostics<CR>", remap = false },
+  },
+  config = function()
+    require("telescope").setup()
+  end,
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    {
+      "nvim-telescope/telescope-ui-select.nvim",
+      config = function()
+        require("telescope").load_extension("ui-select")
+      end
+    },
+  },
+}
