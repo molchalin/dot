@@ -91,8 +91,8 @@ return {
       vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     end,
     keys = {
-      {"n", "<leader>i", ":GoIfErr<cr>",       remap = false },
-      {"n", "<leader>c", ":GoTestCompile<cr>", remap = false },
+      {"<leader>i", ":GoIfErr<cr>",       remap = false },
+      {"<leader>c", ":GoTestCompile<cr>", remap = false },
     },
     build = function()
       vim.cmd[[ :GoUpdateBinaries ]]
