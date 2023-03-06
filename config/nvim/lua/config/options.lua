@@ -24,6 +24,8 @@ vim.opt.sidescrolloff = 8 -- same for left/right
 
 vim.opt.clipboard = "unnamedplus"
 
+vim.opt.textwidth = 120
+
 -- disable sound
 vim.opt.errorbells = false
 
