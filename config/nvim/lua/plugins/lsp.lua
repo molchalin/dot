@@ -33,22 +33,6 @@ end
 
 local on_attach = function(c, b)
   require("inlay-hints").on_attach(c, b)
-  telescope = require("telescope.builtin")
-  vim.api.nvim_buf_set_option(b, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  local bufopts = { noremap=true, silent=true, buffer=b }
-  vim.keymap.set('n', 'gD',         vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'K',          vim.lsp.buf.hover,       bufopts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename,      bufopts)
-  vim.keymap.set('n', 'ca',         vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'cl',         vim.lsp.codelens.run,    bufopts)
-
-  vim.keymap.set('n', 'gd',        telescope.lsp_definitions,      bufopts)
-  vim.keymap.set('n', 'gr',        telescope.lsp_references,       bufopts)
-  vim.keymap.set('n', 'gi',        telescope.lsp_implementations,  bufopts)
-  vim.keymap.set('n', '<leader>d', telescope.lsp_type_definitions, bufopts)
-  vim.keymap.set('n', 'ge',        telescope.diagnostics,          bufopts)
-
   if c.server_capabilities.documentFormattingProvider then
     vim.api.nvim_create_autocmd({ "BufWritePre" }, {
       buffer = b,
@@ -74,6 +58,7 @@ local on_attach = function(c, b)
   end
 
   if c.server_capabilities.codeLensProvider then
+    vim.lsp.codelens.refresh()
     vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
       buffer = b,
       callback = function()
@@ -115,6 +100,23 @@ local on_attach = function(c, b)
       group = group,
     })
   end
+
+  telescope = require("telescope.builtin")
+  vim.api.nvim_buf_set_option(b, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  local bufopts = { noremap=true, silent=true, buffer=b }
+  vim.keymap.set('n', 'gD',         vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'K',          vim.lsp.buf.hover,       bufopts)
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename,      bufopts)
+  vim.keymap.set('n', 'ca',         vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'cl',         vim.lsp.codelens.run,    bufopts)
+
+  vim.keymap.set('n', 'gd',        telescope.lsp_definitions,      bufopts)
+  vim.keymap.set('n', 'gr',        telescope.lsp_references,       bufopts)
+  vim.keymap.set('n', 'gi',        telescope.lsp_implementations,  bufopts)
+  vim.keymap.set('n', '<leader>d', telescope.lsp_type_definitions, bufopts)
+  vim.keymap.set('n', 'ge',        telescope.diagnostics,          bufopts)
+
 end
 
 return {
@@ -183,6 +185,7 @@ return {
   },
   {
     "fatih/vim-go",
+    event = "BufRead",
     ft = "go",
     config = function()
       vim.g.go_version_warning = 0
