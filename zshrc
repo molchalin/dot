@@ -23,7 +23,7 @@ if go env GOPATH 2>&1 > /dev/null; then
     export PATH=$PATH:$(go env GOPATH)/bin/
 fi
 
-export PATH=$PATH:$PWD/.local/bin/
+export PATH=$PATH:$HOME/.local/bin/
 
 alias vim=nvim
 alias vi=vim
