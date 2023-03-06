@@ -35,6 +35,8 @@ vim.opt.confirm = true
 --omnifunc
 vim.opt.completeopt = "menu,menuone,noselect"
 
+vim.opt.updatetime = 750
+
 -- highlight char when line size exceed 120
 vim.cmd([[
 highlight ColorColumn ctermbg=LightYellow
