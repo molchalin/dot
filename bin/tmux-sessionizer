@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PROJECTS="$HOME/Development"
-selected=$(find $PROJECTS  -mindepth 1 -maxdepth 2 -exec test -e '{}/.git' ';' -type d -print | sed "s;$PROJECTS/;;" | fzf  --preview "bat --color=always $PROJECTS/{}/README.md")
+selected=$(fd . $PROJECTS --type d --min-depth 1 --max-depth 2  --exec  bash -c 'test -e "{}/.git" && echo "{}"' | sed "s;$PROJECTS/;;" | fzf  --preview "bat --color=always $PROJECTS/{}/README.md")
 
 if [[ -z $selected ]]; then
     exit 0

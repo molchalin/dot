@@ -30,10 +30,11 @@ brew install neovim
 python3 -m pip install --user --upgrade pynvim
 ```
 
-* rg
+* rg, bat, fd
 ```
 brew install ripgrep
 brew install bat
+brew install fd
 ```
 
 * fzf
