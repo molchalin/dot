@@ -25,7 +25,7 @@ py3-nvim:
 
 .PHONY: fzf
 fzf:
-	$(brew --prefix)/opt/fzf/install --no-update-rc --completion --key-bindings
+	$$(brew --prefix)/opt/fzf/install --no-update-rc --completion --key-bindings
 
 ~/.local/bin/git-diff-wrapper:
 	ln -s $$PWD/bin/git-diff-wrapper ~/.local/bin/git-diff-wrapper

@@ -37,6 +37,11 @@ fi
 PROMPT=$PROMPT$'%{%F{166}%}\u03bb%{%f%} '
 
 
+export FZF_DEFAULT_OPTS='--cycle --color=bg+:-1 --border rounded'
+export FZF_CTRL_R_OPTS='--height=100% --margin 15%'
+
+zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
+
 function git-vimdiff () {
     GIT_EXTERNAL_DIFF=git-diff-wrapper git --no-pager diff $@;
 }
@@ -54,5 +59,3 @@ function rmake() {
     " 2>&1 | tee build.log
 }
 complete -o default -o nospace -F _ssh rmake
-
-zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
