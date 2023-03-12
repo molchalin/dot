@@ -6,47 +6,7 @@
 * System Preferences > Keyboard > Text > Disable "Correct spelling automaticly", "Capitalise words automaticly"
 * sudo mdutil -i off
 
-* brew
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-* tmux
-```
-brew install tmux
-```
-* oh-my-zsh
-```
-brew install zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone https://github.com/jeffreytse/zsh-vi-mode $ZSH_CUSTOM/plugins/zsh-vi-mode
-```
-* nvim
-```
-brew install neovim
-```
-
-* python3 nvim provider
-```
-python3 -m pip install --user --upgrade pynvim
-```
-
-* rg, bat, fd
-```
-brew install ripgrep
-brew install bat
-brew install fd
-```
-
-* fzf
-```
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
-```
-
-* delta
-```
-brew install git-delta
-```
+* Run make
 
 AppStore:
 * Telegram
