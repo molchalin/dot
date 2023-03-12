@@ -17,7 +17,6 @@ return {
       "gosum",
       "markdown",
       "rust",
-      "make",
       "perl",
       "vue",
       "javascript",
