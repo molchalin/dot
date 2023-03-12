@@ -122,7 +122,7 @@ end
 return {
   {
     "simrat39/inlay-hints.nvim",
-    event = "BufRead",
+    event = "BufEnter",
     opts = {
       renderer = "inlay-hints/render/eol",
       only_current_line = false,
@@ -146,7 +146,7 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    event = "BufRead",
+    event = "BufEnter",
     dependencies = {
       "nvim-telescope/telescope.nvim",
       "simrat39/inlay-hints.nvim"
@@ -185,7 +185,7 @@ return {
   },
   {
     "fatih/vim-go",
-    event = "BufRead",
+    event = "BufEnter",
     ft = "go",
     config = function()
       vim.g.go_version_warning = 0

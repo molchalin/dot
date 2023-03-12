@@ -1,7 +1,7 @@
 return {
   {
     "mvllow/modes.nvim",
-    event = "ModeChanged",
+    event = "BufEnter",
     config = function()
       require('modes').setup({
         line_opacity = 0.1,
