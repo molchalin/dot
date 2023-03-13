@@ -15,4 +15,11 @@ return {
     "tpope/vim-fugitive",
     event = "VeryLazy",
   },
+  {
+    "sindrets/diffview.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
 }
