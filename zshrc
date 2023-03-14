@@ -15,6 +15,7 @@ plugins=(
   docker-compose
   golang
   zsh-vi-mode
+  zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh

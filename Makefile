@@ -12,12 +12,14 @@ install: brew oh-my-zsh py3-nvim fzf
 
 .PHONY: brew
 brew:
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	brew bundle
 
 .PHONY: oh-my-zsh
-	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	git clone https://github.com/jeffreytse/zsh-vi-mode $$ZSH_CUSTOM/plugins/zsh-vi-mode
+oh-my-zsh:
+	sh -c "$$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	git clone https://github.com/jeffreytse/zsh-vi-mode "$${ZSH_CUSTOM}/plugins/zsh-vi-mode"
+	git clone https://github.com/zsh-users/zsh-autosuggestions "$${ZSH_CUSTOM}/plugins/zsh-autosuggestions"
 
 .PHONY: py3-nvim
 py3-nvim:
