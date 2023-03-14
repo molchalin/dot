@@ -16,6 +16,7 @@ plugins=(
   golang
   zsh-vi-mode
   zsh-autosuggestions
+  web-search
 )
 
 source $ZSH/oh-my-zsh.sh
