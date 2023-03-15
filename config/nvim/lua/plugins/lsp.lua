@@ -79,28 +79,6 @@ local on_attach = function(c, b)
     })
   end
 
-  if c.server_capabilities.documentHighlightProvider then
-    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-      buffer = b,
-      callback = function()
-        if is_alive(c) then
-          vim.lsp.buf.document_highlight()
-        end
-      end,
-      group = group,
-    })
-
-    vim.api.nvim_create_autocmd({ "CursorMoved" }, {
-      buffer = b,
-      callback = function()
-        if is_alive(c) then
-          vim.lsp.buf.clear_references()
-        end
-      end,
-      group = group,
-    })
-  end
-
   telescope = require("telescope.builtin")
   vim.api.nvim_buf_set_option(b, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
