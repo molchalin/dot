@@ -107,7 +107,7 @@ local on_attach = function(c, b)
   local bufopts = { noremap=true, silent=true, buffer=b }
   vim.keymap.set('n', 'gD',         vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'K',          vim.lsp.buf.hover,       bufopts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename,      bufopts)
+  vim.keymap.set('n', 'rn', vim.lsp.buf.rename,      bufopts)
   vim.keymap.set('n', 'ca',         vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'cl',         vim.lsp.codelens.run,    bufopts)
 
@@ -191,8 +191,11 @@ return {
       vim.g.go_version_warning = 0
     end,
     keys = {
-      {"<leader>i", ":GoIfErr<cr>",       remap = false },
-      {"<leader>c", ":GoTestCompile<cr>", remap = false },
+      {"<leader>ge", ":GoIfErr<cr>",          remap = false },
+      {"<leader>gb", ":GoTestCompile<cr>",    remap = false },
+      {"<leader>gt", ":GoTest<cr>",           remap = false },
+      {"<leader>gc", ":GoCoverageToggle<cr>", remap = false },
+      {"<leader>ga", ":GoAlternate<cr>",      remap = false },
     },
     build = function()
       vim.cmd[[ :GoUpdateBinaries ]]
