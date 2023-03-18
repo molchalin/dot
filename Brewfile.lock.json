@@ -507,6 +507,20 @@
         "options": {
           "full_name": "kitty"
         }
+      },
+      "karabiner-elements": {
+        "version": "14.11.0",
+        "options": {
+          "full_name": "karabiner-elements"
+        }
+      }
+    },
+    "tap": {
+      "homebrew/bundle": {
+        "revision": "d25fd33806ac2eddefcb5a1b63febcba51fe8db9"
+      },
+      "homebrew/core": {
+        "revision": "6d75476da0f50a228e592a34b1833127eba083ec"
       }
     }
   },

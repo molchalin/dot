@@ -2,7 +2,7 @@
 all: config install
 
 .PHONY: config
-config: config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty git ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.config/bat
+config: config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.config/karabiner git ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.config/bat
 	mkdir -p ~/.local/bin/
 	mkdir -p ~/.config/
 	
@@ -52,6 +52,10 @@ config/kitty/gruvbox.conf:
 
 ~/.config/kitty:
 	ln -s $$PWD/config/kitty/ ~/.config/kitty
+
+~/.config/karabiner:
+	ln -s $$PWD/config/karabiner/ ~/.config/karabiner
+
 
 ~/.vim/UltiSnips/all.snippets:
 	mkdir -p ~/.vim/UltiSnips/
