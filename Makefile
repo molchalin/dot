@@ -2,9 +2,13 @@
 all: config install
 
 .PHONY: config
-config: config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.config/karabiner git ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.config/bat
+config: configdir config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.config/karabiner git ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.config/bat
+
+.PHONY: configdir
+configdir:
 	mkdir -p ~/.local/bin/
 	mkdir -p ~/.config/
+
 	
 .PHONY: install
 install: brew oh-my-zsh py3-nvim fzf
@@ -12,14 +16,17 @@ install: brew oh-my-zsh py3-nvim fzf
 
 .PHONY: brew
 brew:
-	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	#/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	#TODO
+	#(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/aeremeev/.zprofile eval "$(/opt/homebrew/bin/brew shellenv)"
 	brew bundle
 
 .PHONY: oh-my-zsh
 oh-my-zsh:
-	sh -c "$$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	git clone https://github.com/jeffreytse/zsh-vi-mode "$${ZSH_CUSTOM}/plugins/zsh-vi-mode"
-	git clone https://github.com/zsh-users/zsh-autosuggestions "$${ZSH_CUSTOM}/plugins/zsh-autosuggestions"
+	ZSH_CUSTOM = ${ZSH_CUSTOM}
+	# sh -c "$$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	git clone https://github.com/jeffreytse/zsh-vi-mode "${ZSH_CUSTOM}/plugins/zsh-vi-mode"
+	git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM}/plugins/zsh-autosuggestions"
 
 .PHONY: py3-nvim
 py3-nvim:
