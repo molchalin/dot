@@ -1,5 +1,5 @@
-if [ -e ~/.localzshrc ]; then
-    . ~/.localzshrc
+if [ -e ~/.zshrc.local ]; then
+    source ~/.zshrc.local
 fi
 
 export ZSH=~/.oh-my-zsh
