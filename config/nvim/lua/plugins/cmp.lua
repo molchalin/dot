@@ -14,6 +14,8 @@ return {
             vim.fn["UltiSnips#Anon"](args.body)
           end,
         },
+        completion = { autocomplete = false },
+
         sources = cmp.config.sources({
           { name = "ultisnips" },
           { name = "nvim_lsp" },
@@ -35,7 +37,7 @@ return {
               elseif vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
                 vim.api.nvim_feedkeys(t("<Plug>(ultisnips_jump_forward)"), 'm', true)
               else
-                fallback()
+                cmp.complete()
               end
             end,
             s = function(fallback)
