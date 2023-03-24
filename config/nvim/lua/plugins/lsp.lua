@@ -127,16 +127,20 @@ return {
     event = "BufEnter",
     dependencies = {
       "nvim-telescope/telescope.nvim",
-      "simrat39/inlay-hints.nvim"
+      "simrat39/inlay-hints.nvim",
+      "hrsh7th/nvim-cmp",
     },
     config = function()
+      local capabilities = require('cmp_nvim_lsp').default_capabilities() --nvim-cmp
       require("lspconfig").gopls.setup{
         on_attach  = on_attach,
         cmd = {"gopls", "serve"},
         filetypes = {"go", "gomod"},
         root_dir = require("lspconfig/util").root_pattern("go.work", "go.mod", ".git"),
+        capabilities = capabilities,
         settings = {
           gopls = {
+            experimentalPostfixCompletions = true,
             analyses = {
               unusedparams = true,
             },
@@ -157,6 +161,9 @@ return {
               gc_details = true,
             },
           },
+        },
+        init_options = {
+          usePlaceholders = true,
         },
       }
     end
