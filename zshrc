@@ -16,6 +16,7 @@ plugins=(
   golang
   zsh-vi-mode
   zsh-autosuggestions
+  zsh-syntax-highlighting
   web-search
 )
 
