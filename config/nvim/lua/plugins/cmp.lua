@@ -17,10 +17,10 @@ return {
         completion = { autocomplete = false },
 
         sources = cmp.config.sources({
-          { name = "ultisnips" },
-          { name = "nvim_lsp" },
-          { name = "nvim_lsp_signature_help" },
-          { name = "path" },
+          { name = "ultisnips", priority = 1 },
+          { name = "nvim_lsp", prioriy = 2 },
+          { name = "nvim_lsp_signature_help", priority = 3 },
+          { name = "path", priority = 4 },
         }),
         mapping = cmp.mapping.preset.insert({
           ["<Tab>"] = cmp.mapping({

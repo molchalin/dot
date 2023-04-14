@@ -57,6 +57,17 @@ local on_attach = function(c, b)
     })
   end
 
+  if client.name == 'gopls' and not client.server_capabilities.semanticTokensProvider then
+    local semantic = client.config.capabilities.textDocument.semanticTokens
+    client.server_capabilities.semanticTokensProvider = {
+      full = true,
+      legend = {tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes},
+      range = true,
+    }
+  end
+
+
+
   if c.server_capabilities.codeLensProvider then
     vim.lsp.codelens.refresh()
     vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
@@ -141,6 +152,7 @@ return {
         settings = {
           gopls = {
             experimentalPostfixCompletions = true,
+            semanticTokens = true,
             analyses = {
               unusedparams = true,
             },
