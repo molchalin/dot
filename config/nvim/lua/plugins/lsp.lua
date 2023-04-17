@@ -57,9 +57,9 @@ local on_attach = function(c, b)
     })
   end
 
-  if client.name == 'gopls' and not client.server_capabilities.semanticTokensProvider then
-    local semantic = client.config.capabilities.textDocument.semanticTokens
-    client.server_capabilities.semanticTokensProvider = {
+  if c.name == 'gopls' and not c.server_capabilities.semanticTokensProvider then
+    local semantic = c.config.capabilities.textDocument.semanticTokens
+    c.server_capabilities.semanticTokensProvider = {
       full = true,
       legend = {tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes},
       range = true,
@@ -151,21 +151,21 @@ return {
         capabilities = capabilities,
         settings = {
           gopls = {
-            experimentalPostfixCompletions = true,
+            experimentalPostfixCompletions = false,
             semanticTokens = true,
             analyses = {
               unusedparams = true,
             },
             staticcheck = true,
-            hints = {
+            -- hints = {
               --assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
+              -- compositeLiteralFields = true,
+              -- compositeLiteralTypes = true,
+              -- constantValues = true,
+              -- functionTypeParameters = true,
               -- parameterNames = true,
-              rangeVariableTypes = true,
-            },
+              -- rangeVariableTypes = true,
+            -- },
             codelenses = {
               generate   = true,
               tidy       = true,
@@ -175,7 +175,7 @@ return {
           },
         },
         init_options = {
-          usePlaceholders = true,
+          -- usePlaceholders = true,
         },
       }
     end

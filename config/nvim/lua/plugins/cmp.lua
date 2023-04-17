@@ -15,7 +15,7 @@ return {
           end,
         },
         completion = { autocomplete = false },
-
+        preselect = cmp.PreselectMode.None,
         sources = cmp.config.sources({
           { name = "ultisnips", priority = 50 },
           { name = "nvim_lsp" },
