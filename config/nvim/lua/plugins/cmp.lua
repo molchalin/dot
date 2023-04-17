@@ -17,10 +17,11 @@ return {
         completion = { autocomplete = false },
 
         sources = cmp.config.sources({
-          { name = "ultisnips", priority = 1 },
-          { name = "nvim_lsp", prioriy = 2 },
-          { name = "nvim_lsp_signature_help", priority = 3 },
-          { name = "path", priority = 4 },
+          { name = "ultisnips", priority = 50 },
+          { name = "nvim_lsp" },
+          { name = "nvim_lsp_signature_help" },
+          { name = "path" },
+          { name = "calc" },
         }),
         mapping = cmp.mapping.preset.insert({
           ["<Tab>"] = cmp.mapping({
@@ -129,6 +130,7 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-nvim-lsp-signature-help",
       "hrsh7th/cmp-path",
+      "hrsh7th/cmp-calc",
       "quangnguyen30192/cmp-nvim-ultisnips",
       {
         "SirVer/ultisnips",
