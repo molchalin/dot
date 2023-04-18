@@ -19,6 +19,7 @@ plugins=(
   fast-syntax-highlighting
   you-should-use
   web-search
+  auto-notify
 )
 
 source $ZSH/oh-my-zsh.sh
