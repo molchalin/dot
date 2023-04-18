@@ -1,7 +1,6 @@
 return {
   "edkolev/tmuxline.vim",
 
-  event = "VeryLazy",
   dependencies = {
     "vim-airline/vim-airline",
     config = function()

@@ -17,6 +17,7 @@ plugins=(
   zsh-vi-mode
   zsh-autosuggestions
   zsh-syntax-highlighting
+  you-should-use
   web-search
 )
 
