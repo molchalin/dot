@@ -16,7 +16,7 @@ plugins=(
   golang
   zsh-vi-mode
   zsh-autosuggestions
-  zsh-syntax-highlighting
+  fast-syntax-highlighting
   you-should-use
   web-search
 )
@@ -48,13 +48,6 @@ zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
 
 function git-vimdiff () {
     GIT_EXTERNAL_DIFF=git-diff-wrapper git --no-pager diff $@;
-}
-
-# temporary fix. Remove when the PR is merged.
-# https://github.com/jeffreytse/zsh-vi-mode/pull/188
-function zvm_after_init() {
-  autoload add-zle-hook-widget
-  add-zle-hook-widget zle-line-pre-redraw zvm_zle-line-pre-redraw
 }
 
 function rmake() {
