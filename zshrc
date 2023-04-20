@@ -51,6 +51,8 @@ function git-vimdiff () {
     GIT_EXTERNAL_DIFF=git-diff-wrapper git --no-pager diff $@;
 }
 
+export YSU_HARDCORE=1
+
 function rmake() {
     dir=$(basename $PWD)
     remote=$1
