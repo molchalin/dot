@@ -178,6 +178,11 @@ return {
           -- usePlaceholders = true,
         },
       }
+      require("lspconfig").golangci_lint_ls.setup{
+        on_attach  = on_attach,
+        capabilities = capabilities,
+        filetypes = {"go", "gomod"},
+      }
     end
   },
   {
