@@ -174,9 +174,9 @@ return {
             },
           },
         },
-        init_options = {
-          -- usePlaceholders = true,
-        },
+        -- init_options = {
+        --   -- usePlaceholders = true,
+        -- },
       }
       require("lspconfig").golangci_lint_ls.setup{
         on_attach  = on_attach,
