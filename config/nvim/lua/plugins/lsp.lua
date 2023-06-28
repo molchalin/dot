@@ -141,7 +141,8 @@ return {
     },
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities() --nvim-cmp
-      require("lspconfig").gopls.setup{
+      local lspconfig = require 'lspconfig'
+      lspconfig.gopls.setup{
         on_attach  = on_attach,
         cmd = {"gopls", "serve"},
         filetypes = {"go", "gomod"},
@@ -176,7 +177,14 @@ return {
         --   -- usePlaceholders = true,
         -- },
       }
-      require("lspconfig").golangci_lint_ls.setup{
+
+      local configs = require 'lspconfig/configs'
+
+      lspconfig.golangci_lint_ls.setup {
+        filetypes = {'go','gomod'}
+      }
+
+      lspconfig.golangci_lint_ls.setup{
         on_attach  = on_attach,
         capabilities = capabilities,
         filetypes = {"go", "gomod"},
