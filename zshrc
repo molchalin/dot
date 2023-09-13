@@ -39,7 +39,10 @@ if [[ "$(uname)" == 'Linux' ]]; then
     alias pbpaste='xclip -selection clipboard -o'
 fi
 
+_DATE='[%D{%Y/%m/%f|%H:%M}]'
+
 PROMPT=$PROMPT$'%{%F{166}%}\u03bb%{%f%} '
+RPROMPT="%(?.%F{green}$_DATE.%F{red}$_DATE)" $RPROMPT
 
 
 export FZF_DEFAULT_OPTS='--cycle --color=bg+:-1 --border rounded'
