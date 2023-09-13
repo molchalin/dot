@@ -1,5 +1,7 @@
 tap "homebrew/bundle"
 tap "homebrew/core"
+tap "homebrew/cask-fonts"
+
 brew "tmux"
 brew "zsh"
 brew "neovim"
@@ -13,3 +15,4 @@ brew "graphviz"
 brew "wget"
 cask "kitty"
 cask "karabiner-elements"
+cask "font-jetbrains-mono-nerd-font"
