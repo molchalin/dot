@@ -2,13 +2,22 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = "BufEnter",
-    config = function()
-      require("gitsigns").setup({
-        attach_to_untracked = false,
-        keymaps = {
-          ["n gb"] = "<cmd>lua require('gitsigns').blame_line{full=true}<CR>",
-        }
-      })
+    opts = {
+      on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          vim.keymap.set(mode, l, r, opts)
+        end
+
+        map('n', 'gb', function() gs.blame_line{full=true} end)
+      end,
+      attach_to_untracked = false,
+    },
+    config = function(_, opts)
+      require('gitsigns').setup(opts)
     end
   },
   {
