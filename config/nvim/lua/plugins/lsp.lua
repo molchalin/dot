@@ -189,6 +189,12 @@ return {
         capabilities = capabilities,
         filetypes = {"go", "gomod"},
       }
+
+      lspconfig.rust_analyzer.setup{
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = {'rust'},
+      }
     end
   },
   {
@@ -216,23 +222,5 @@ return {
     build = function()
       vim.cmd[[ :GoUpdateBinaries ]]
     end
-  },
-  {
-    "p00f/clangd_extensions.nvim",
-    ft = { "c", "cpp" },
-    config = function()
-      require("clangd_extensions").setup({
-        server = {
-          on_attach  = on_attach,
-        },
-        extensions = {
-          inlay_hints = {
-            show_parameter_hints = true,
-            parameter_hints_prefix = "← ",
-            other_hints_prefix = "⇒ ",
-          }
-        }
-      })
-    end,
   },
 }
