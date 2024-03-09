@@ -2,9 +2,9 @@
 
 * System Preferences > Keyboard > Key Repeat - Fast, Delay Until Repeat - Short
 * System Preferences > General > Recent Items > None
-* System Preferences > Spotlight > Disable all exculding Calculator and Applications.
-* System Preferences > Keyboard > Text > Disable "Correct spelling automaticly", "Capitalise words automaticly"
-* sudo mdutil -i off
+* System Preferences > Spotlight > Disable all excluding Calculator and Applications.
+* System Preferences > Keyboard > Text > Disable "Correct spelling automatically", "Capitalise words automatically"
+* `sudo mdutil -i off`
 
 * Run make
 
