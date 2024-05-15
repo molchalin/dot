@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail  
+
+function check_path() {
+    if [[ -z $NOTES_BASE ]]; then
+        echo "NOTES_BASE is not set";
+        exit 1;
+    fi
+}
+
+function today-note() {
+    check_path
+    file=$(printf "%s/%s" $NOTES_BASE $(date '+%Y-%m-%d.md'))
+    if [[ ! -e $file ]]; then
+        touch $file
+        date "+%H:%M" >> $file
+    fi
+    echo $file
+}
+
+
+function random-note() {
+    check_path
+    notes=( $(find $NOTES_BASE -ipath '*.md' ) )
+    number=$(( $RANDOM % ${#notes[@]}))
+    echo ${notes[number]}
+}
+
+case $1 in
+    today)
+        today-note
+        ;;
+    random)
+        random-note
+        ;;
+    *)
+        printf "unknown command %q" $1
+        exit 1;
+        ;;
+esac

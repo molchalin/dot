@@ -2,7 +2,7 @@
 all: config install
 
 .PHONY: config
-config: configdir config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.config/karabiner git ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.config/bat
+config: configdir config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.config/karabiner git ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.config/bat
 
 .PHONY: configdir
 configdir:
@@ -47,6 +47,9 @@ fzf:
 ~/.local/bin/tmux-sessionizer:
 	ln -s $$PWD/bin/tmux-sessionizer ~/.local/bin/tmux-sessionizer
 
+~/.local/bin/notes:
+	ln -s $$PWD/bin/notes ~/.local/bin/notes
+
 config/kitty/gruvbox.conf:
 	curl https://raw.githubusercontent.com/dexpota/kitty-themes/master/themes/gruvbox_dark.conf -o config/kitty/gruvbox.conf
 
@@ -88,5 +91,5 @@ git:
 
 .PHONY: clean
 clean:
-	rm -f config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer
+	rm -f config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes
 
