@@ -11,7 +11,7 @@ configdir:
 
 	
 .PHONY: install
-install: brew oh-my-zsh py3-nvim fzf
+install: brew oh-my-zsh py3-nvim fzf nvim-spell-ru
 	
 
 .PHONY: brew
@@ -36,6 +36,12 @@ oh-my-zsh:
 .PHONY: py3-nvim
 py3-nvim:
 	python3 -m pip install --user --upgrade pynvim
+
+.PHONE: nvim-spell-ru
+nvim-spell-ru:
+	mkdir -p ~/.local/share/nvim/site/spell
+	curl 'http://ftp.vim.org/pub/vim/runtime/spell/ru.utf-8.spl' -o ~/.local/share/nvim/site/spell/ru.utf-8.spl
+	curl 'http://ftp.vim.org/pub/vim/runtime/spell/de.utf-8.spl' -o ~/.local/share/nvim/site/spell/de.utf-8.spl
 
 .PHONY: fzf
 fzf:
