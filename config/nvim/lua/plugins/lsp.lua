@@ -32,7 +32,6 @@ local organize_imports = function(client, bufnr, timeoutms)
 end
 
 local on_attach = function(c, b)
-  require("inlay-hints").on_attach(c, b)
   if c.server_capabilities.documentFormattingProvider then
     vim.api.nvim_create_autocmd({ "BufWritePre" }, {
       buffer = b,
@@ -110,33 +109,9 @@ end
 
 return {
   {
-    "simrat39/inlay-hints.nvim",
-    opts = {
-      renderer = "inlay-hints/render/eol",
-      only_current_line = false,
-      eol = {
-        -- right_align = true,
-        parameter = {
-          format = function(hints)
-            return string.format(" <- (%s)", hints):gsub(":", "")
-          end,
-        },
-        type = {
-          format = function(hints)
-            return string.format(" » (%s)", hints):gsub(":", "")
-          end,
-        },
-      },
-    },
-    config = function(_, opts)
-      require("inlay-hints").setup(opts)
-    end,
-  },
-  {
     "neovim/nvim-lspconfig",
     dependencies = {
       "nvim-telescope/telescope.nvim",
-      "simrat39/inlay-hints.nvim",
       "hrsh7th/nvim-cmp",
     },
     config = function()
@@ -156,15 +131,6 @@ return {
               unusedparams = true,
             },
             staticcheck = true,
-            -- hints = {
-              --assignVariableTypes = true,
-              -- compositeLiteralFields = true,
-              -- compositeLiteralTypes = true,
-              -- constantValues = true,
-              -- functionTypeParameters = true,
-              -- parameterNames = true,
-              -- rangeVariableTypes = true,
-            -- },
             codelenses = {
               generate   = true,
               tidy       = true,
