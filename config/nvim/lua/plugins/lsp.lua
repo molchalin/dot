@@ -183,7 +183,7 @@ return {
       {"<leader>gb", ":GoTestCompile<cr>",    remap = false },
       {"<leader>gt", ":GoTest<cr>",           remap = false },
       {"<leader>gc", ":GoCoverageToggle<cr>", remap = false },
-      {"<leader>ga", ":GoAlternate<cr>",      remap = false },
+      {"<leader>ga", ":GoAlternate!<cr>",      remap = false },
     },
     build = function()
       vim.cmd[[ :GoUpdateBinaries ]]
