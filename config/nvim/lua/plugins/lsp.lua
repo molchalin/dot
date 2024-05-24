@@ -56,39 +56,6 @@ local on_attach = function(c, b)
     })
   end
 
-  if c.name == 'gopls' and not c.server_capabilities.semanticTokensProvider then
-    local semantic = c.config.capabilities.textDocument.semanticTokens
-    c.server_capabilities.semanticTokensProvider = {
-      full = true,
-      legend = {tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes},
-      range = true,
-    }
-  end
-
-
-
-  if c.server_capabilities.codeLensProvider then
-    vim.lsp.codelens.refresh()
-    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-      buffer = b,
-      callback = function()
-        if is_alive(c) then
-          vim.lsp.codelens.refresh()
-        end
-      end,
-      group = group,
-    })
-    vim.api.nvim_create_autocmd("LspDetach", {
-      buffer = b,
-      callback = function()
-        if is_alive(c) then
-          vim.lsp.codelens.clear()
-        end
-      end,
-      group = group,
-    })
-  end
-
   telescope = require("telescope.builtin")
 
   local bufopts = { noremap=true, silent=true, buffer=b }
@@ -169,7 +136,7 @@ return {
       {"<leader>gb", ":GoTestCompile<cr>",    remap = false },
       {"<leader>gt", ":GoTest<cr>",           remap = false },
       {"<leader>gc", ":GoCoverageToggle<cr>", remap = false },
-      {"<leader>ga", ":GoAlternate!<cr>",      remap = false },
+      {"<leader>ga", ":GoAlternate!<cr>",     remap = false },
     },
     build = function()
       vim.cmd[[ :GoUpdateBinaries ]]
