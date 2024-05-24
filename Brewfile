@@ -1,5 +1,4 @@
 tap "homebrew/bundle"
-tap "homebrew/core"
 tap "homebrew/cask-fonts"
 
 brew "tmux"
