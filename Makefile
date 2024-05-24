@@ -11,7 +11,7 @@ configdir:
 
 	
 .PHONY: install
-install: brew oh-my-zsh py3-nvim fzf nvim-spell-ru
+install: brew oh-my-zsh fzf nvim-spell-ru
 	
 
 .PHONY: brew
@@ -32,10 +32,6 @@ oh-my-zsh:
 	git clone https://github.com/MichaelAquilina/zsh-auto-notify.git "${ZSH_CUSTOM}/plugins/auto-notify"
 
 
-
-.PHONY: py3-nvim
-py3-nvim:
-	python3 -m pip install --user --upgrade --break-system-packages pynvim
 
 .PHONE: nvim-spell-ru
 nvim-spell-ru:
@@ -77,10 +73,6 @@ config/kitty/gruvbox.conf:
 ~/.config/karabiner:
 	ln -s $$PWD/config/karabiner/ ~/.config/karabiner
 
-
-~/.vim/UltiSnips/all.snippets:
-	mkdir -p ~/.vim/UltiSnips/
-	ln -s $$PWD/all.snippets ~/.vim/UltiSnips/
 
 .PHONY: git
 git:
