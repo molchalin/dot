@@ -90,7 +90,6 @@ local on_attach = function(c, b)
   end
 
   telescope = require("telescope.builtin")
-  vim.api.nvim_buf_set_option(b, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   local bufopts = { noremap=true, silent=true, buffer=b }
   vim.keymap.set('n', 'gD',         vim.lsp.buf.declaration, bufopts)
@@ -125,12 +124,6 @@ return {
         capabilities = capabilities,
         settings = {
           gopls = {
-            experimentalPostfixCompletions = false,
-            semanticTokens = true,
-            analyses = {
-              unusedparams = true,
-            },
-            staticcheck = true,
             codelenses = {
               generate   = true,
               tidy       = true,
@@ -139,16 +132,9 @@ return {
             },
           },
         },
-        -- init_options = {
-        --   -- usePlaceholders = true,
-        -- },
       }
 
       local configs = require 'lspconfig/configs'
-
-      lspconfig.golangci_lint_ls.setup {
-        filetypes = {'go','gomod'}
-      }
 
       lspconfig.golangci_lint_ls.setup{
         on_attach  = on_attach,

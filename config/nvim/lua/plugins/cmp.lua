@@ -3,12 +3,8 @@ return {
     "hrsh7th/nvim-cmp",
     config = function()
       local cmp = require("cmp")
-
-      local t = function(str)
-        return vim.api.nvim_replace_termcodes(str, true, true, true)
-      end
-
       local luasnip = require("luasnip")
+
       require("luasnip.loaders.from_snipmate").lazy_load()
 
       cmp.setup({
@@ -28,19 +24,19 @@ return {
         }),
         mapping = cmp.mapping.preset.insert({
           ['<CR>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              if luasnip.expandable() then
-                luasnip.expand()
-              else
-                cmp.confirm({
-                  select = true,
-                })
-              end
-            else
+            if not cmp.visible() then
               fallback()
+              return
+            end
+            if luasnip.expandable() then
+              luasnip.expand()
+            else
+              cmp.confirm({
+                select = true,
+              })
+              cmp.close()
             end
           end),
-
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
@@ -49,7 +45,7 @@ return {
             else
               cmp.complete()
             end
-          end, { "i", "s" }),
+          end),
 
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
@@ -59,9 +55,12 @@ return {
           else
             fallback()
           end
-        end, { "i", "s" }),
-            }),
+        end),
+        ["<C-n>"] = cmp.mapping(function(fallback)
+          fallback()
+        end),
         })
+      })
       end,
     dependencies = {
       "hrsh7th/cmp-buffer",
