@@ -35,7 +35,7 @@ oh-my-zsh:
 
 .PHONY: py3-nvim
 py3-nvim:
-	python3 -m pip install --user --upgrade pynvim
+	python3 -m pip install --user --upgrade --break-system-packages pynvim
 
 .PHONE: nvim-spell-ru
 nvim-spell-ru:
