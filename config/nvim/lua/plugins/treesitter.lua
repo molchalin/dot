@@ -23,6 +23,7 @@ return {
       "proto",
       "vim",
       "dot",
+      "helm",
     },
     highlight = { enable = true },
     indent    = { enable = false },
