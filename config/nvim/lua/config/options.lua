@@ -32,7 +32,7 @@ vim.opt.errorbells = false
 -- ask for confirmation before quit
 vim.opt.confirm = true
 
---omnifunc
+-- omnifunc
 vim.opt.completeopt = "menu,menuone,noselect"
 
 -- highlight char when line size exceed 120
@@ -40,3 +40,8 @@ vim.cmd([[
 highlight ColorColumn ctermbg=LightYellow
 call matchadd('ColorColumn', '\%121v', 120)
 ]])
+
+-- vim supports checking spelling only in comments when syntax is on.
+-- so it's safe to enable it everywhere.
+vim.opt.spell = true
+vim.opt.spelllang:append { "ru", "de" }
