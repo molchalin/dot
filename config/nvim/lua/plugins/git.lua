@@ -12,7 +12,7 @@ return {
           vim.keymap.set(mode, l, r, opts)
         end
 
-        map('n', 'bl', function() gs.blame_line{full=true} end)
+        map('n', '<leader>bl', function() gs.blame_line{full=true} end)
       end,
       attach_to_untracked = false,
     },
