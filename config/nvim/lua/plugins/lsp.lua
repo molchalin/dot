@@ -97,6 +97,8 @@ return {
               vendor     = true,
               gc_details = true,
             },
+            -- disable snippets
+            experimentalPostfixCompletions = false,
           },
         },
       }
