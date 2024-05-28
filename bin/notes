@@ -28,9 +28,18 @@ function random-note() {
     echo ${notes[number]}
 }
 
+function last-note() {
+    check_path
+    note=$(find $NOTES_BASE -ipath '*.md' | sort | tail -n 1 )
+    echo $note
+}
+
 case $1 in
     today)
         today-note
+        ;;
+    last)
+        last-note
         ;;
     random)
         random-note
