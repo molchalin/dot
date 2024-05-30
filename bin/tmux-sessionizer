@@ -2,8 +2,9 @@
 
 PROJECTS="$HOME/Development"
 selected=$(\
-    fd . $PROJECTS --type d --min-depth 1 --max-depth 2  --exec  bash -c 'test -e "{}/.git" && echo "{}"'\
+    fd . $PROJECTS --type d --max-depth 1 \
     | sed "s;$PROJECTS/;;" \
+    | sed 's;/$;;' \
     | fzf --border none --preview "bat --color=always --plain $PROJECTS/{}/README.md")
 
 if [[ -z $selected ]]; then
