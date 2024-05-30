@@ -20,6 +20,7 @@ return {
       "perl",
       "vue",
       "javascript",
+      "java",
       "proto",
       "vim",
       "dot",
