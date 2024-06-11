@@ -52,6 +52,9 @@ fzf:
 ~/.local/bin/notes:
 	ln -s $$PWD/bin/notes ~/.local/bin/notes
 
+~/.local/bin/breakfree:
+	ln -s $$PWD/bin/breakfree ~/.local/bin/breakfree
+
 config/kitty/gruvbox.conf:
 	curl https://raw.githubusercontent.com/dexpota/kitty-themes/master/themes/gruvbox_dark.conf -o config/kitty/gruvbox.conf
 
@@ -89,5 +92,5 @@ git:
 
 .PHONY: clean
 clean:
-	rm -f config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes
+	rm -f config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.local/bin/breakfree
 

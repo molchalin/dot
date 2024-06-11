@@ -1,0 +1,37 @@
+#!/usr/bin/env perl
+
+use DateTime;
+use List::Util qw(max);
+
+
+if (not exists $ENV{BREAKFREE_BASE}) {
+    die "BREAKFREE_BASE is not set";
+}
+
+$path = $ENV{BREAKFREE_BASE};
+
+
+opendir($dh, $path) || die "Can't opendir $path: $!";
+@files = grep { /\w+/  } readdir($dh);
+closedir $dh;
+
+$maxlength = max(map { length } @files);
+
+for my $file (@files) {
+    my $last = `tail -n1 $path/$file`;
+    if ($last !~ /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})/) {
+        die "parsing error";
+    }
+
+    $dt = DateTime->new(
+        year => $1,
+        month => $2,
+        day => $3,
+        hour => $4,
+        minute => $5,
+    );
+
+    $dur = DateTime->now - $dt;
+
+    printf "%${maxlength}s %3dd %2dh\n", $file, $dur->days, $dur->hours;
+}
