@@ -53,17 +53,3 @@ zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
 function git-vimdiff () {
     GIT_EXTERNAL_DIFF=git-diff-wrapper git --no-pager diff $@;
 }
-
-function rmake() {
-    dir=$(basename $PWD)
-    remote=$1
-    shift 1
-    params=$@
-    rsync -av ./ ${remote}:~/repo/${dir}
-    ssh  $remote " \
-        source ~/.profile &&
-        cd repo/$dir &&
-        make $params \
-    " 2>&1 | tee build.log
-}
-complete -o default -o nospace -F _ssh rmake
