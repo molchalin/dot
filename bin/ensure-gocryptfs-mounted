@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+
+if [[ -z $CRYPTFS_PATH ]]; then
+    echo "CRYPTFS_PATH is not set";
+    exit 1;
+fi
+
+if ! mount | grep -q 'cryptfs' ; then
+    gocryptfs $CRYPTFS_PATH ~/cryptfs -i 30m -q
+fi

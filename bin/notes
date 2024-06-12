@@ -3,15 +3,11 @@
 set -o errexit
 set -o pipefail  
 
-function check_path() {
-    if [[ -z $NOTES_BASE ]]; then
-        echo "NOTES_BASE is not set";
-        exit 1;
-    fi
-}
+ensure-gocryptfs-mounted;
+
+NOTES_BASE=~/cryptfs/notes
 
 function today-note() {
-    check_path
     file=$(printf "%s/%s" $NOTES_BASE $(date '+%Y-%m-%d.md'))
     if [[ ! -e $file ]]; then
         touch $file
@@ -22,14 +18,12 @@ function today-note() {
 
 
 function random-note() {
-    check_path
     notes=( $(find $NOTES_BASE -ipath '*.md' ) )
     number=$(( $RANDOM % ${#notes[@]}))
     echo ${notes[number]}
 }
 
 function last-note() {
-    check_path
     note=$(find $NOTES_BASE -ipath '*.md' | sort | tail -n 1 )
     echo $note
 }

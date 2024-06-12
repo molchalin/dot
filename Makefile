@@ -1,8 +1,12 @@
 .PHONY: all
-all: config install
+all: config install bin
 
 .PHONY: config
-config: configdir config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.config/karabiner git ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.config/bat
+config: configdir config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.config/karabiner git ~/.config/bat
+
+
+bin: configdir ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.local/bin/gocryptfs ~/.local/bin/ensure-gocryptfs-mounted
+
 
 .PHONY: configdir
 configdir:
@@ -19,7 +23,7 @@ brew:
 	#/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	#TODO
 	#(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/aeremeev/.zprofile eval "$(/opt/homebrew/bin/brew shellenv)"
-	brew bundle
+	brew bundle --no-upgrade
 
 .PHONY: oh-my-zsh
 oh-my-zsh:
@@ -40,7 +44,7 @@ nvim-spell-ru:
 	curl 'http://ftp.vim.org/pub/vim/runtime/spell/de.utf-8.spl' -o ~/.local/share/nvim/site/spell/de.utf-8.spl
 
 .PHONY: fzf
-fzf:
+fzf: brew
 	$$(brew --prefix)/opt/fzf/install --no-update-rc --completion --key-bindings
 
 ~/.local/bin/git-diff-wrapper:
@@ -54,6 +58,9 @@ fzf:
 
 ~/.local/bin/breakfree:
 	ln -s $$PWD/bin/breakfree ~/.local/bin/breakfree
+
+~/.local/bin/ensure-gocryptfs-mounted:
+	ln -s $$PWD/bin/ensure-gocryptfs-mounted ~/.local/bin/ensure-gocryptfs-mounted
 
 config/kitty/gruvbox.conf:
 	curl https://raw.githubusercontent.com/dexpota/kitty-themes/master/themes/gruvbox_dark.conf -o config/kitty/gruvbox.conf
@@ -90,7 +97,16 @@ git:
 	git config --global merge.conflictstyle "diff3"
 	git config --global diff.colorMoved "default"
 
+~/.local/bin/gocryptfs: brew
+	git clone https://github.com/rfjakob/gocryptfs.git /tmp/gocryptfs && \
+	pushd /tmp/gocryptfs && \
+	./build-without-openssl.bash && \
+	popd && \
+	mv /tmp/gocryptfs/gocryptfs ~/.local/bin/gocryptfs && \
+	rm -rf /tmp/gocryptfs
+
+
 .PHONY: clean
 clean:
-	rm -f config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.local/bin/breakfree
+	rm -f config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.local/bin/breakfree ~/.local/bin/gocryptfs ~/.local/bin/ensure-gocryptfs-mounted
 

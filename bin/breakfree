@@ -3,17 +3,11 @@
 use DateTime;
 use List::Util qw(max);
 
+system("ensure-gocryptfs-mounted");
 
-if (not exists $ENV{BREAKFREE_BASE}) {
-    die "BREAKFREE_BASE is not set";
-}
+$path = "~/cryptfs/breakfree";
 
-$path = $ENV{BREAKFREE_BASE};
-
-
-opendir($dh, $path) || die "Can't opendir $path: $!";
-@files = grep { /\w+/  } readdir($dh);
-closedir $dh;
+@files = split "\n", `ls $path`;
 
 $maxlength = max(map { length } @files);
 
