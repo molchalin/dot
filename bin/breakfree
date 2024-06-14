@@ -1,15 +1,16 @@
 #!/usr/bin/env perl
 
+use strict;
 use DateTime;
 use List::Util qw(max);
 
 system("ensure-gocryptfs-mounted");
 
-$path = "~/cryptfs/breakfree";
+my $path = "~/cryptfs/breakfree";
 
-@files = split "\n", `ls $path`;
+my @files = split "\n", `ls $path`;
 
-$maxlength = max(map { length } @files);
+my $maxlength = max(map { length } @files);
 
 for my $file (@files) {
     my $last = `tail -n1 $path/$file`;
@@ -17,7 +18,7 @@ for my $file (@files) {
         die "parsing error";
     }
 
-    $dt = DateTime->new(
+    my $dt = DateTime->new(
         year => $1,
         month => $2,
         day => $3,
@@ -25,7 +26,15 @@ for my $file (@files) {
         minute => $5,
     );
 
-    $dur = DateTime->now - $dt;
+    my $dur = DateTime->now - $dt;
 
-    printf "%${maxlength}s %3dd %2dh\n", $file, $dur->days, $dur->hours;
+    printf "%${maxlength}s", $file;
+
+    my $days = $dur->in_units('days');
+    if ($days < 1) {
+        printf "%3dh", $dur->hours;
+    } else {
+        printf "%3dd", $days;
+    }
+    print "\n";
 }
