@@ -11,7 +11,7 @@ return {
       -- c = '',
       win = {'#I', '#W'},
       cwin = {'#I', '#W'},
-      x = {"#(~/.tmux/plugins/tmux-weather/scripts/weather.sh)"},
+      x = {"#(~/.tmux/plugins/tmux-weather/scripts/forecast.sh)"},
       y = {'%Y-%m-%d', '%H:%M'},
       z = "#(whoami)",
       options = {
