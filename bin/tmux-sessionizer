@@ -1,15 +1,35 @@
 #!/usr/bin/env bash
 
 PROJECTS="$HOME/Development"
+ORDER_FILE="$HOME/.tmux-sessionizer-order"
+touch $ORDER_FILE
+
+if [[ -n $TMUX ]]; then
+    current=$(tmux display-message -p '#S')
+fi
+
 selected=$(\
     fd . $PROJECTS --type d --max-depth 1 \
     | sed "s;$PROJECTS/;;" \
     | sed 's;/$;;' \
-    | fzf --border none --preview "bat --color=always --plain $PROJECTS/{}/README.md")
+    | cat $ORDER_FILE - \
+    | awk '!x[$0]++' \
+    | grep -v -Fx "$current" \
+    | fzf --border none --preview "tree -C -L 2 $PROJECTS/{}")
 
 if [[ -z $selected ]]; then
     exit 0
 fi
+
+TMP_FILE="/tmp/tmux-sessionizer-buffer"
+
+echo "$selected" \
+    | cat - $ORDER_FILE \
+    | awk '!x[$0]++' \
+    > $TMP_FILE 
+
+
+mv $TMP_FILE $ORDER_FILE
 
 tmux_running=$(pgrep tmux)
 
