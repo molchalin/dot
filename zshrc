@@ -46,7 +46,7 @@ PROMPT=$PROMPT$'%{%F{166}%}\u03bb%{%f%} '
 RPROMPT="%(?.%F{green}$_DATE.%F{red}$_DATE)" $RPROMPT
 
 
-export FZF_DEFAULT_OPTS='--cycle --color=bg+:-1 --border rounded'
+export FZF_DEFAULT_OPTS="--cycle --color=gutter:-1 --pointer '>' --border rounded --highlight-line"
 export FZF_CTRL_R_OPTS='--height=100% --margin 15%'
 
 zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
