@@ -16,3 +16,5 @@
 	conflictstyle = diff3
 [diff]
 	colorMoved = default
+[init]
+    templatedir = ~/.config/git/templates
