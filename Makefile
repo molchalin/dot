@@ -2,7 +2,7 @@
 all: config install bin
 
 .PHONY: config
-config: configdir config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.config/karabiner git ~/.config/bat
+config: configdir config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.config/karabiner git ~/.config/bat ~/.config/bat/themes/gruvbox-material-dark.tmTheme
 
 
 bin: configdir ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.local/bin/gocryptfs ~/.local/bin/ensure-gocryptfs-mounted
@@ -15,7 +15,7 @@ configdir:
 
 	
 .PHONY: install
-install: brew oh-my-zsh fzf nvim-spell-ru
+install: brew oh-my-zsh fzf nvim-spell-ru bat-cache
 	
 
 .PHONY: brew
@@ -63,7 +63,7 @@ fzf: brew
 	ln -s $$PWD/bin/ensure-gocryptfs-mounted ~/.local/bin/ensure-gocryptfs-mounted
 
 config/kitty/gruvbox.conf:
-	curl https://raw.githubusercontent.com/dexpota/kitty-themes/master/themes/gruvbox_dark.conf -o config/kitty/gruvbox.conf
+	curl https://raw.githubusercontent.com/selenebun/gruvbox-material-kitty/main/colors/gruvbox-material-dark-medium.conf -o config/kitty/gruvbox.conf
 
 ~/.tmux.conf:
 	ln -s $$PWD/tmux.conf ~/.tmux.conf
@@ -83,13 +83,21 @@ config/kitty/gruvbox.conf:
 ~/.config/karabiner:
 	ln -s $$PWD/config/karabiner/ ~/.config/karabiner
 
+~/.config/bat/themes/gruvbox-material-dark.tmTheme: ~/.config/bat
+	mkdir -p config/bat/themes
+	curl https://raw.githubusercontent.com/molchalin/gruvbox-material-bat/main/gruvbox-material-dark.tmTheme -o config/bat/themes/gruvbox-material-dark.tmTheme
+
+.PHONY: bat-cache
+bat-cache: brew
+	bat cache --build
+
 
 .PHONY: git
 git:
 	git config --global user.name "Andrei Eremeev"
 	git config --global core.pager "delta"
 	git config --global interactive.diffFilter "delta --color-only"
-	git config --global delta.syntax-theme "gruvbox-dark"
+	git config --global delta.syntax-theme "gruvbox-material-dark"
 	git config --global delta.side-by-side "true"
 	git config --global delta.file-style "bold yellow"
 	git config --global delta.file-decoration-style "none"
@@ -108,5 +116,5 @@ git:
 
 .PHONY: clean
 clean:
-	rm -f config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.local/bin/breakfree ~/.local/bin/gocryptfs ~/.local/bin/ensure-gocryptfs-mounted
+	rm -f config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.local/bin/breakfree ~/.local/bin/gocryptfs ~/.local/bin/ensure-gocryptfs-mounted ~/.config/bat/themes/gruvbox-material-dark.tmTheme
 
