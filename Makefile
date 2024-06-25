@@ -18,12 +18,14 @@ stow:
 	fd . share/nvim/site/spell --absolute-path --max-depth 1 --exec ln -s {} ~/.local/share/nvim/site/spell/{/}
 	fd . config --type d --absolute-path --max-depth 1 --exec ln -s {} ~/.config/{/}
 
+BREW := $(shell which brew 2> /dev/null)
 
 .PHONY: brew
 brew:
-	#/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	#TODO
-	#(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/aeremeev/.zprofile eval "$(/opt/homebrew/bin/brew shellenv)"
+ifndef BREW
+	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/aeremeev/.zprofile eval "$(/opt/homebrew/bin/brew shellenv)"
+endif
 	brew bundle --no-upgrade
 
 .PHONY: oh-my-zsh
