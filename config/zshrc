@@ -34,6 +34,7 @@ fi
 alias vim=nvim
 alias vi=vim
 alias v=vi
+alias cat=bat
 
 if [[ "$(uname)" == 'Linux' ]]; then
     alias pbcopy='xclip -selection clipboard'
