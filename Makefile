@@ -1,22 +1,23 @@
 .PHONY: all
-all: config install bin
+all: install files stow bat-cache oh-my-zsh
 
-.PHONY: config
-config: configdir config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.config/karabiner git ~/.config/bat ~/.config/bat/themes/gruvbox-material-dark.tmTheme
-
-
-bin: configdir ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.local/bin/gocryptfs ~/.local/bin/ensure-gocryptfs-mounted
-
-
-.PHONY: configdir
-configdir:
-	mkdir -p ~/.local/bin/
-	mkdir -p ~/.config/
-
-	
 .PHONY: install
-install: brew oh-my-zsh fzf nvim-spell-ru bat-cache
-	
+install: brew git fzf
+
+.PHONY: files
+files: spell config/kitty/gruvbox-material-dark-medium.conf config/bat/themes/gruvbox-material-dark.tmTheme bin/gocryptfs
+
+.PHONY: stow
+stow:
+	mkdir -p ~/.local/bin
+	mkdir -p ~/.config/
+	mkdir -p ~/.local/share/nvim/site/spell
+	ln -s $$PWD/config/zshrc ~/.zshrc
+	ln -s $$PWD/config/tmux.conf ~/.tmux.conf
+	fd . bin --absolute-path --max-depth 1 --exec ln -s {} ~/.local/bin/{/}
+	fd . share/nvim/site/spell --absolute-path --max-depth 1 --exec ln -s {} ~/.local/share/nvim/site/spell/{/}
+	fd . config --type d --absolute-path --max-depth 1 --exec ln -s {} ~/.config/{/}
+
 
 .PHONY: brew
 brew:
@@ -26,8 +27,7 @@ brew:
 	brew bundle --no-upgrade
 
 .PHONY: oh-my-zsh
-oh-my-zsh:
-	ZSH_CUSTOM = ${ZSH_CUSTOM}
+oh-my-zsh: stow
 	# sh -c "$$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 	git clone https://github.com/jeffreytse/zsh-vi-mode "${ZSH_CUSTOM}/plugins/zsh-vi-mode"
 	git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM}/plugins/zsh-autosuggestions"
@@ -35,60 +35,24 @@ oh-my-zsh:
 	git clone https://github.com/MichaelAquilina/zsh-you-should-use.git "${ZSH_CUSTOM}/plugins/you-should-use"
 	git clone https://github.com/MichaelAquilina/zsh-auto-notify.git "${ZSH_CUSTOM}/plugins/auto-notify"
 
-
-
-.PHONE: nvim-spell-ru
-nvim-spell-ru:
-	mkdir -p ~/.local/share/nvim/site/spell
-	curl 'http://ftp.vim.org/pub/vim/runtime/spell/ru.utf-8.spl' -o ~/.local/share/nvim/site/spell/ru.utf-8.spl
-	curl 'http://ftp.vim.org/pub/vim/runtime/spell/de.utf-8.spl' -o ~/.local/share/nvim/site/spell/de.utf-8.spl
+spell:
+	mkdir -p share/nvim/site/spell
+	curl 'http://ftp.vim.org/pub/vim/runtime/spell/ru.utf-8.spl' -o share/nvim/site/spell/ru.utf-8.spl
+	curl 'http://ftp.vim.org/pub/vim/runtime/spell/de.utf-8.spl' -o share/nvim/site/spell/de.utf-8.spl
 
 .PHONY: fzf
 fzf: brew
 	$$(brew --prefix)/opt/fzf/install --no-update-rc --completion --key-bindings
 
-~/.local/bin/git-diff-wrapper:
-	ln -s $$PWD/bin/git-diff-wrapper ~/.local/bin/git-diff-wrapper
+config/kitty/gruvbox-material-dark-medium.conf:
+	curl https://raw.githubusercontent.com/selenebun/gruvbox-material-kitty/main/colors/gruvbox-material-dark-medium.conf -o config/kitty/gruvbox-material-dark-medium.conf
 
-~/.local/bin/tmux-sessionizer:
-	ln -s $$PWD/bin/tmux-sessionizer ~/.local/bin/tmux-sessionizer
-
-~/.local/bin/notes:
-	ln -s $$PWD/bin/notes ~/.local/bin/notes
-
-~/.local/bin/breakfree:
-	ln -s $$PWD/bin/breakfree ~/.local/bin/breakfree
-
-~/.local/bin/ensure-gocryptfs-mounted:
-	ln -s $$PWD/bin/ensure-gocryptfs-mounted ~/.local/bin/ensure-gocryptfs-mounted
-
-config/kitty/gruvbox.conf:
-	curl https://raw.githubusercontent.com/selenebun/gruvbox-material-kitty/main/colors/gruvbox-material-dark-medium.conf -o config/kitty/gruvbox.conf
-
-~/.tmux.conf:
-	ln -s $$PWD/tmux.conf ~/.tmux.conf
-
-~/.zshrc:
-	ln -s $$PWD/zshrc ~/.zshrc
-
-~/.config/nvim:
-	ln -s $$PWD/config/nvim/ ~/.config/nvim
-
-~/.config/bat:
-	ln -s $$PWD/config/bat/ ~/.config/bat
-
-~/.config/kitty:
-	ln -s $$PWD/config/kitty/ ~/.config/kitty
-
-~/.config/karabiner:
-	ln -s $$PWD/config/karabiner/ ~/.config/karabiner
-
-~/.config/bat/themes/gruvbox-material-dark.tmTheme: ~/.config/bat
+config/bat/themes/gruvbox-material-dark.tmTheme:
 	mkdir -p config/bat/themes
 	curl https://raw.githubusercontent.com/molchalin/gruvbox-material-bat/main/gruvbox-material-dark.tmTheme -o config/bat/themes/gruvbox-material-dark.tmTheme
 
 .PHONY: bat-cache
-bat-cache: brew
+bat-cache: brew stow
 	bat cache --build
 
 
@@ -105,16 +69,20 @@ git:
 	git config --global merge.conflictstyle "diff3"
 	git config --global diff.colorMoved "default"
 
-~/.local/bin/gocryptfs: brew
+bin/gocryptfs: brew
 	git clone https://github.com/rfjakob/gocryptfs.git /tmp/gocryptfs && \
 	pushd /tmp/gocryptfs && \
 	./build-without-openssl.bash && \
 	popd && \
-	mv /tmp/gocryptfs/gocryptfs ~/.local/bin/gocryptfs && \
+	mv /tmp/gocryptfs/gocryptfs bin/gocryptfs && \
 	rm -rf /tmp/gocryptfs
 
 
 .PHONY: clean
 clean:
-	rm -f config/kitty/gruvbox.conf ~/.tmux.conf ~/.zshrc ~/.config/nvim ~/.config/kitty ~/.local/bin/git-diff-wrapper ~/.local/bin/tmux-sessionizer ~/.local/bin/notes ~/.local/bin/breakfree ~/.local/bin/gocryptfs ~/.local/bin/ensure-gocryptfs-mounted ~/.config/bat/themes/gruvbox-material-dark.tmTheme
-
+	rm -f ~/.zshrc
+	rm -f ~/.tmux.conf
+	fd . bin --absolute-path --max-depth 1 --exec rm ~/.local/bin/{/}
+	fd . share/nvim/site/spell --absolute-path --max-depth 1 --exec rm ~/.local/share/nvim/site/spell/{/}
+	fd . config --absolute-path --max-depth 1 --type d --exec rm ~/.config/{/}
+	rm -f  share/nvim/site/spell/* config/kitty/gruvbox.conf config/bat/themes/gruvbox-material-dark.tmTheme bin/gocryptfs

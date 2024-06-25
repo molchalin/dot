@@ -1,3 +1,5 @@
-config/kitty/gruvbox.conf
+bin/gocryptofs
+config/kitty/gruvbox-material-dark-medium.conf
 config/bat/themes/
+share/nvim/site/spell
 Brewfile.lock.json
