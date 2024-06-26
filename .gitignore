@@ -3,3 +3,4 @@ config/kitty/gruvbox-material-dark-medium.conf
 config/bat/themes/
 share/nvim/site/spell
 Brewfile.lock.json
+config/git/config
