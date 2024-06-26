@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 PROJECTS="$HOME/Development"
-ORDER_FILE="$HOME/.tmux-sessionizer-order"
+ORDER_FILE="$HOME/.local/state/tmux-sessionizer/order"
+mkdir -p "$HOME/.local/state/tmux-sessionizer/"
 touch $ORDER_FILE
 
 if [[ -n $TMUX ]]; then
