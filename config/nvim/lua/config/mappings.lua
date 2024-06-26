@@ -25,3 +25,6 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 
 -- paste, but without saving replaced data
 vim.keymap.set("x", "<leader>p", "\"_dP", { remap = false })
+
+vim.keymap.set("n", "cn", ":cn<cr>", { remap = false })
+vim.keymap.set("n", "cp", ":cp<cr>", { remap = false })
