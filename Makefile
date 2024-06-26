@@ -10,7 +10,6 @@ stow:
 	mkdir -p ~/.config/
 	mkdir -p ~/.local/share/nvim/site/spell
 	ln -s $$PWD/config/zshrc ~/.zshrc
-	ln -s $$PWD/config/tmux.conf ~/.tmux.conf
 	fd . bin --absolute-path --max-depth 1 --exec ln -s {} ~/.local/bin/{/}
 	fd . share/nvim/site/spell --absolute-path --max-depth 1 --exec ln -s {} ~/.local/share/nvim/site/spell/{/}
 	fd . config --type d --absolute-path --max-depth 1 --exec ln -s {} ~/.config/{/}
@@ -70,7 +69,6 @@ bin/gocryptfs:
 .PHONY: clean
 clean:
 	rm -f ~/.zshrc
-	rm -f ~/.tmux.conf
 	fd . bin --absolute-path --max-depth 1 --exec rm -f ~/.local/bin/{/}
 	fd . share/nvim/site/spell --absolute-path --max-depth 1 --exec rm -f ~/.local/share/nvim/site/spell/{/}
 	fd . config --absolute-path --max-depth 1 --type d --exec rm -f ~/.config/{/}
