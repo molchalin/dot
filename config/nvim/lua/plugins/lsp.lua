@@ -68,7 +68,6 @@ local on_attach = function(c, b)
   vim.keymap.set('n', 'gd',        telescope.lsp_definitions,      bufopts)
   vim.keymap.set('n', 'gr',        telescope.lsp_references,       bufopts)
   vim.keymap.set('n', 'gi',        telescope.lsp_implementations,  bufopts)
-  vim.keymap.set('n', '<leader>d', telescope.lsp_type_definitions, bufopts)
   vim.keymap.set('n', 'ge',        telescope.diagnostics,          bufopts)
 
 end
