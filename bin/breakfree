@@ -26,13 +26,13 @@ for my $file (@files) {
         minute => $5,
     );
 
-    my $dur = DateTime->now - $dt;
+    my $dur = DateTime->now->epoch - $dt->epoch;
 
     printf "%${maxlength}s", $file;
 
-    my $days = $dur->in_units('days');
+    my $days = $dur / (24 * 3600);
     if ($days < 1) {
-        printf "%3dh", $dur->hours;
+        printf "%3dh", $dur / 3600;
     } else {
         printf "%3dd", $days;
     }
