@@ -24,8 +24,6 @@ vim.opt.sidescrolloff = 8 -- same for left/right
 
 vim.opt.clipboard = "unnamedplus"
 
-vim.opt.textwidth = 120
-
 -- disable sound
 vim.opt.errorbells = false
 
@@ -35,9 +33,10 @@ vim.opt.confirm = true
 -- omnifunc
 vim.opt.completeopt = "menu,menuone,noselect"
 
+vim.opt.textwidth = 120
 -- highlight char when line size exceed 120
 vim.cmd([[
-highlight ColorColumn ctermbg=LightYellow
+highlight ColorColumn guibg=LightPurple
 call matchadd('ColorColumn', '\%121v', 120)
 ]])
 
