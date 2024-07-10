@@ -31,3 +31,6 @@ vim.keymap.set("n", "<leader>d", "\"_d", { remap = false })
 -- quicklist
 vim.keymap.set("n", "cn", ":cnext<cr>", { remap = false })
 vim.keymap.set("n", "cp", ":cprev<cr>", { remap = false })
+
+vim.keymap.set("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { remap = false, desc = "add comment below"})
+vim.keymap.set("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { remap = false, desc = "add comment above"})
