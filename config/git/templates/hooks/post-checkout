@@ -3,7 +3,7 @@
 origin_url=$(git remote get-url origin)
 origin_domain=""
 github_email="aaeremeev@proton.me"
-bitbucket_email="aeremeev@cinemo.com"
+gerrit_email="andrei@quobyte.com"
 
 get_domain() {
    local protocol=$(echo "${origin_url}" | sed 's/\([a-z]*\):.*/\1/')
@@ -19,12 +19,11 @@ set_user(){
         "github.com")
             git config user.email ${github_email}
         ;;
-        "git.internal.cinemo.com")
-            git config user.email ${bitbucket_email}
+        "gerrit.corp.quobyte.com")
+            git config user.email ${gerrit_email}
         ;;
         *) 
             printf "%b" "\e[33m WARNING: no git user has been set for this domain '${origin_domain}' in the post-checkout hook \e[39m\n"
-            git config user.email ${github_email}
         ;;
     esac
 }
