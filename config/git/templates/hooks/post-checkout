@@ -7,8 +7,8 @@ gerrit_email="andrei@quobyte.com"
 
 get_domain() {
    local protocol=$(echo "${origin_url}" | sed 's/\([a-z]*\):.*/\1/')
-   if [[ $protocol == "https" ]]; then
-       origin_domain=$(echo "${origin_url}" | sed 's/.*\/\/\(.*\)\/.*\/.*/\1/')
+   if [[ $protocol == "https" ]] || [[ $protocol == "ssh" ]]; then
+       origin_domain=$(echo "${origin_url}" | sed 's~.*//\([^/]\+\)/.*~\1~' | sed 's~:[[:digit:]]\+~~')
    else
        origin_domain=$(echo "${origin_url}" | sed 's/.*git@\(.*\):.*/\1/')
    fi
