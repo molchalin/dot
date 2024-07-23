@@ -4,3 +4,5 @@ config/bat/themes/
 share/nvim/site/spell
 Brewfile.lock.json
 config/git/config.local
+config/tmux/plugins/
+config/tmux/tpm/
