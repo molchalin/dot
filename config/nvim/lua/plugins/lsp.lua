@@ -1,18 +1,5 @@
 local group = vim.api.nvim_create_augroup("LSP", { clear = true })
 
-local is_alive = function(client)
-  if client == nil then
-    return false
-  end
-  if not client.initialized then
-    return false
-  end
-  if client.is_stopped() then
-    return false
-  end
-  return true
-end
-
 -- Organize imports.
 --
 -- https://github.com/neovim/nvim-lspconfig/issues/115#issuecomment-902680058
@@ -102,8 +89,6 @@ return {
         },
       }
 
-      local configs = require 'lspconfig/configs'
-
       lspconfig.golangci_lint_ls.setup{
         on_attach  = on_attach,
         capabilities = capabilities,
@@ -115,6 +100,16 @@ return {
         on_attach = on_attach,
         filetypes = {'rust'},
       }
+
+      lspconfig.jdtls.setup{
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = {"java"},
+        cmd = { 'jdtls' },
+        root_dir = function(fname)
+          return require("lspconfig/util").root_pattern(".git")(fname) .. "/eclipse"
+        end,
+    }
     end
   },
   {
