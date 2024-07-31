@@ -40,7 +40,7 @@ fi
 
 PROMPT=$PROMPT$'%{%F{166}%}\u03bb%{%f%} '
 
-_RPROMPT='%(?..%F{red}?%? )%F{white}%D{%H:%M}' $RPROMPT
+_RPROMPT='%(?..%F{red}?%? )%F{white}%D{%H:%M}'
 RPROMPT=$_RPROMPT
 
 export FZF_DEFAULT_OPTS="--cycle --color=gutter:-1 --pointer '>' --border rounded --highlight-line"
@@ -69,7 +69,7 @@ function precmd() {
         fi
         _TIMER_PROMPT=$_TIMER_PROMPT'${timer_seconds}s '
     fi
-    export RPROMPT="$_TIMER_PROMPT$_RPROMPT"
+    RPROMPT=$_TIMER_PROMPT$_RPROMPT
     unset timer
   fi
 }
