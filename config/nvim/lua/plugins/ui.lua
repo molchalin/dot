@@ -58,8 +58,12 @@ return {
         -- c = '',
         win = {'#I', '#W'},
         cwin = {'#I', '#W'},
-        x = {"#(~/.config/tmux/plugins/tmux-weather/scripts/forecast.sh)"},
-        y = {'%Y-%m-%d', '%H:%M'},
+        x = { '#(~/.config/tmux/plugins/tmux-ping/scripts/ping_status.sh | cut -d " " -f 2)ms' },
+        y = {
+          "#(~/.config/tmux/plugins/tmux-weather/scripts/forecast.sh)",
+          '%Y-%m-%d',
+          '%H:%M'
+        },
         z = "#(whoami)",
         options = {
           ["status-justify"] = 'left',
