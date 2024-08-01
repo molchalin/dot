@@ -1,7 +1,7 @@
 vim.g.mapleader = ","
 
 vim.keymap.set("n", "<leader>e",  ":tabedit<space>", { remap = false })
-vim.keymap.set("n", "<leader>q",  ":wqa<cr>", { remap = false })
+vim.keymap.set("n", "<leader>q",  ":wq<cr>", { remap = false })
 
 -- don't jump to next match
 vim.keymap.set("n", "*",          "*``", { remap = false })
