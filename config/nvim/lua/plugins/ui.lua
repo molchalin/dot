@@ -57,8 +57,8 @@ return {
         a = '#S',
         -- b = '',
         -- c = '',
-        win = {'#I', "\\U1F4C1\\UFE0E #(tmux-realpath #{session_path} #{pane_current_path})", '#W'},
-        cwin = {'#I', "\\U1F4C1\\UFE0E #(tmux-realpath #{session_path} #{pane_current_path})", '#W'},
+        win = {'#I', "#(tmux-realpath #{session_path} #{pane_current_path})", '#W'},
+        cwin = {'#I', "#(tmux-realpath #{session_path} #{pane_current_path})", '#W'},
         x = { '#(~/.config/tmux/plugins/tmux-ping/scripts/ping_status.sh)ms' },
         y = {
           "#(~/.config/tmux/plugins/tmux-weather/scripts/forecast.sh)",
