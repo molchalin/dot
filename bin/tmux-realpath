@@ -1,0 +1,9 @@
+#!/bin/env bash
+
+REALPATH=realpath
+
+if [[ "$(uname)" == 'Darwin' ]]; then
+    REALPATH=grealpath
+fi
+
+$REALPATH --relative-to=$1 $2 | perl -anE 'chomp; print "$_/" if ($_ ne ".")'

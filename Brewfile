@@ -11,6 +11,7 @@ brew "fd"
 brew "fzf"
 brew "jq"
 brew "tree"
+brew "coreutils"
 
 brew "colima"
 brew "docker"
