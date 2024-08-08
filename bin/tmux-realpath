@@ -6,7 +6,4 @@ if [[ "$(uname)" == 'Darwin' ]]; then
     REALPATH=grealpath
 fi
 
-#                                    replace  with \x{1F4C1}\x{FE0E} 
-#                                    when it won't break tmux bar.
-#                                    https://github.com/tmux/tmux/issues/3923
-$REALPATH --relative-to=$1 $2 | perl -anE 'chomp; print "|="; print "$_/" if ($_ ne ".")'
+$REALPATH --relative-to=$1 $2 | perl -anE 'chomp; print " $_/" if ($_ ne ".")'
