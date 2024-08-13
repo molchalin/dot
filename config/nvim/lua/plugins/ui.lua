@@ -4,10 +4,7 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      vim.o.background = "dark"
-      vim.o.termguicolors = true
       vim.cmd([[colorscheme gruvbox-material]])
-      vim.cmd([[highlight ColorColumn guibg=DarkMagenta]])
     end,
   },
   {
@@ -48,6 +45,7 @@ return {
   },
   {
     "edkolev/tmuxline.vim",
+    event = "VeryLazy",
     cond = function()
       return vim.env.TMUX ~= nil
     end,

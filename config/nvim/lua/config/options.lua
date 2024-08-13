@@ -3,17 +3,15 @@ vim.opt.relativenumber = true
 
 vim.opt.mouse = ""
 
-vim.opt.tabstop     = 4
-vim.opt.shiftwidth  = 4
-vim.opt.softtabstop = 4
-vim.opt.expandtab   = true
-vim.opt.smartindent = true
-
 -- search related
 vim.opt.showmatch  = true
 vim.opt.hlsearch   = true
 vim.opt.ignorecase = true
 vim.opt.smartcase  = true
+
+
+vim.opt.background = "dark"
+vim.opt.termguicolors = true
 
 -- how to show not displayable characters
 vim.opt.list      = true
@@ -33,14 +31,24 @@ vim.opt.confirm = true
 -- omnifunc
 vim.opt.completeopt = "menu,menuone,noselect"
 
-vim.opt.textwidth = 120
--- highlight char when line size exceed 120
-vim.cmd([[
-highlight ColorColumn guibg=LightPurple
-call matchadd('ColorColumn', '\%121v', 120)
-]])
+-- smart color column highlight
+if string.find(vim.fn.hostname(), "quobyte") then
+  vim.opt.textwidth = 100
+  vim.cmd([[ call matchadd('ColorColumn', '\%100v', 100) ]])
+else
+  vim.opt.textwidth = 120
+  vim.cmd([[ call matchadd('ColorColumn', '\%120v', 120) ]])
+end
+vim.cmd([[ highlight ColorColumn guibg=DarkMagenta ]])
 
 -- vim supports checking spelling only in comments when syntax is on.
 -- so it's safe to enable it everywhere.
 vim.opt.spell = true
 vim.opt.spelllang:append { "ru", "de" }
+
+
+vim.filetype.add({
+  filename ={
+    ["Jenkinsfile"] = "groovy",
+  }
+})
