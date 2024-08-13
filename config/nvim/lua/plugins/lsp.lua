@@ -109,7 +109,23 @@ return {
         root_dir = function(fname)
           return require("lspconfig/util").root_pattern(".git")(fname) .. "/eclipse"
         end,
-    }
+        settings = {
+          java = {
+            configuration = {
+              runtimes = {
+                {
+                  name = "JavaSE-11",
+                  path = "/usr/lib/jvm/java-11-openjdk/",
+                },
+                {
+                  name = "JavaSE-17",
+                  path = "/usr/lib/jvm/java-17-openjdk/",
+                },
+              },
+            },
+          },
+        },
+      }
     end
   },
   {
@@ -137,5 +153,9 @@ return {
     build = function()
       vim.cmd[[ :GoUpdateBinaries ]]
     end
+  },
+  {
+    "mfussenegger/nvim-jdtls",
+    ft = "java",
   },
 }
