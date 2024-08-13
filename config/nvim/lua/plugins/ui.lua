@@ -57,18 +57,31 @@ return {
         -- c = '',
         win = {'#I', "\\uea83#(tmux-realpath #{session_path} #{pane_current_path})", '#W'},
         cwin = {'#I', "\\ueaf6#(tmux-realpath #{session_path} #{pane_current_path})", '#W'},
-        x = { '#(~/.config/tmux/plugins/tmux-ping/scripts/ping_status.sh)ms' },
-        y = {
+        x = {
           "#(~/.config/tmux/plugins/tmux-weather/scripts/forecast.sh)",
           '%Y-%m-%d',
           '%H:%M'
         },
+        y = { '#(~/.config/tmux/plugins/tmux-ping/scripts/ping_status.sh)ms' },
         z = "#(whoami)",
         options = {
           ["status-justify"] = 'left',
         },
       }
-      vim.cmd[[ :Tmuxline vim_statusline_3 ]]
+      vim.g.tmuxline_theme = {
+        a = {'#282828', '#a89984', 'bold'},
+        b = {'#ddc7a1', '#32302f'},
+        c = {'#928374', '#32302f'},
+        x = {'#ddc7a1', '#3a3735'},
+        y = {'#ddc7a1', '#504945'},
+        z = {'#282828', '#a89984', 'bold'},
+        bg = {'#3a3735', '#3a3735'},
+        win = {'#ddc7a1', '#3a3735'},
+        cwin = {'#ddc7a1', '#504945'},
+        pane = { '#504945' },
+        cpane = { '#a89984' },
+      }
+      vim.cmd[[ :Tmuxline ]]
     end,
   },
   {
