@@ -58,6 +58,7 @@ return {
         win = {'#I', "\\uea83#(tmux-realpath #{session_path} #{pane_current_path})", '#W'},
         cwin = {'#I', "\\ueaf6#(tmux-realpath #{session_path} #{pane_current_path})", '#W'},
         x = {
+          "#(pomodoro status)",
           "#(~/.config/tmux/plugins/tmux-weather/scripts/forecast.sh)",
           '%Y-%m-%d',
           '%H:%M'

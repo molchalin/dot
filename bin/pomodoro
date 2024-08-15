@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+
+LOG_FILE="$HOME/.local/state/pomodoro/log"
+mkdir -p $(dirname $LOG_FILE)
+touch $LOG_FILE
+
+function start-pomodoro() {
+    date "+%s" >> $LOG_FILE
+}
+
+function status-pomodoro() {
+    _START=$(tail -n 1 $LOG_FILE)
+    _CUR=$(date "+%s")
+    _RES=$(( 25 * 60 - $_CUR + $_START ))
+    if [[ $_RES -lt 0 ]]; then
+        printf "\\ue001"
+        exit 0;
+    fi
+    printf "\\ue003 "
+    date --date "@${_RES}" '+%M:%S'
+}
+
+
+case $1 in
+    start)
+        start-pomodoro
+        ;;
+    status)
+        status-pomodoro
+        ;;
+    *)
+        printf "unknown command %q" $1
+        exit 1;
+        ;;
+esac
