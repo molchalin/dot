@@ -51,7 +51,7 @@ return {
     end,
 
     config = function()
-      vim.g.tmuxline_preset = { 
+      vim.g.tmuxline_preset = {
         a = '#S',
         -- b = '',
         -- c = '',
@@ -111,6 +111,13 @@ return {
       require("nvim-web-devicons").setup({
         color_icons = false,
       })
+    end
+  },
+  {
+    "echasnovski/mini.trailspace",
+    version = false,
+    config = function()
+      require("mini.trailspace").setup()
     end
   },
 }
