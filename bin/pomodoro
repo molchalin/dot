@@ -9,25 +9,28 @@ mkdir -p $(dirname $LOG_FILE)
 touch $LOG_FILE
 
 function start-pomodoro() {
-    date "+%s" >> $LOG_FILE
+    NOW=$(date "+%s")
+    MINUTES="${1:-25}"
+    END=$(($NOW + $MINUTES * 60))
+    echo "$END" >> $LOG_FILE
 }
 
 function status-pomodoro() {
-    _START=$(tail -n 1 $LOG_FILE)
-    _CUR=$(date "+%s")
-    _RES=$(( 25 * 60 - $_CUR + $_START ))
-    if [[ $_RES -lt 0 ]]; then
+    END=$(tail -n 1 $LOG_FILE)
+    NOW=$(date "+%s")
+    RES=$(( $END - $NOW ))
+    if [[ $RES -lt 0 ]]; then
         printf "\\ue001"
         exit 0;
     fi
     printf "\\ue003 "
-    date --date "@${_RES}" '+%M:%S'
+    date --date "@${RES}" '+%M:%S'
 }
 
 
 case $1 in
     start)
-        start-pomodoro
+        start-pomodoro $2
         ;;
     status)
         status-pomodoro
