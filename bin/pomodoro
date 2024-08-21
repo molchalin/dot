@@ -4,19 +4,21 @@ set -o errexit
 set -o pipefail
 
 
-LOG_FILE="$HOME/.local/state/pomodoro/log"
+LOG_FILE="$HOME/.local/state/pomodoro/log.jsonl"
 mkdir -p $(dirname $LOG_FILE)
 touch $LOG_FILE
 
 function start-pomodoro() {
     NOW=$(date "+%s")
     MINUTES="${1:-25}"
+    INFO="${2:-DEFAULT}"
     END=$(($NOW + $MINUTES * 60))
-    echo "$END" >> $LOG_FILE
+    DAY=$(date "+%F")
+    jq -cn '$ARGS.named' --arg end "$END" --arg meta.day "$DAY" --arg meta.text "$INFO" >> $LOG_FILE
 }
 
 function status-pomodoro() {
-    END=$(tail -n 1 $LOG_FILE)
+    END=$(tail -n 1 $LOG_FILE | jq -r '.end')
     NOW=$(date "+%s")
     RES=$(( $END - $NOW ))
     if [[ $RES -lt 0 ]]; then
@@ -30,7 +32,7 @@ function status-pomodoro() {
 
 case $1 in
     start)
-        start-pomodoro $2
+        start-pomodoro "$2" "$3"
         ;;
     status)
         status-pomodoro
