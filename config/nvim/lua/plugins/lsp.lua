@@ -101,6 +101,12 @@ return {
         filetypes = {'rust'},
       }
 
+      lspconfig.clangd.setup{
+        capabilities = capabilities,
+        on_attach = on_attach,
+        filetypes = {'cpp', 'c'},
+      }
+
       lspconfig.jdtls.setup{
         capabilities = capabilities,
         on_attach = on_attach,
