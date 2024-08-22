@@ -48,7 +48,7 @@ local on_attach = function(c, b)
   local bufopts = { noremap=true, silent=true, buffer=b }
   vim.keymap.set('n', 'gD',         vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'K',          vim.lsp.buf.hover,       bufopts)
-  vim.keymap.set('n', 'rn', vim.lsp.buf.rename,      bufopts)
+  vim.keymap.set('n', 'rn',         vim.lsp.buf.rename,      bufopts)
   vim.keymap.set('n', 'ca',         vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'cl',         vim.lsp.codelens.run,    bufopts)
 
@@ -56,6 +56,7 @@ local on_attach = function(c, b)
   vim.keymap.set('n', 'gr',        telescope.lsp_references,       bufopts)
   vim.keymap.set('n', 'gi',        telescope.lsp_implementations,  bufopts)
   vim.keymap.set('n', 'ge',        telescope.diagnostics,          bufopts)
+  vim.keymap.set('n', 'gl',        vim.diagnostic.open_float,      bufopts)
 
 end
 

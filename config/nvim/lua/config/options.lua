@@ -61,3 +61,18 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "proto" },
 })
 
+
+
+vim.diagnostic.config({
+  virtual_text = {
+    severity = {
+      vim.diagnostic.severity.ERROR,
+    },
+  },
+  underline = {
+    severity = {
+      vim.diagnostic.severity.ERROR,
+    },
+  },
+  severity_sort = true,
+})
