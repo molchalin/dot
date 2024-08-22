@@ -19,7 +19,7 @@ local organize_imports = function(client, bufnr, timeoutms)
 end
 
 local on_attach = function(c, b)
-  if c.server_capabilities.documentFormattingProvider then
+  if c.name == "gopls" and c.server_capabilities.documentFormattingProvider then
     vim.api.nvim_create_autocmd({ "BufWritePre" }, {
       buffer = b,
       callback = function()
@@ -33,7 +33,7 @@ local on_attach = function(c, b)
     })
   end
 
-  if c.server_capabilities.codeActionProvider then
+  if c.name == "gopls" and c.server_capabilities.codeActionProvider then
     vim.api.nvim_create_autocmd({ "BufWritePre" }, {
       buffer = bufnr,
       callback = function()
