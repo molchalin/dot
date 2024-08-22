@@ -34,10 +34,10 @@ vim.opt.completeopt = "menu,menuone,noselect"
 -- smart color column highlight
 if string.find(vim.fn.hostname(), "quobyte") then
   vim.opt.textwidth = 100
-  vim.cmd([[ call matchadd('ColorColumn', '\%100v', 100) ]])
+  vim.cmd([[ call matchadd('ColorColumn', '\%101v', 101) ]])
 else
   vim.opt.textwidth = 120
-  vim.cmd([[ call matchadd('ColorColumn', '\%120v', 120) ]])
+  vim.cmd([[ call matchadd('ColorColumn', '\%121v', 121) ]])
 end
 vim.cmd([[ highlight ColorColumn guibg=DarkMagenta ]])
 
