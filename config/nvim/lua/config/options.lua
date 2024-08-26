@@ -54,11 +54,11 @@ vim.filetype.add({
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("FixProtoCommentString", { clear = true }),
+  group = vim.api.nvim_create_augroup("FixCommentString", { clear = true }),
   callback = function(ev)
     vim.bo[ev.buf].commentstring = "// %s"
   end,
-  pattern = { "proto" },
+  pattern = { "proto", "cpp", "c", "java" },
 })
 
 
