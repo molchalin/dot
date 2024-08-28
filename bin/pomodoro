@@ -14,7 +14,7 @@ function start-pomodoro() {
     INFO="${2:-DEFAULT}"
     END=$(($NOW + $MINUTES * 60))
     DAY=$(date "+%F")
-    jq -cn '$ARGS.named' --arg end "$END" --arg meta.day "$DAY" --arg meta.text "$INFO" >> $LOG_FILE
+    jq -cn '$ARGS.named' --arg end "$END" --arg meta.day "$DAY" --arg meta.text "$INFO" --arg dur "${MINUTES}m" >> $LOG_FILE
 }
 
 function status-pomodoro() {
