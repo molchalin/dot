@@ -15,7 +15,8 @@ vim.opt.termguicolors = true
 
 -- how to show not displayable characters
 vim.opt.list      = true
-vim.opt.listchars = { tab = "│·", nbsp = "␣" }
+vim.opt.listchars = { tab = "| ", nbsp = "␣"}
+vim.opt.showbreak = "↳ "
 
 vim.opt.scrolloff     = 8 -- ensures that you have at least 8 lines above and below your cursor
 vim.opt.sidescrolloff = 8 -- same for left/right

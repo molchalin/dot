@@ -3,6 +3,9 @@ return {
   {
     "tpope/vim-sleuth",
     event = "VeryLazy",
+    init = function()
+      vim.opt.tabstop = 4
+    end
   },
   {
     "tpope/vim-surround",
