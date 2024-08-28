@@ -121,4 +121,11 @@ return {
       require("mini.trailspace").setup()
     end
   },
+  {
+    'echasnovski/mini.indentscope',
+    version = false,
+    config = function()
+      require("mini.indentscope").setup()
+    end
+  },
 }
