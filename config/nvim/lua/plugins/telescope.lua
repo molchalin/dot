@@ -8,9 +8,7 @@ return {
     { "ge",        "<cmd>Telescope diagnostics<CR>", remap = false },
     { "<leader>r", "<cmd>Telescope resume<CR>",      remap = false },
   },
-  config = function()
-    require("telescope").setup()
-  end,
+  opts = {},
   dependencies = {
     "nvim-lua/plenary.nvim",
     {

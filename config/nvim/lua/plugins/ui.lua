@@ -10,38 +10,34 @@ return {
   {
     "mvllow/modes.nvim",
     event = "BufEnter",
-    config = function()
-      require('modes').setup({
-        line_opacity = 0.1,
-      })
-    end
+    opts = {
+      line_opacity = 0.1,
+    },
   },
   {
     "nvim-lualine/lualine.nvim",
-    config = function()
-      require("lualine").setup {
-        options = {
-          theme = 'gruvbox-material',
-        },
-        sections = {
-          lualine_a = {'mode'},
-          lualine_b = {'branch', 'diff', 'diagnostics'},
-          lualine_c = {{'filename', path = 1}},
-          lualine_x = {'encoding', 'fileformat', 'filetype'},
-          lualine_y = {'progress'},
-          lualine_z = {'location'}
-        },
-        tabline = {
-          lualine_a = {
-            {
-              'tabs',
-              mode = 2,
-              max_length = vim.o.columns,
-            },
+    opts = {
+      options = {
+        theme = 'gruvbox-material',
+      },
+      sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'branch', 'diff', 'diagnostics'},
+        lualine_c = {{'filename', path = 1}},
+        lualine_x = {'encoding', 'fileformat', 'filetype'},
+        lualine_y = {'progress'},
+        lualine_z = {'location'}
+      },
+      tabline = {
+        lualine_a = {
+          {
+            'tabs',
+            mode = 2,
+            max_length = vim.o.columns,
           },
         },
-      }
-    end,
+      },
+    },
   },
   {
     "edkolev/tmuxline.vim",
@@ -102,30 +98,21 @@ return {
       end,
       attach_to_untracked = false,
     },
-    config = function(_, opts)
-      require('gitsigns').setup(opts)
-    end
   },
   {
     "nvim-tree/nvim-web-devicons",
-    config = function()
-      require("nvim-web-devicons").setup({
-        color_icons = false,
-      })
-    end
+    opts = {
+      color_icons = false,
+    },
   },
   {
     "echasnovski/mini.trailspace",
     version = false,
-    config = function()
-      require("mini.trailspace").setup()
-    end
+    opts = {},
   },
   {
     'echasnovski/mini.indentscope',
     version = false,
-    config = function()
-      require("mini.indentscope").setup()
-    end
+    opts = {},
   },
 }
