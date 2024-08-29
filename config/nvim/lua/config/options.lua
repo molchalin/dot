@@ -42,6 +42,12 @@ else
 end
 vim.cmd([[ highlight ColorColumn guibg=DarkMagenta ]])
 
+-- highlight 2+ empty lines
+vim.cmd([[
+call matchadd('EmptyLines', '\n\n\zs\n\+\ze')
+highlight EmptyLines guibg=Red
+]])
+
 -- vim supports checking spelling only in comments when syntax is on.
 -- so it's safe to enable it everywhere.
 vim.opt.spell = true
