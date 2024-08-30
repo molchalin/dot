@@ -26,4 +26,9 @@ return {
     'stevearc/oil.nvim',
     opts = {},
   },
+  {
+    'echasnovski/mini.splitjoin',
+    version = false,
+    opts = {},
+  },
 }

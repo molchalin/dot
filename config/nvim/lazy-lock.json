@@ -13,6 +13,7 @@
   "lualine.nvim": { "branch": "master", "commit": "0a5a66803c7407767b799067986b4dc3036e1983" },
   "markdown-preview.nvim": { "branch": "master", "commit": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee" },
   "mini.indentscope": { "branch": "main", "commit": "d2e7b5f0260789c325f92ab3421ff9884ea01842" },
+  "mini.splitjoin": { "branch": "main", "commit": "3e92f6764e770ba392325cad3a4497adcada695f" },
   "mini.trailspace": { "branch": "main", "commit": "c48d74a3cecf93f5adc6a7518c7ced60e6302895" },
   "modes.nvim": { "branch": "main", "commit": "4035a46aaabe43faf1b54740575af9dd5bb03809" },
   "nvim-cmp": { "branch": "main", "commit": "5260e5e8ecadaf13e6b82cf867a909f54e15fd07" },
