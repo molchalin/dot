@@ -50,26 +50,36 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "proto", "cpp", "c", "java" },
 })
 
-vim.api.nvim_create_autocmd("WinEnter", {
+vim.api.nvim_create_autocmd("BufWinEnter", {
   group = vim.api.nvim_create_augroup("CustomHighlight", { clear = true }),
   callback = function(ev)
-  -- highlight 2+ empty lines
-  vim.cmd([[
-    call matchadd('EmptyLines', '\n\n\zs\n\+\ze')
-    highlight EmptyLines guibg=Red
-  ]])
+    -- highlight 2+ empty lines
+    if vim.w.empty_lines_id == nil then
+      vim.w.empty_lines_id = vim.fn.matchadd("EmptyLines", "\\n\\n\\zs\\n\\+\\ze")
+    end
 
-  -- smart color column highlight
-  if string.find(vim.fn.hostname(), "quobyte") then
-    vim.opt.textwidth = 100
-    vim.cmd([[ call matchadd('ColorColumn', '\%101v.') ]])
-  else
-    vim.opt.textwidth = 120
-    vim.cmd([[ call matchadd('ColorColumn', '\%121v.') ]])
-  end
-  vim.cmd([[ highlight ColorColumn guibg=DarkMagenta ]])
+    local textwidth = 120
+    if string.find(vim.fn.hostname(), "quobyte") then
+      if vim.bo[ev.buf].filetype == 'java' then
+        textwidth = 100
+      else
+        textwidth = 80
+      end
+    end
+
+    -- smart color column highlight
+    if vim.w.color_column_id ~= nil then
+      vim.fn.matchdelete(vim.w.color_column_id)
+    end
+    vim.w.color_column_id = vim.fn.matchadd("ColorColumn", "\\%" .. textwidth + 1 .. "v.")
+    vim.bo[ev.buf].textwidth = textwidth
   end,
 })
+
+vim.cmd([[
+  highlight EmptyLines guibg=Red
+  highlight ColorColumn guibg=DarkMagenta
+]])
 
 vim.diagnostic.config({
   virtual_text = {
