@@ -106,13 +106,12 @@ return {
     },
   },
   {
-    "echasnovski/mini.trailspace",
-    version = false,
-    opts = {},
-  },
-  {
     'echasnovski/mini.indentscope',
     version = false,
-    opts = {},
+    opts = {
+      options = {
+        try_as_border = true,
+      },
+    },
   },
 }

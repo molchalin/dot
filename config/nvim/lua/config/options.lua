@@ -50,12 +50,17 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "proto", "cpp", "c", "java" },
 })
 
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  group = vim.api.nvim_create_augroup("CustomHighlight", { clear = true }),
+custom_highlight_augroup = vim.api.nvim_create_augroup("CustomHighlight", { clear = true })
+
+vim.api.nvim_create_autocmd({"BufEnter", "WinEnter", "InsertLeave"}, {
+  group = custom_highlight_augroup,
   callback = function(ev)
     -- highlight 2+ empty lines
     if vim.w.empty_lines_id == nil then
-      vim.w.empty_lines_id = vim.fn.matchadd("EmptyLines", "\\n\\n\\zs\\n\\+\\ze")
+      vim.w.empty_lines_id = vim.fn.matchadd("FormatProblem", [[\n\n\zs\n\+\ze]])
+    end
+    if vim.w.trailing_space_id == nil then
+      vim.w.trailing_space_id = vim.fn.matchadd("FormatProblem", [[\s\+$]])
     end
 
     local textwidth = 120
@@ -76,9 +81,25 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   end,
 })
 
+vim.api.nvim_create_autocmd({"BufLeave", "WinLeave", "InsertEnter"}, {
+  group = custom_highlight_augroup,
+  callback = function(ev)
+    local delete_if_not_empty = function(id_name)
+      if vim.w[id_name] ~= nil then
+        vim.fn.matchdelete(vim.w[id_name])
+        vim.w[id_name] = nil
+      end
+    end
+
+    delete_if_not_empty("empty_lines_id")
+    delete_if_not_empty("trailing_space_id")
+    delete_if_not_empty("color_column_id")
+  end,
+})
+
 vim.cmd([[
-  highlight EmptyLines guibg=Red
-  highlight ColorColumn guibg=DarkMagenta
+  highlight FormatProblem guibg=#ea6962 " gruvbox-material red
+  highlight ColorColumn   guibg=#945e80 " gruvbox-material purple
 ]])
 
 vim.diagnostic.config({
