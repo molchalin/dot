@@ -1,36 +1,42 @@
 vim.g.mapleader = ","
 
-vim.keymap.set("n", "<leader>e",  ":tabedit<space>", { remap = false })
-vim.keymap.set("n", "<leader>q",  ":wq<cr>", { remap = false })
+local noremap = function(mode, lhs, rhs, opts)
+  if opts == nil then
+    opts = {}
+  end
+  opts.remap = false
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
 
--- don't jump to next match
-vim.keymap.set("n", "*",          "*``", { remap = false })
+noremap("n", "<leader>e",  "<cmd>tabedit<space>")
+noremap("n", "<leader>q",  "<cmd>wq<cr>")
 
--- move blocks of code in visual mode
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { remap = false })
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { remap = false })
+noremap("n", "*", "*``", { desc = "don't jump to next match" })
 
--- don't put cursor at the end of the line after J
-vim.keymap.set("n", "J", "mzJ`z", { remap = false })
+noremap("v", "J", ":m '>+1<CR>gv=gv", { desc = "move blocks of code in visual" })
+noremap("v", "K", ":m '<-2<CR>gv=gv", { desc = "move blocks of code in visual" })
+
+noremap("n", "J", "mzJ`z", { desc = "don't put cursor at the end of the line after J" })
 
 -- put cursor in the middle of the screen when jumping
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { remap = false })
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { remap = false })
-vim.keymap.set("n", "n", "nzz", { remap = false })
-vim.keymap.set("n", "N", "Nzz", { remap = false })
-vim.keymap.set("n", "G", "Gzz", { remap = false })
+noremap("n", "<C-d>", "<C-d>zz")
+noremap("n", "<C-u>", "<C-u>zz")
+noremap("n", "n", "nzz")
+noremap("n", "N", "Nzz")
+noremap("n", "G", "Gzz")
 
--- replace word under the cursor
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { remap = false })
+noremap(
+  "n",
+  "<leader>s",
+  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+  {desc = "replace word under the cursor"}
+)
 
--- paste, but without saving replaced data
-vim.keymap.set("x", "<leader>p", "\"_dP", { remap = false })
-vim.keymap.set("x", "<leader>d", "\"_d", { remap = false })
-vim.keymap.set("n", "<leader>d", "\"_d", { remap = false })
+noremap("x", "<leader>p", "\"_dP", { desc = "replace, but don't save to buffer" })
+noremap({"n", "x"}, "<leader>d", "\"_d", { desc = "delete, but don't save to buffer" })
 
--- quicklist
-vim.keymap.set("n", "cn", ":cnext<cr>", { remap = false })
-vim.keymap.set("n", "cp", ":cprev<cr>", { remap = false })
+noremap("n", "cn", "<cmd>cnext<cr>", { desc = "next quicklist entry" })
+noremap("n", "cp", "<cmd>cprev<cr>", { desc = "prev quicklist entry" })
 
-vim.keymap.set("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { remap = false, desc = "add comment below"})
-vim.keymap.set("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { remap = false, desc = "add comment above"})
+noremap("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment below" })
+noremap("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment above" })
