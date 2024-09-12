@@ -8,7 +8,7 @@ gerrit_email="andrei@quobyte.com"
 get_domain() {
    local protocol=$(echo "${origin_url}" | sed 's/\([a-z]*\):.*/\1/')
    if [[ $protocol == "https" ]] || [[ $protocol == "ssh" ]]; then
-       origin_domain=$(echo "${origin_url}" | sed 's~.*//\([^/]\+\)/.*~\1~' | sed 's~:[[:digit:]]\+~~')
+       origin_domain=$(echo "${origin_url}" | sed 's~.*//\([^/]\+\)/.*~\1~' | sed 's~:[[:digit:]]\+~~' | sed 's/^.*@//')
    else
        origin_domain=$(echo "${origin_url}" | sed 's/.*git@\(.*\):.*/\1/')
    fi
@@ -22,7 +22,7 @@ set_user(){
         "gerrit.corp.quobyte.com")
             git config user.email ${gerrit_email}
         ;;
-        *) 
+        *)
             printf "%b" "\e[33m WARNING: no git user has been set for this domain '${origin_domain}' in the post-checkout hook \e[39m\n"
         ;;
     esac
