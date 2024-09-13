@@ -8,6 +8,11 @@ system("ensure-gocryptfs-mounted");
 
 my $path = "~/cryptfs/breakfree";
 
+if (@ARGV && $ARGV[0] == 'edit') {
+    system("$ENV{EDITOR} $path");
+}
+
+
 my @files = split "\n", `ls $path`;
 
 my $maxlength = max(map { length } @files);
@@ -24,6 +29,7 @@ for my $file (@files) {
         day => $3,
         hour => $4,
         minute => $5,
+        time_zone => 'Europe/Berlin',
     );
 
     my $dur = DateTime->now->epoch - $dt->epoch;

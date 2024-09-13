@@ -13,19 +13,24 @@ function today-note() {
         touch $file
         date "+%H:%M" >> $file
     fi
-    echo $file
+    $EDITOR $file
 }
 
 
 function random-note() {
     notes=( $(find $NOTES_BASE -ipath '*.md' ) )
     number=$(( $RANDOM % ${#notes[@]}))
-    echo ${notes[number]}
+    bat ${notes[number]}
 }
 
 function last-note() {
     note=$(find $NOTES_BASE -ipath '*.md' | sort | tail -n 1 )
-    echo $note
+    bat $note
+}
+
+function feed() {
+    notes=$(find $NOTES_BASE -ipath '*.md' | sort )
+    bat $notes
 }
 
 case $1 in
@@ -37,6 +42,9 @@ case $1 in
         ;;
     random)
         random-note
+        ;;
+    feed)
+        feed
         ;;
     *)
         printf "unknown command %q" $1
