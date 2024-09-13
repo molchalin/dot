@@ -8,7 +8,7 @@ local noremap = function(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-noremap("n", "<leader>e",  "<cmd>tabedit<space>")
+noremap("n", "<leader>e",  ":tabedit<space>")
 noremap("n", "<leader>q",  "<cmd>wq<cr>")
 
 noremap("n", "*", "*``", { desc = "don't jump to next match" })
