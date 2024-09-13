@@ -18,6 +18,10 @@ plugins=(
   auto-notify
 )
 
+ZSH_WEB_SEARCH_ENGINES=(
+  cambridge "https://dictionary.cambridge.org/dictionary/english/"
+)
+
 source $ZSH/oh-my-zsh.sh
 
 export PATH=$HOME/.local/bin/:$PATH
@@ -25,7 +29,6 @@ export PATH=$HOME/.local/bin/:$PATH
 if go env GOPATH 2>&1 > /dev/null; then
     export PATH=$PATH:$(go env GOPATH)/bin/
 fi
-
 
 alias vim=nvim
 alias vi=vim
