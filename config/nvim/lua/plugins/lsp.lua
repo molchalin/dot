@@ -51,6 +51,7 @@ local on_attach = function(c, b)
   vim.keymap.set('n', 'gK', vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set('n', 'rn', vim.lsp.buf.rename,         bufopts)
   vim.keymap.set('n', 'ca', vim.lsp.buf.code_action,    bufopts)
+  vim.keymap.set('v', 'gf', vim.lsp.buf.format,         bufopts)
   vim.keymap.set('n', 'cl', vim.lsp.codelens.run,       bufopts)
   vim.keymap.set('n', 'gl', vim.diagnostic.open_float,  bufopts)
 
@@ -129,6 +130,13 @@ return {
                   name = "JavaSE-17",
                   path = "/usr/lib/jvm/java-17-openjdk/",
                 },
+              },
+            },
+            format = {
+              enabled = os.getenv("NVIM_JAVA_STYLE") ~= "",
+              settings = {
+                profile = os.getenv("NVIM_JAVA_STYLE_PROFILE"),
+                url = os.getenv("NVIM_JAVA_STYLE"),
               },
             },
           },
