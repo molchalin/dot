@@ -40,3 +40,4 @@ noremap("n", "cp", "<cmd>cprev<cr>", { desc = "prev quicklist entry" })
 
 noremap("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment below" })
 noremap("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment above" })
+noremap("n", "<leader>td", "<cmd>normal gcOTODO(" .. vim.env.USER .. "): <cr>a", { desc = "todo comment"})
