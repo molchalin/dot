@@ -167,7 +167,7 @@ return {
       {"<leader>ga", ":GoAlternate!<cr>",     remap = false },
     },
     build = function()
-      vim.cmd[[ :GoUpdateBinaries ]]
+      vim.cmd(":GoUpdateBinaries")
     end
   },
   {

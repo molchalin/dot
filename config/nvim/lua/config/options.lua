@@ -97,10 +97,8 @@ vim.api.nvim_create_autocmd({"BufLeave", "WinLeave", "InsertEnter"}, {
   end,
 })
 
-vim.cmd([[
-  highlight FormatProblem guibg=#ea6962 " gruvbox-material red
-  highlight ColorColumn   guibg=#945e80 " gruvbox-material purple
-]])
+vim.cmd.highlight({ "FormatProblem", "guibg=#ea6962" }) -- gruvbox-material red
+vim.cmd.highlight({ "ColorColumn",   "guibg=#945e80" }) -- gruvbox-material purple
 
 vim.diagnostic.config({
   virtual_text = {
