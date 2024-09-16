@@ -8,7 +8,7 @@ ensure-gocryptfs-mounted;
 NOTES_BASE=~/cryptfs/notes
 
 function today-note() {
-    file=$(printf "%s/%s" $NOTES_BASE $(date '+%Y-%m-%d.md'))
+    file=$(printf "%s/%s" $NOTES_BASE $(date '+%F.md'))
     if [[ ! -e $file ]]; then
         touch $file
         date "+%H:%M" >> $file

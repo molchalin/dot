@@ -41,3 +41,11 @@ noremap("n", "cp", "<cmd>cprev<cr>", { desc = "prev quicklist entry" })
 noremap("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment below" })
 noremap("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment above" })
 noremap("n", "<leader>td", "<cmd>normal gcOTODO(" .. vim.env.USER .. "): <cr>a", { desc = "todo comment"})
+
+noremap("n", "<leader>ad", function()
+  return "<cmd>normal a" .. vim.fn.strftime("%F") .. "<cr>"
+end, { desc = "append date", expr = true })
+
+noremap("n", "<leader>at", function()
+  return "<cmd>normal a" .. vim.fn.strftime("%H:%M") .. "<cr>"
+end, { desc = "append time", expr = true })
