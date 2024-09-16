@@ -47,7 +47,7 @@ fzf:
 	$$(brew --prefix)/opt/fzf/install --no-update-rc --completion --key-bindings
 
 config/kitty/gruvbox-material-dark-medium.conf:
-	curl https://raw.githubusercontent.com/selenebun/gruvbox-material-kitty/main/colors/gruvbox-material-dark-medium.conf -o config/kitty/gruvbox-material-dark-medium.conf
+	kitten themes --dump-theme 'Gruvbox Material Dark Medium' > config/kitty/gruvbox-material-dark-medium.conf
 
 config/bat/themes/gruvbox-material-dark.tmTheme:
 	mkdir -p config/bat/themes
@@ -64,7 +64,6 @@ bin/gocryptfs:
 	popd && \
 	mv /tmp/gocryptfs/gocryptfs bin/gocryptfs && \
 	rm -rf /tmp/gocryptfs
-
 
 .PHONY: clean
 clean:
