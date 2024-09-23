@@ -8,7 +8,13 @@ return {
     { "ge",        "<cmd>Telescope diagnostics<CR>", remap = false },
     { "<leader>r", "<cmd>Telescope resume<CR>",      remap = false },
   },
-  opts = {},
+  opts = {
+    defaults = {
+      file_ignore_patterns = {
+        "thirdparty/",
+      },
+    },
+  },
   dependencies = {
     "nvim-lua/plenary.nvim",
     {
