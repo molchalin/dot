@@ -34,6 +34,7 @@ ifndef OMZ
 	git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git "$$HOME/.oh-my-zsh/plugins/fast-syntax-highlighting"
 	git clone https://github.com/MichaelAquilina/zsh-you-should-use.git "$$HOME/.oh-my-zsh/plugins/you-should-use"
 	git clone https://github.com/MichaelAquilina/zsh-auto-notify.git "$$HOME/.oh-my-zsh/plugins/auto-notify"
+	git clone https://github.com/zsh-users/zsh-completions "$$HOME/.oh-my-zsh/plugins/zsh-completions"
 	rm ~/.zshrc
 endif
 
