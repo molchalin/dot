@@ -36,6 +36,14 @@ vim.opt.completeopt = "menu,menuone,noselect"
 vim.opt.spell = true
 vim.opt.spelllang:append { "ru", "de" }
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("DisableSpellCheck", { clear = true }),
+  callback = function(ev)
+    vim.opt_local.spell = false
+  end,
+  pattern = { "qf" },
+})
+
 vim.filetype.add({
   filename ={
     ["Jenkinsfile"] = "groovy",
