@@ -50,11 +50,28 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "proto", "cpp", "c", "java" },
 })
 
+local matchdelete_if_not_empty = function(id_name)
+  if vim.w[id_name] ~= nil then
+    vim.fn.matchdelete(vim.w[id_name])
+    vim.w[id_name] = nil
+  end
+end
+
+local clear_all_matches = function()
+  matchdelete_if_not_empty("empty_lines_id")
+  matchdelete_if_not_empty("trailing_space_id")
+  matchdelete_if_not_empty("color_column_id")
+end
+
 custom_highlight_augroup = vim.api.nvim_create_augroup("CustomHighlight", { clear = true })
 
 vim.api.nvim_create_autocmd({"BufEnter", "WinEnter", "InsertLeave"}, {
   group = custom_highlight_augroup,
   callback = function(ev)
+    if vim.bo[ev.buf].filetype == 'qf' or vim.bo[ev.buf].filetype == 'help' then
+      clear_all_matches()
+      return
+    end
     -- highlight 2+ empty lines
     if vim.w.empty_lines_id == nil then
       vim.w.empty_lines_id = vim.fn.matchadd("FormatProblem", [[\n\n\zs\n\+\ze]])
@@ -73,9 +90,7 @@ vim.api.nvim_create_autocmd({"BufEnter", "WinEnter", "InsertLeave"}, {
     end
 
     -- smart color column highlight
-    if vim.w.color_column_id ~= nil then
-      vim.fn.matchdelete(vim.w.color_column_id)
-    end
+    matchdelete_if_not_empty("color_column_id")
     vim.w.color_column_id = vim.fn.matchadd("ColorColumn", "\\%" .. textwidth + 1 .. "v.")
     vim.bo[ev.buf].textwidth = textwidth
   end,
@@ -84,16 +99,7 @@ vim.api.nvim_create_autocmd({"BufEnter", "WinEnter", "InsertLeave"}, {
 vim.api.nvim_create_autocmd({"BufLeave", "WinLeave", "InsertEnter"}, {
   group = custom_highlight_augroup,
   callback = function(ev)
-    local delete_if_not_empty = function(id_name)
-      if vim.w[id_name] ~= nil then
-        vim.fn.matchdelete(vim.w[id_name])
-        vim.w[id_name] = nil
-      end
-    end
-
-    delete_if_not_empty("empty_lines_id")
-    delete_if_not_empty("trailing_space_id")
-    delete_if_not_empty("color_column_id")
+    clear_all_matches()
   end,
 })
 
