@@ -14,7 +14,6 @@
   "markdown-preview.nvim": { "branch": "master", "commit": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee" },
   "mini.indentscope": { "branch": "main", "commit": "d2e7b5f0260789c325f92ab3421ff9884ea01842" },
   "mini.splitjoin": { "branch": "main", "commit": "3e92f6764e770ba392325cad3a4497adcada695f" },
-  "mini.trailspace": { "branch": "main", "commit": "c48d74a3cecf93f5adc6a7518c7ced60e6302895" },
   "modes.nvim": { "branch": "main", "commit": "4035a46aaabe43faf1b54740575af9dd5bb03809" },
   "nvim-cmp": { "branch": "main", "commit": "5260e5e8ecadaf13e6b82cf867a909f54e15fd07" },
   "nvim-jdtls": { "branch": "master", "commit": "99e4b2081de1d9162666cc7b563cbeb01c26b66b" },
@@ -32,6 +31,7 @@
   "vim-sensible": { "branch": "master", "commit": "3e878abfd6ddc6fb5dba48b41f2b72c3a2f8249f" },
   "vim-sleuth": { "branch": "master", "commit": "1cc4557420f215d02c4d2645a748a816c220e99b" },
   "vim-snippets": { "branch": "master", "commit": "a1f605c302c6a6b2346de5eca245c0406fef13ba" },
+  "vim-speeddating": { "branch": "master", "commit": "c17eb01ebf5aaf766c53bab1f6592710e5ffb796" },
   "vim-surround": { "branch": "master", "commit": "3d188ed2113431cf8dac77be61b842acb64433d9" },
   "vim-wordmotion": { "branch": "master", "commit": "81d9bd298376ab0dc465c85d55afa4cb8d5f47a1" }
 }

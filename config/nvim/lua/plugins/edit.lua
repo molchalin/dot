@@ -31,4 +31,8 @@ return {
     version = false,
     opts = {},
   },
+  {
+    'tpope/vim-speeddating',
+    event = "VeryLazy",
+  },
 }
