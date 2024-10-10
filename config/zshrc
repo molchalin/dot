@@ -20,6 +20,7 @@ plugins=(
 
 ZSH_WEB_SEARCH_ENGINES=(
   cambridge "https://dictionary.cambridge.org/dictionary/english/"
+  verbformen "https://www.verbformen.ru/?w="
 )
 
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
