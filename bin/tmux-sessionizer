@@ -1,46 +1,47 @@
 #!/usr/bin/env bash
 
-PROJECTS="$HOME/Development"
+export PROJECTS="$HOME/Development/"
 ORDER_FILE="$HOME/.local/state/tmux-sessionizer/order"
 mkdir -p "$HOME/.local/state/tmux-sessionizer/"
 touch $ORDER_FILE
 
 if [[ -n $TMUX ]]; then
-    current=$(tmux display-message -p '#S')
+    current=$(tmux display-message -p '#{session_path}')
 fi
 
-selected=$(\
+selected_name=$(\
     fd . $PROJECTS --type d --max-depth 1 \
-    | sed "s;$PROJECTS/;;" \
-    | sed 's;/$;;' \
     | cat $ORDER_FILE - \
+    | sed 's;/$;;' \
     | awk '!x[$0]++' \
     | grep -v -Fx "$current" \
-    | fzf --border none --preview "tree -C -L 2 $PROJECTS/{}")
+    | perl -anE 'if (index($_, $ENV{PROJECTS}) == 0) { print(substr($_, length($ENV{PROJECTS}))) } elsif (index($_, $ENV{HOME}) == 0) { print("~" . substr($_, length($ENV{HOME})))} else { print($_) }' \
+    | fzf --border none)
 
-if [[ -z $selected ]]; then
+if [[ -z $selected_name ]]; then
     exit 0
 fi
 
+selected_path=$(echo "$selected_name" | perl -anE 'if (index($_, "/") == 0) { print $_ } elsif (index($_, "~") == 0) { print($ENV{HOME} . substr($_, 1)) } else { print("$ENV{PROJECTS}$_") }')
+
 TMP_FILE="/tmp/tmux-sessionizer-buffer"
 
-echo "$selected" \
+echo "$selected_path" \
     | cat - $ORDER_FILE \
     | awk '!x[$0]++' \
-    > $TMP_FILE 
-
+    > $TMP_FILE
 
 mv $TMP_FILE $ORDER_FILE
 
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected -c $PROJECTS/$selected
+    tmux new-session -s "$selected_name" -c "$selected_path"
     exit 0
 fi
 
-if ! tmux has-session -t=$selected 2> /dev/null; then
-    tmux new-session -ds $selected -c $PROJECTS/$selected
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected_path"
 fi
 
-tmux switch-client -t $selected
+tmux switch-client -t "$selected_name"
