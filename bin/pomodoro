@@ -27,13 +27,17 @@ function status-pomodoro() {
         exit 0;
     fi
     echo -n "\ue003 "
-    date --date "@${RES}" '+%M:%S'
+    HOURS=$(date --universal --date "@${RES}" '+%-H')
+    if [[ $HOURS -gt 0 ]]; then
+        date --universal --date "@${RES}" '+%H:%M:%S'
+        exit 0;
+    fi
+    date --universal --date "@${RES}" '+%M:%S'
 }
 
 function edit-pomodoro() {
     $EDITOR $LOG_FILE
 }
-
 
 case $1 in
     start)
