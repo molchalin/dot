@@ -109,6 +109,11 @@ return {
     'echasnovski/mini.indentscope',
     version = false,
     opts = {
+      draw = {
+        animation = function(a, b)
+          return 0
+        end
+      },
       options = {
         try_as_border = true,
       },
