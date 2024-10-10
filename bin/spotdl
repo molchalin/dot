@@ -1,0 +1,28 @@
+#!/bin/bash
+
+URL=$(echo "$1" | perl -anE '/(.*)\?.*$/; say $1')
+echo "Downloading $URL";
+
+TMPDIR=$RANDOM
+mkdir "$TMPDIR"
+pushd "$TMPDIR"
+
+docker run --rm -v $(pwd):/music spotdl/spotify-downloader download "$URL" | tee output
+popd
+
+ALBUM_NAME=$(cat "$TMPDIR/output" | fgrep 'Found' | perl -anE '/Found .* in (.*) \(Album\)/; say $1')
+echo "album: $ALBUM_NAME"
+rm "$TMPDIR/output"
+
+ARTIST_NAME=$(ls "$TMPDIR" | head -n 1 | cut -d '-' -f 1)
+echo "artist: $ARTIST_NAME"
+
+DIR_NAME="${ARTIST_NAME}- $ALBUM_NAME"
+echo "$DIR_NAME"
+
+mv "$TMPDIR" "$DIR_NAME"
+
+if ls /Volumes/WALKMAN/ > /dev/null; then
+  mv "$DIR_NAME" /Volumes/WALKMAN/MUSIC/
+  fd -H "^\._" /Volumes/WALKMAN --exec rm "{}" \;
+fi
