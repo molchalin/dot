@@ -31,17 +31,15 @@ vim.opt.confirm = true
 -- omnifunc
 vim.opt.completeopt = "menu,menuone,noselect"
 
--- vim supports checking spelling only in comments when syntax is on.
--- so it's safe to enable it everywhere.
-vim.opt.spell = true
 vim.opt.spelllang:append { "ru", "de" }
 
-vim.api.nvim_create_autocmd("FileType", {
+-- vim supports checking spelling only in comments when syntax is on.
+-- so it's safe to enable it everywhere.
+vim.api.nvim_create_autocmd({"BufEnter", "BufLeave"}, {
   group = vim.api.nvim_create_augroup("DisableSpellCheck", { clear = true }),
   callback = function(ev)
-    vim.opt_local.spell = false
+    vim.opt_local.spell = vim.bo[ev.buf].modifiable
   end,
-  pattern = { "qf" },
 })
 
 vim.filetype.add({
@@ -76,7 +74,7 @@ custom_highlight_augroup = vim.api.nvim_create_augroup("CustomHighlight", { clea
 vim.api.nvim_create_autocmd({"BufEnter", "WinEnter", "InsertLeave"}, {
   group = custom_highlight_augroup,
   callback = function(ev)
-    if vim.bo[ev.buf].filetype == 'qf' or vim.bo[ev.buf].filetype == 'help' then
+    if not vim.bo[ev.buf].modifiable then
       clear_all_matches()
       return
     end
