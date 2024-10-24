@@ -35,7 +35,7 @@ vim.opt.spelllang:append { "ru", "de" }
 
 -- vim supports checking spelling only in comments when syntax is on.
 -- so it's safe to enable it everywhere.
-vim.api.nvim_create_autocmd({"BufEnter", "BufLeave"}, {
+vim.api.nvim_create_autocmd({"BufWinEnter", "BufWinLeave"}, {
   group = vim.api.nvim_create_augroup("DisableSpellCheck", { clear = true }),
   callback = function(ev)
     vim.opt_local.spell = vim.bo[ev.buf].modifiable
