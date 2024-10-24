@@ -116,7 +116,11 @@ return {
         filetypes = {"java"},
         cmd = { 'jdtls' },
         root_dir = function(fname)
-          return require("lspconfig/util").root_pattern(".git")(fname) .. "/eclipse"
+          local root = require("lspconfig/util").root_pattern(".git")(fname)
+          if root == nil then
+            return nil
+          end
+          return root  .. "/eclipse"
         end,
         settings = {
           java = {
