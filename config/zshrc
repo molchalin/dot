@@ -37,6 +37,14 @@ alias vi=vim
 alias v=vi
 alias cat=bat
 
+REAL_SSH=$(which ssh)
+
+function ssh() {
+    tmux rename-window -t ${TMUX_PANE} "ssh $@"
+    $REAL_SSH "$@"
+    tmux setw automatic-rename
+}
+
 if [[ "$(uname)" == 'Linux' ]]; then
     alias pbcopy='xclip -selection clipboard'
     alias pbpaste='xclip -selection clipboard -o'
