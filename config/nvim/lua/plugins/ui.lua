@@ -47,27 +47,30 @@ return {
     end,
 
     config = function()
+      local format_mode = function(prefix, copy, normal)
+        return "#{?client_prefix," .. prefix .. ",#{?pane_in_mode," .. copy .. "," .. normal .. "}}"
+      end
       vim.g.tmuxline_preset = {
-        a = '#S',
-        -- b = '',
+        a = {format_mode("PREFIX", "COPY  ", "NORMAL")},
+        b = {'\\ueb46  #S'},
         -- c = '',
         win = {'#I', '\\uea83#(tmux-realpath "#{session_path}" "#{pane_current_path}")', '#W'},
         cwin = {'#I', '\\ueaf6#(tmux-realpath "#{session_path}" "#{pane_current_path}")', '#W'},
         x = {
           "#(pomodoro status)",
-          "#(~/.config/tmux/plugins/tmux-weather/scripts/forecast.sh)",
+          "#{forecast}",
           '%Y-%m-%d',
           '%H:%M'
         },
-        y = { '#(~/.config/tmux/plugins/tmux-ping/scripts/ping_status.sh)ms' },
+        y = { '#{ping}ms' },
         z = "#(whoami)",
         options = {
           ["status-justify"] = 'left',
         },
       }
       vim.g.tmuxline_theme = {
-        a = {'#282828', '#a89984', 'bold'},
-        b = {'#ddc7a1', '#32302f'},
+        a = {'#282828', format_mode("blue", "yellow", "#a89984"), 'bold'},
+        b = {'#ddc7a1', '#504945'},
         c = {'#928374', '#32302f'},
         x = {'#ddc7a1', '#3a3735'},
         y = {'#ddc7a1', '#504945'},
@@ -78,7 +81,10 @@ return {
         pane = { '#504945' },
         cpane = { '#a89984' },
       }
-      vim.cmd(":Tmuxline")
+      if vim.fn.filereadable(vim.fn.expand("~/.config/tmux/tmuxline.conf")) == 0 then
+        vim.cmd(":Tmuxline")
+        vim.cmd(":TmuxlineSnapshot! ~/.config/tmux/tmuxline.conf")
+      end
     end,
   },
   {
