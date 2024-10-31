@@ -23,7 +23,6 @@ function status-pomodoro() {
     NOW=$(date "+%s")
     RES=$(( $END - $NOW ))
     if [[ $RES -lt 0 ]]; then
-        echo -n "\ue001"
         exit 0;
     fi
     echo -n "\ue003 "
@@ -32,7 +31,7 @@ function status-pomodoro() {
         date --universal --date "@${RES}" '+%H:%M:%S'
         exit 0;
     fi
-    date --universal --date "@${RES}" '+%M:%S'
+    date --universal --date "@${RES}" '+%M:%S  '
 }
 
 function edit-pomodoro() {
