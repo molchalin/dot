@@ -37,13 +37,18 @@ alias vim=nvim
 alias vi=vim
 alias v=vi
 alias cat=bat
+alias rm="rm -i"
 
 REAL_SSH=$(which ssh)
 
 function ssh() {
-    tmux rename-window -t ${TMUX_PANE} "ssh $@"
+    if [[ -n ${TMUX_PANE} ]]; then
+        tmux rename-window -t ${TMUX_PANE} "ssh $@"
+    fi
     $REAL_SSH "$@"
-    tmux setw automatic-rename
+    if [[ -n ${TMUX_PANE} ]]; then
+        tmux setw automatic-rename
+    fi
 }
 
 if [[ "$(uname)" == 'Linux' ]]; then
