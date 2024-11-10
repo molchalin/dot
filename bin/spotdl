@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -o errexit
+set -o pipefail
+
 URL=$(echo "$1" | perl -anE '/(.*)\?.*$/; say $1')
 echo "Downloading $URL";
 
