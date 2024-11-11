@@ -34,8 +34,8 @@ if go env GOPATH 2>&1 > /dev/null; then
 fi
 
 alias vim=nvim
-alias vi=vim
-alias v=vi
+alias vi=nvim
+alias v=nvim
 alias cat=bat
 alias rm="rm -i"
 
