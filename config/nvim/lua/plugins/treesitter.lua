@@ -25,6 +25,7 @@ return {
       "vim",
       "dot",
       "helm",
+      "comment",
     },
     highlight = { enable = true },
     indent    = { enable = false },
