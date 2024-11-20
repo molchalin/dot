@@ -3,17 +3,18 @@ export EDITOR=nvim
 
 set -o vi
 
-ZSH_THEME="simple"
+ZSH_THEME=""
 plugins=(
   git
   docker
   docker-compose
   golang
+  web-search
+
   zsh-vi-mode
   zsh-autosuggestions
   fast-syntax-highlighting
   you-should-use
-  web-search
   auto-notify
   colored-man-pages
 )
@@ -40,7 +41,7 @@ alias vi=vim
 alias v=vim
 
 if which bat 2>&1 > /dev/null; then
-    alias cat=bat --plain
+    alias cat="bat --plain"
 fi
 
 alias rm="rm -i"
@@ -57,46 +58,66 @@ function ssh() {
     fi
 }
 
+function git-vimdiff () {
+    GIT_EXTERNAL_DIFF=git-diff-wrapper git --no-pager diff $@;
+}
+
 if [[ "$(uname)" == 'Linux' ]]; then
     alias pbcopy='xclip -selection clipboard'
     alias pbpaste='xclip -selection clipboard -o'
+    alias open='xdg-open'
 fi
 
-PROMPT=$PROMPT$'%{%F{166}%}\u03bb%{%f%} '
+# begin PROMPT
+# orange lambda
+__PROMPT_SYMBOL='%F{166}λ%f'
+__PROMPT_TIME='%F{white}%D{%H:%M}%f'
+__PROMPT_RETURN_CODE='%(?..%F{red}?%?%f )'
+__PROMPT_DIR='%F{green}%~%f'
 
-_RPROMPT='%(?..%F{red}?%? )%F{white}%D{%H:%M}'
-RPROMPT=$_RPROMPT
+PROMPT=$__PROMPT_DIR' $(__prompt_git_status)'"$__PROMPT_SYMBOL "
+RPROMPT='$(__prompt_exec_time)'$__PROMPT_RETURN_CODE$__PROMPT_TIME
+
+function preexec() {
+    timer=$SECONDS
+}
+
+function __prompt_exec_time() {
+    local timer_seconds=$(($SECONDS - ${timer:-$SECONDS}))
+    if [ $timer_seconds -gt 0 ]; then
+        echo -n '%F{cyan}~> '
+        local timer_minutes=$(($timer_seconds / 60))
+        local timer_seconds=$(($timer_seconds % 60))
+        if [ $timer_minutes -gt 0 ]; then
+            echo -n "${timer_minutes}m"
+        fi
+        echo -n "${timer_seconds}s%f "
+    fi
+}
+
+function __prompt_git_status() {
+    local message=""
+
+    local unstaged=$(git status --porcelain 2>/dev/null | grep -e "^[MADRCU? ][MADRCU?]")
+
+    local sign='%F{green}✔%f'
+    if [[ -n $unstaged ]]; then
+        sign='%F{red}✗%f'
+    fi
+
+    local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    if [[ -n ${branch} ]]; then
+        message="%B%F{blue}(${branch} $sign%F{blue})%f%b "
+    fi
+
+    echo -n "${message}"
+}
+# end PROMPT
 
 export FZF_DEFAULT_OPTS="--cycle --color=gutter:-1 --pointer '>' --border rounded --highlight-line"
 export FZF_CTRL_R_OPTS='--height=100% --margin 15%'
 
 zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
-
-function git-vimdiff () {
-    GIT_EXTERNAL_DIFF=git-diff-wrapper git --no-pager diff $@;
-}
-
-function preexec() {
-  timer=${timer:-$SECONDS}
-}
-
-function precmd() {
-  if [ $timer ]; then
-    timer_seconds=$(($SECONDS - $timer))
-    _TIMER_PROMPT=''
-    if [ $timer_seconds -gt 0 ]; then
-        _TIMER_PROMPT='%F{cyan}~> '
-        timer_minutes=$(($timer_seconds / 60))
-        timer_seconds=$(($timer_seconds % 60))
-        if [ $timer_minutes -gt 0 ]; then
-            _TIMER_PROMPT=$_TIMER_PROMPT'${timer_minutes}m'
-        fi
-        _TIMER_PROMPT=$_TIMER_PROMPT'${timer_seconds}s '
-    fi
-    RPROMPT=$_TIMER_PROMPT$_RPROMPT
-    unset timer
-  fi
-}
 
 if [ -e ~/.zshrc.local ]; then
     source ~/.zshrc.local
