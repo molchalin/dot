@@ -33,10 +33,16 @@ if go env GOPATH 2>&1 > /dev/null; then
     export PATH=$PATH:$(go env GOPATH)/bin/
 fi
 
-alias vim=nvim
-alias vi=nvim
-alias v=nvim
-alias cat=bat
+if which nvim 2>&1 > /dev/null; then
+    alias vim=nvim
+fi
+alias vi=vim
+alias v=vim
+
+if which bat 2>&1 > /dev/null; then
+    alias cat=bat --plain
+fi
+
 alias rm="rm -i"
 
 REAL_SSH=$(which ssh)
