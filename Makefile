@@ -24,20 +24,6 @@ ifndef BREW
 endif
 	brew bundle --no-upgrade
 
-OMZ := $(shell ls ~/.oh-my-zsh 2> /dev/null)
-.PHONY: oh-my-zsh
-oh-my-zsh:
-ifndef OMZ
-	RUNZSH=no sh -c "$$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	git clone https://github.com/jeffreytse/zsh-vi-mode "$$HOME/.oh-my-zsh/plugins/zsh-vi-mode"
-	git clone https://github.com/zsh-users/zsh-autosuggestions "$$HOME/.oh-my-zsh/plugins/zsh-autosuggestions"
-	git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git "$$HOME/.oh-my-zsh/plugins/fast-syntax-highlighting"
-	git clone https://github.com/MichaelAquilina/zsh-you-should-use.git "$$HOME/.oh-my-zsh/plugins/you-should-use"
-	git clone https://github.com/MichaelAquilina/zsh-auto-notify.git "$$HOME/.oh-my-zsh/plugins/auto-notify"
-	git clone https://github.com/zsh-users/zsh-completions "$$HOME/.oh-my-zsh/plugins/zsh-completions"
-	rm ~/.zshrc
-endif
-
 spell:
 	mkdir -p share/nvim/site/spell
 	curl 'http://ftp.vim.org/pub/vim/runtime/spell/ru.utf-8.spl' -o share/nvim/site/spell/ru.utf-8.spl

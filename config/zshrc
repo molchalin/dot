@@ -1,32 +1,90 @@
-export ZSH=~/.oh-my-zsh
-export EDITOR=nvim
+# begin PROMPT
 
-set -o vi
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git:*' formats '%b%u%c'
+zstyle ':vcs_info:git:*' actionformats '%a %m %b'
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr " %F{green}+"
+zstyle ':vcs_info:*' unstagedstr " %F{red}*"
 
-ZSH_THEME=""
-plugins=(
-  git
-  docker
-  docker-compose
-  golang
-  web-search
+setopt prompt_subst
 
-  zsh-vi-mode
-  zsh-autosuggestions
-  fast-syntax-highlighting
-  you-should-use
-  auto-notify
-  colored-man-pages
-)
+# orange lambda
+__PROMPT_SYMBOL='%F{166}λ%f'
+__PROMPT_TIME='%F{white}%D{%H:%M}%f'
+__PROMPT_RETURN_CODE='%(?..%F{red}?%?%f )'
+__PROMPT_DIR='%F{green}%~%f'
 
+PROMPT=$__PROMPT_DIR' $(__prompt_git_status) '"$__PROMPT_SYMBOL "
+RPROMPT='$(__prompt_exec_time)'$__PROMPT_RETURN_CODE$__PROMPT_TIME
+
+function preexec() {
+    timer=$SECONDS
+}
+
+function precmd() {
+    unset timer
+    vcs_info
+}
+
+function __prompt_exec_time() {
+    local timer_seconds=$(($SECONDS - ${timer:-$SECONDS}))
+    if [ $timer_seconds -gt 0 ]; then
+        echo -n '%F{cyan}~> '
+        local timer_minutes=$(($timer_seconds / 60))
+        local timer_seconds=$(($timer_seconds % 60))
+        if [ $timer_minutes -gt 0 ]; then
+            echo -n "${timer_minutes}m"
+        fi
+        echo -n "${timer_seconds}s%f "
+    fi
+}
+
+function __prompt_git_status() {
+    echo -n "%B%F{blue}${vcs_info_msg_0_}%f%b"
+}
+# end PROMPT
+
+#begin znap
+if [[ ! -e "~/.local/share/zsh/plugins/znap/znap.zsh" ]]; then
+    git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ~/.local/share/zsh/plugins/znap/
+fi
+
+source ~/.local/share/zsh/plugins/znap/znap.zsh
+
+function znap_source() {
+    znap clone $1
+    znap source $(echo $1 | cut  -d '/' -f 2)
+}
+
+znap_source 'git@github.com:jeffreytse/zsh-vi-mode'
+znap_source 'git@github.com:zsh-users/zsh-autosuggestions'
+znap_source 'git@github.com:zdharma-continuum/fast-syntax-highlighting'
+znap_source 'git@github.com:MichaelAquilina/zsh-you-should-use'
+znap_source 'git@github.com:MichaelAquilina/zsh-auto-notify'
+znap_source 'git@github.com:zsh-users/zsh-completions'
+
+znap clone 'git@github.com:ohmyzsh/ohmyzsh'
+znap source ohmyzsh lib/completion
+znap source ohmyzsh lib/history
+znap source ohmyzsh lib/git
+znap source ohmyzsh plugins/git
+znap source ohmyzsh plugins/golang
 ZSH_WEB_SEARCH_ENGINES=(
   cambridge "https://dictionary.cambridge.org/dictionary/english/"
   verbformen "https://www.verbformen.ru/?w="
 )
+znap source ohmyzsh plugins/web-search
 
-fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+fpath+=( ~[zsh-completions]/src )
+znap fpath _docker 'docker completion zsh'
 
-source $ZSH/oh-my-zsh.sh
+#end znap
+
+export EDITOR=nvim
+
+set -o vi
 
 export PATH=$HOME/.local/bin/:$PATH
 
@@ -68,57 +126,21 @@ if [[ "$(uname)" == 'Linux' ]]; then
     alias open='xdg-open'
 fi
 
-# begin PROMPT
-# orange lambda
-__PROMPT_SYMBOL='%F{166}λ%f'
-__PROMPT_TIME='%F{white}%D{%H:%M}%f'
-__PROMPT_RETURN_CODE='%(?..%F{red}?%?%f )'
-__PROMPT_DIR='%F{green}%~%f'
-
-PROMPT=$__PROMPT_DIR' $(__prompt_git_status)'"$__PROMPT_SYMBOL "
-RPROMPT='$(__prompt_exec_time)'$__PROMPT_RETURN_CODE$__PROMPT_TIME
-
-function preexec() {
-    timer=$SECONDS
-}
-
-function __prompt_exec_time() {
-    local timer_seconds=$(($SECONDS - ${timer:-$SECONDS}))
-    if [ $timer_seconds -gt 0 ]; then
-        echo -n '%F{cyan}~> '
-        local timer_minutes=$(($timer_seconds / 60))
-        local timer_seconds=$(($timer_seconds % 60))
-        if [ $timer_minutes -gt 0 ]; then
-            echo -n "${timer_minutes}m"
-        fi
-        echo -n "${timer_seconds}s%f "
-    fi
-}
-
-function __prompt_git_status() {
-    local message=""
-
-    local unstaged=$(git status --porcelain 2>/dev/null | grep -e "^[MADRCU? ][MADRCU?]")
-
-    local sign='%F{green}✔%f'
-    if [[ -n $unstaged ]]; then
-        sign='%F{red}✗%f'
-    fi
-
-    local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    if [[ -n ${branch} ]]; then
-        message="%B%F{blue}(${branch} $sign%F{blue})%f%b "
-    fi
-
-    echo -n "${message}"
-}
-# end PROMPT
-
+# begin FZF
 export FZF_DEFAULT_OPTS="--cycle --color=gutter:-1 --pointer '>' --border rounded --highlight-line"
 export FZF_CTRL_R_OPTS='--height=100% --margin 15%'
 
+#
 zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
 
 if [ -e ~/.zshrc.local ]; then
     source ~/.zshrc.local
 fi
+
+# end FZF
+
+# never ever beep ever
+setopt NO_BEEP
+
+autoload -U compinit
+compinit
