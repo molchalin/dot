@@ -47,7 +47,7 @@ function __prompt_git_status() {
 # end PROMPT
 
 #begin znap
-if [[ ! -e "~/.local/share/zsh/plugins/znap/znap.zsh" ]]; then
+if [[ ! -r "$HOME/.local/share/zsh/plugins/znap/znap.zsh" ]]; then
     git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ~/.local/share/zsh/plugins/znap/
 fi
 
