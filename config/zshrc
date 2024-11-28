@@ -69,6 +69,7 @@ znap clone 'git@github.com:ohmyzsh/ohmyzsh'
 znap source ohmyzsh lib/completion
 znap source ohmyzsh lib/history
 znap source ohmyzsh lib/git
+znap source ohmyzsh lib/directories
 znap source ohmyzsh plugins/git
 znap source ohmyzsh plugins/golang
 ZSH_WEB_SEARCH_ENGINES=(
