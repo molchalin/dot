@@ -2,8 +2,8 @@
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats '%b%u%c'
-zstyle ':vcs_info:git:*' actionformats '%a %m %b'
+zstyle ':vcs_info:git:*' formats '%b%u%c '
+zstyle ':vcs_info:git:*' actionformats '%a %m %b '
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr " %F{green}+"
 zstyle ':vcs_info:*' unstagedstr " %F{red}*"
@@ -16,7 +16,7 @@ __PROMPT_TIME='%F{white}%D{%H:%M}%f'
 __PROMPT_RETURN_CODE='%(?..%F{red}?%?%f )'
 __PROMPT_DIR='%F{green}%~%f'
 
-PROMPT=$__PROMPT_DIR' $(__prompt_git_status) '"$__PROMPT_SYMBOL "
+PROMPT=$__PROMPT_DIR' $(__prompt_git_status)'"$__PROMPT_SYMBOL "
 RPROMPT='$(__prompt_exec_time)'$__PROMPT_RETURN_CODE$__PROMPT_TIME
 
 function preexec() {
