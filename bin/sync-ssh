@@ -2,7 +2,7 @@
 
 while [ 1 ]
 do
-	rsync -P -r -e ssh "$1:/root/sync/" ~/Downloads/
+	rsync --timeout=10 -P -r -e ssh "$1:/root/sync/" ~/Downloads/
     if [ "$?" = "0" ] ; then
         echo "rsync completed normally"
         exit
