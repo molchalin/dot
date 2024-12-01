@@ -1,3 +1,7 @@
+is_mac()     { [[ $OSTYPE == darwin*   ]] }
+is_linux()   { [[ $OSTYPE == linux-gnu ]] }
+has()        { [[ -n "${commands[$1]}" ]] }
+
 # begin PROMPT
 
 autoload -Uz vcs_info
@@ -69,9 +73,13 @@ znap clone 'git@github.com:ohmyzsh/ohmyzsh'
 znap source ohmyzsh lib/completion
 znap source ohmyzsh lib/history
 znap source ohmyzsh lib/git
-znap source ohmyzsh lib/directories
+znap source ohmyzsh lib/directories # ls and cd aliases
 znap source ohmyzsh plugins/git
 znap source ohmyzsh plugins/golang
+
+znap clone 'git@github.com:trapd00r/LS_COLORS'
+znap source LS_COLORS lscolors
+
 ZSH_WEB_SEARCH_ENGINES=(
   cambridge "https://dictionary.cambridge.org/dictionary/english/"
   verbformen "https://www.verbformen.ru/?w="
@@ -83,27 +91,32 @@ znap fpath _docker 'docker completion zsh'
 
 #end znap
 
-export EDITOR=nvim
+export EDITOR=vim
 
 set -o vi
 
 export PATH=$HOME/.local/bin/:$PATH
 
-if go env GOPATH 2>&1 > /dev/null; then
+if has go; then
     export PATH=$PATH:$(go env GOPATH)/bin/
 fi
 
-if which nvim 2>&1 > /dev/null; then
+if has nvim; then
     alias vim=nvim
+    export EDITOR=nvim
 fi
 alias vi=vim
 alias v=vim
 
-if which bat 2>&1 > /dev/null; then
+if has bat; then
     alias cat="bat --plain"
 fi
 
 alias rm="rm -i"
+
+if is_mac; then
+    alias ls="gls --color"
+fi
 
 REAL_SSH=$(which ssh)
 
@@ -121,7 +134,7 @@ function git-vimdiff () {
     GIT_EXTERNAL_DIFF=git-diff-wrapper git --no-pager diff $@;
 }
 
-if [[ "$(uname)" == 'Linux' ]]; then
+if is_linux; then
     alias pbcopy='xclip -selection clipboard'
     alias pbpaste='xclip -selection clipboard -o'
     alias open='xdg-open'
