@@ -12,6 +12,7 @@ brew "fzf"
 brew "jq"
 brew "tree"
 brew "coreutils"
+brew "difftastic"
 
 brew "colima"
 brew "docker"

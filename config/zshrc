@@ -118,6 +118,10 @@ if is_mac; then
     alias ls="gls --color"
 fi
 
+alias gld="git -c diff.external=difft log --ext-diff"
+alias gshd="git -c diff.external=difft show --ext-diff"
+alias gdd="git -c diff.external=difft diff"
+
 REAL_SSH=$(which ssh)
 
 function ssh() {
