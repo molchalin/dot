@@ -57,6 +57,8 @@ fi
 
 source ~/.local/share/zsh/plugins/znap/znap.zsh
 
+znap prompt
+
 function znap_source() {
     znap clone $1
     znap source $(echo $1 | cut  -d '/' -f 2)
@@ -113,6 +115,7 @@ if has bat; then
 fi
 
 alias rm="rm -i"
+alias mv="mv -i"
 
 if is_mac; then
     alias ls="gls --color"
@@ -121,6 +124,8 @@ fi
 alias gld="git -c diff.external=difft log --ext-diff"
 alias gshd="git -c diff.external=difft show --ext-diff"
 alias gdd="git -c diff.external=difft diff"
+
+alias mvprogress="rsync -aP --remove-source-files"
 
 REAL_SSH=$(which ssh)
 
