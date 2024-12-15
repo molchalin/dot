@@ -17,11 +17,6 @@
         },
         "ManualAppUpdateOnly": true,
         "NoDefaultBookmarks": true,
-        "WebsiteFilter": {
-            "Block": [
-                "https://localhost/*"
-            ]
-        },
         "Extensions": {
             "Install": [
                 "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi",
@@ -30,15 +25,6 @@
                 "https://addons.mozilla.org/firefox/downloads/latest/videospeed/latest.xpi",
                 "https://addons.mozilla.org/firefox/downloads/latest/i-dont-care-about-cookies/latest.xpi"
             ]
-        },
-        "SearchEngines": {
-            "PreventInstalls": false,
-            "Remove": [
-                "Amazon.com",
-                "eBay"
-            ],
-            "Default": "DuckDuckGo",
-            "Add": []
         }
     }
 }

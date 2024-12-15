@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+set -o errexit
+set -o pipefail
+
 is_mac()     { [[ $OSTYPE == darwin*   ]] }
 
 PROFILE_PATH=$1
@@ -25,9 +28,17 @@ if is_mac; then
     exit 0;
 fi
 
-# TODO(a.eremeev): make distribution agnostic
-DISTRIBUTION_PATH="/usr/lib/firefox/distribution"
-echo "$DISTRIBUTION_PATH"
+DISTRIBUTION_PATHES=("/usr/lib/firefox/distribution", "/usr/lib64/firefox/distribution")
+
+for e in "${DISTRIBUTION_PATHES[@]}"; do
+    if [[ -e $e ]]; then
+        DISTRIBUTION_PATH=$e
+    fi
+done
+if [[ -z "$DISTRIBUTION_PATH" ]]; then
+    echo "DISTRIBUTION PATH is not found"
+    exit 1;
+fi
 if [[ -h "$DISTRIBUTION_PATH/policies.json" ]]; then
     echo "policies.json already exists. Skipping this step"
 else
