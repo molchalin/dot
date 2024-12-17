@@ -25,6 +25,13 @@ vim.opt.clipboard = "unnamedplus"
 -- disable sound
 vim.opt.errorbells = false
 
+if vim.env.CUSTOM_SSH_SPEEDUP then
+  vim.opt.lazyredraw = true
+end
+
+-- don't show syntax for big lines
+vim.opt.synmaxcol=512
+
 -- ask for confirmation before quit
 vim.opt.confirm = true
 
