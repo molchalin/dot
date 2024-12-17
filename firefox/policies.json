@@ -23,6 +23,7 @@
                 "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi",
                 "https://addons.mozilla.org/firefox/downloads/latest/sidebery/latest.xpi",
                 "https://addons.mozilla.org/firefox/downloads/latest/videospeed/latest.xpi",
+                "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi",
                 "https://addons.mozilla.org/firefox/downloads/latest/i-dont-care-about-cookies/latest.xpi"
             ]
         }
