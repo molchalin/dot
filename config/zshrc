@@ -125,6 +125,9 @@ alias gld="git -c diff.external=difft log --ext-diff"
 alias gshd="git -c diff.external=difft show --ext-diff"
 alias gdd="git -c diff.external=difft diff"
 
+# don't use git checkout
+unalias gco gcb gcB gcd gcm gcor
+
 alias mvprogress="rsync -aP --remove-source-files"
 
 REAL_SSH=$(which ssh)
