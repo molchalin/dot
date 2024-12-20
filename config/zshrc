@@ -2,54 +2,6 @@ is_mac()     { [[ $OSTYPE == darwin*   ]] }
 is_linux()   { [[ $OSTYPE == linux-gnu ]] }
 has()        { [[ -n "${commands[$1]}" ]] }
 
-# begin PROMPT
-
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats '%b%u%c '
-zstyle ':vcs_info:git:*' actionformats '%a %m %b '
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' stagedstr " %F{green}+"
-zstyle ':vcs_info:*' unstagedstr " %F{red}*"
-
-setopt prompt_subst
-
-# orange lambda
-__PROMPT_SYMBOL='%F{166}λ%f'
-__PROMPT_TIME='%F{white}%D{%H:%M}%f'
-__PROMPT_RETURN_CODE='%(?..%F{red}?%?%f )'
-__PROMPT_DIR='%F{green}%~%f'
-
-PROMPT=$__PROMPT_DIR' $(__prompt_git_status)'"$__PROMPT_SYMBOL "
-RPROMPT='$(__prompt_exec_time)'$__PROMPT_RETURN_CODE$__PROMPT_TIME
-
-function preexec() {
-    timer=$SECONDS
-}
-
-function precmd() {
-    unset timer
-    vcs_info
-}
-
-function __prompt_exec_time() {
-    local timer_seconds=$(($SECONDS - ${timer:-$SECONDS}))
-    if [ $timer_seconds -gt 0 ]; then
-        echo -n '%F{cyan}~> '
-        local timer_minutes=$(($timer_seconds / 60))
-        local timer_seconds=$(($timer_seconds % 60))
-        if [ $timer_minutes -gt 0 ]; then
-            echo -n "${timer_minutes}m"
-        fi
-        echo -n "${timer_seconds}s%f "
-    fi
-}
-
-function __prompt_git_status() {
-    echo -n "%B%F{blue}${vcs_info_msg_0_}%f%b"
-}
-# end PROMPT
-
 #begin znap
 if [[ ! -r "$HOME/.local/share/zsh/plugins/znap/znap.zsh" ]]; then
     git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ~/.local/share/zsh/plugins/znap/
@@ -57,6 +9,10 @@ fi
 
 source ~/.local/share/zsh/plugins/znap/znap.zsh
 
+fpath+=( ~/.config/zsh )
+autoload -Uz promptinit
+promptinit
+prompt aufforderung
 znap prompt
 
 function znap_source() {
@@ -167,6 +123,3 @@ fi
 
 # never ever beep ever
 setopt NO_BEEP
-
-autoload -U compinit
-compinit

@@ -1,0 +1,53 @@
+#!/usr/bin/env zsh
+
+function prompt_aufforderung_setup() {
+     autoload -Uz vcs_info
+     zstyle ':vcs_info:*' enable git
+     zstyle ':vcs_info:git:*' formats '%b%u%c '
+     zstyle ':vcs_info:git:*' actionformats '%a %m %b '
+     zstyle ':vcs_info:*' check-for-changes true
+     zstyle ':vcs_info:*' stagedstr " %F{green}+"
+     zstyle ':vcs_info:*' unstagedstr " %F{red}*"
+
+     autoload -Uz add-zsh-hook
+     add-zsh-hook precmd  prompt_aufforderung_precmd
+     add-zsh-hook preexec prompt_aufforderung_preexec
+
+     # orange lambda
+     local prompt_symbol='%F{166}λ%f'
+     local prompt_time='%F{white}%D{%H:%M}%f'
+     local prompt_code='%(?..%F{red}?%?%f )'
+     local prompt_dir='%F{green}%~%f'
+
+     PS1=$prompt_dir' $(prompt_aufforderung)'"$prompt_symbol "
+     RPS1='$(prompt_aufforderung_exec_time)'$prompt_code$prompt_time
+}
+
+function prompt_aufforderung_preexec() {
+    timer=$SECONDS
+}
+
+function prompt_aufforderung_precmd() {
+    unset timer
+    vcs_info
+}
+
+function prompt_aufforderung_exec_time() {
+    local timer_seconds=$(($SECONDS - ${timer:-$SECONDS}))
+    if [ $timer_seconds -gt 0 ]; then
+        echo -n '%F{cyan}~> '
+        local timer_minutes=$(($timer_seconds / 60))
+        local timer_seconds=$(($timer_seconds % 60))
+        if [ $timer_minutes -gt 0 ]; then
+            echo -n "${timer_minutes}m"
+        fi
+        echo -n "${timer_seconds}s%f "
+    fi
+}
+
+function prompt_aufforderung() {
+    echo -n "%B%F{blue}${vcs_info_msg_0_}%f%b"
+}
+
+prompt_opts=(subst percent)
+prompt_aufforderung_setup "$@"

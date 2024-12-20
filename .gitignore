@@ -1,6 +1,7 @@
 bin/gocryptfs
 config/kitty/gruvbox-material-dark-medium.conf
 config/bat/themes/
+config/zsh/*.zwc
 share/nvim/site/spell
 Brewfile.lock.json
 config/tmux/tmuxline.conf
