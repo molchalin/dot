@@ -16,6 +16,8 @@ curl 'https://raw.githubusercontent.com/yokoffing/Betterfox/refs/heads/main/user
 
 if [[ -h "$PROFILE_PATH/chrome" ]]; then
     echo "chrome symlink already exists. Skipping this step"
+elif [[ -d "$PROFILE_PATH/chrome" ]]; then
+    echo "$PROFILE_PATH/chrome is a directory. Skipping this step"
 else
     ln -s "$PWD/firefox/chrome" "$PROFILE_PATH/chrome"
 fi
