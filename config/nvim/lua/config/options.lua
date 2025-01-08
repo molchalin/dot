@@ -17,9 +17,6 @@ vim.opt.list      = true
 vim.opt.listchars = { tab = "| ", nbsp = "␣"}
 vim.opt.showbreak = "↳ "
 
-vim.opt.scrolloff     = 8 -- ensures that you have at least 8 lines above and below your cursor
-vim.opt.sidescrolloff = 8 -- same for left/right
-
 vim.opt.clipboard = "unnamedplus"
 
 -- disable sound
@@ -53,6 +50,16 @@ vim.filetype.add({
   filename ={
     ["Jenkinsfile"] = "groovy",
   }
+})
+
+vim.api.nvim_create_autocmd({"BufEnter", "WinEnter", "WinNew", "VimResized"}, {
+  group = vim.api.nvim_create_augroup("CenterCursor", { clear = true }),
+  callback = function(ev)
+    -- ensures that you have at least third of the screen above and below your cursor
+    vim.opt.scrolloff     = math.floor(vim.api.nvim_win_get_height(0) / 3)
+    -- same for left/right
+    vim.opt.sidescrolloff = math.floor(vim.api.nvim_win_get_width(0) / 3)
+  end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
