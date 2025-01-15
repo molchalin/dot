@@ -42,6 +42,8 @@ ZSH_WEB_SEARCH_ENGINES=(
   cambridge "https://dictionary.cambridge.org/dictionary/english/"
   verbformen "https://www.verbformen.ru/?w="
 )
+
+znap source ohmyzsh lib/functions
 znap source ohmyzsh plugins/web-search
 
 fpath+=( ~[zsh-completions]/src )
