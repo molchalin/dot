@@ -29,6 +29,10 @@ end
 -- don't show syntax for big lines
 vim.opt.synmaxcol=512
 
+vim.opt.foldmethod = 'indent'
+-- don't fold automatically
+vim.opt.foldlevelstart = 99
+
 -- ask for confirmation before quit
 vim.opt.confirm = true
 
