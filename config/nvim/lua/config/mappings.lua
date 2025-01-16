@@ -42,6 +42,7 @@ noremap("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add co
 noremap("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "add comment above" })
 noremap("n", "<leader>tdO", "<cmd>normal gcOTODO(" .. vim.env.USER .. "): <cr>a", { desc = "todo comment above"})
 noremap("n", "<leader>tdo", "<cmd>normal gcoTODO(" .. vim.env.USER .. "): <cr>a", { desc = "todo comment below"})
+noremap("n", "<leader>tdA", "<cmd>normal gcoTODO(" .. vim.env.USER .. "): <cr>kJA", { desc = "todo comment below"})
 
 noremap("n", "<leader>ad", function()
   return "<cmd>normal a" .. vim.fn.strftime("%F") .. "<cr>"
