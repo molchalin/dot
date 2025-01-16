@@ -47,7 +47,9 @@ znap source ohmyzsh lib/functions
 znap source ohmyzsh plugins/web-search
 
 fpath+=( ~[zsh-completions]/src )
-znap fpath _docker 'docker completion zsh'
+if has docker; then
+     znap fpath _docker 'docker completion zsh'
+fi
 
 #end znap
 
