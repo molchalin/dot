@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 function log_info() {
-  echo "[I] $@";
+  if [ "$verbose" == true ]; then
+    echo "[I] $@";
+  fi
 }
 
 function log_fatal() {
@@ -15,6 +17,9 @@ function is_mac() {
 
 function execute() {
   echo "[E] $@"
+  if [ "$execute" == true ]; then
+    eval $@;
+  fi
 }
 
 function install() {
@@ -110,12 +115,22 @@ function setup_tmux() {
 
 components=('zsh' 'nvim' 'tmux')
 
+execute=false
+verbose=false
+while getopts "ev:" arg; do
+  case $arg in
+    e) execute=true;;
+    v) verbose=true;;
+  esac
+done
+
+input=${@: -1}
 for component in "${components[@]}"; do
-  if [[ $1 == $component ]]; then
-    function_name="setup_$1"
+  if [[ $input == $component ]]; then
+    function_name="setup_$input"
 	$function_name
 	exit 0
   fi
 done
 
-echo "unknown component $1"
+echo "unknown component $input"
