@@ -52,6 +52,31 @@ function link() {
   fi
 }
 
+function link_same_name() {
+  link "$1" "$2"$(basename $1)
+}
+
+function make_dir() {
+  local dir_path="$1"
+  if [[ -d "$dir_path" ]]; then
+    log_info "$dir_path already exists"
+  elif [[ -e "$dir_path" ]]; then
+    log_info "some file already exists at $dir_path"
+  else
+    execute 'mkdir -p "'$dir_path'"'
+  fi
+}
+
+function get_file() {
+  local url="$1"
+  local path="$2"
+  if [[ -e "$path" ]]; then
+    log_info "$path already exists"
+  else
+    execute 'curl "'$url'" -o "'$path'"'
+  fi
+}
+
 set -o errexit
 set -o pipefail
 
@@ -60,17 +85,37 @@ function setup_zsh() {
     install "zsh"
   fi
   link "config/zshrc" ".zshrc"
-  link "config/zsh/" ".config/zsh"
+  link_same_name "config/zsh/" ".config/"
 }
 
-components=('zsh')
+function setup_nvim() {
+  if ! has nvim; then
+    install "neovim"
+  fi
+  link_same_name "config/nvim/" ".config/"
+  make_dir "$HOME/.local/share/nvim/site/spell"
+  get_file "http://ftp.vim.org/pub/vim/runtime/spell/ru.utf-8.spl" "$HOME/.local/share/nvim/site/spell/ru.utf-8.spl"
+  get_file "http://ftp.vim.org/pub/vim/runtime/spell/de.utf-8.spl" "$HOME/.local/share/nvim/site/spell/de.utf-8.spl"
+}
+
+function setup_tmux() {
+  if ! has tmux; then
+    install "tmux"
+  fi
+  link_same_name "config/tmux/" ".config/"
+  make_dir "$HOME/.local/bin"
+  link_same_name "bin/tmux-sessionizer" ".local/bin/"
+  link_same_name "bin/tmux-realpath" ".local/bin/"
+}
+
+components=('zsh' 'nvim' 'tmux')
 
 for component in "${components[@]}"; do
   if [[ $1 == $component ]]; then
     function_name="setup_$1"
 	$function_name
-	exit 0;
+	exit 0
   fi
-  echo $e
 done
 
+echo "unknown component $1"
