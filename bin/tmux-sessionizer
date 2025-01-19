@@ -5,6 +5,11 @@ ORDER_FILE="$HOME/.local/state/tmux-sessionizer/order"
 mkdir -p "$HOME/.local/state/tmux-sessionizer/"
 touch $ORDER_FILE
 
+if [[ $1 == "edit" ]]; then
+    $EDITOR $ORDER_FILE
+	exit 0;
+fi
+
 if [[ -n $TMUX ]]; then
     current=$(tmux display-message -p '#{session_path}')
 fi
