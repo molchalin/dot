@@ -99,8 +99,8 @@ function setup_nvim() {
   fi
   link_same_name "config/nvim/" ".config/"
   make_dir "$HOME/.local/share/nvim/site/spell"
-  get_file "http://ftp.vim.org/pub/vim/runtime/spell/ru.utf-8.spl" "$HOME/.local/share/nvim/site/spell/ru.utf-8.spl"
-  get_file "http://ftp.vim.org/pub/vim/runtime/spell/de.utf-8.spl" "$HOME/.local/share/nvim/site/spell/de.utf-8.spl"
+  get_file "ftp://vim.tsu.ru/pub/vim/runtime/spell/ru.utf-8.spl" "$HOME/.local/share/nvim/site/spell/ru.utf-8.spl"
+  get_file "ftp://vim.tsu.ru/pub/vim/runtime/spell/de.utf-8.spl" "$HOME/.local/share/nvim/site/spell/de.utf-8.spl"
 }
 
 function setup_tmux() {
