@@ -22,3 +22,12 @@ user_pref("extensions.formautofill.creditCards.enabled", false);
 
 // light theme
 user_pref("layout.css.prefers-color-scheme.content-override", 1);
+
+// set font
+user_pref("font.language.group", "x-cyrillic");
+user_pref("font.name.monospace.x-cyrillic", "SF Mono");
+user_pref("font.name.monospace.x-western", "SF Mono");
+user_pref("font.name.sans-serif.x-cyrillic", "SF Pro Display");
+user_pref("font.name.sans-serif.x-western", "SF Pro Display");
+user_pref("font.name.serif.x-cyrillic", "SF Pro Text");
+user_pref("font.name.serif.x-western", "SF Pro Text");
