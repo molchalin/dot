@@ -116,21 +116,20 @@ function install_emoji_picker() {
 function install_font() {
   local font_name="$1"
   local font_package="$2"
+  local font_package_mac_os="$3"
   local exit_code=0
   fc-list -q "${font_name}" || exit_code=$?
   if [[ $exit_code -ne 0 ]]; then
     log_info "font $font_name is not installed"
-    install "'$font_package'"
+    install "'$font_package'" "'$font_package_mac_os'"
   else
     log_info "font $font_name is already installed"
   fi
 }
 
 function install_sf_fonts() {
-  # TODO(andrei): Add package for mac os
-  install_font "SF Pro" "otf-san-francisco"
-  # TODO(andrei): Add package for mac os
-  install_font "SF Mono" "otf-san-francisco-mono"
+  install_font "SF Pro" "otf-san-francisco" "font-sf-pro"
+  install_font "SF Mono" "otf-san-francisco-mono" "font-sf-mono"
 }
 
 set -o errexit
