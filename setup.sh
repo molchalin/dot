@@ -29,15 +29,21 @@ function execute() {
 
 function install() {
   local linux_pkg=$1
-  local mac_pkg=$2
-  if [[ -z $mac_pkg ]]; then
-    mac_pkg="$linux_pkg"
-  fi
+  local mac_pkg=${2:-$1}
   # TODO(a.eremeev): ensure_package_manager_installed
   if is_mac; then
     execute "brew install $mac_pkg"
   else
     execute "pacman -S $linux_pkg"
+  fi
+}
+
+function ensure_installed() {
+  local bin=$1
+  local linux_pkg=${2:-$bin}
+  local mac_pkg=$3
+  if ! has "$bin"; then
+    install "$linux_pkg" "$mac_pkg"
   fi
 }
 
@@ -52,7 +58,7 @@ function has() {
 
 function link() {
   local file_path="$PWD/$1"
-  local link_path="$HOME/$2"
+  local link_path="$2"
   if [[ -h "$link_path" ]]; then
     log_info "$link_path -> $file_path already exists"
   elif [[ -e "$link_path" ]]; then
@@ -63,7 +69,7 @@ function link() {
 }
 
 function link_same_name() {
-  link "$1" "$2"$(basename $1)
+  link "$1" "$2/"$(basename $1)
 }
 
 function make_dir() {
@@ -93,7 +99,7 @@ function set_gnome_option() {
   local value="$3"
   local prev_value=$(gsettings get "$schema" "$key")
   log_info "gsetings set '$schema' '$key': $prev_value -> '$value'"
-  execute "gsettings set '$schema' '$key' '$value'"
+  execute "gsettings set '$schema' '$key' \"$value\""
 }
 
 function install_emoji_picker() {
@@ -111,11 +117,12 @@ function install_font() {
   local font_name="$1"
   local font_package="$2"
   local exit_code=0
-  fc-list "'$font_name'" -q || exit_code=$?
+  fc-list -q "${font_name}" || exit_code=$?
   if [[ $exit_code -ne 0 ]]; then
+    log_info "font $font_name is not installed"
     install "'$font_package'"
   else
-    log_info "font $1 is already installed"
+    log_info "font $font_name is already installed"
   fi
 }
 
@@ -130,32 +137,26 @@ set -o errexit
 set -o pipefail
 
 function setup_zsh() {
-  if ! has zsh; then
-    install "zsh"
-  fi
-  link "config/zshrc" ".zshrc"
-  link_same_name "config/zsh/" ".config/"
+  ensure_installed "zsh"
+  link "config/zshrc" "$HOME/.zshrc"
+  link_same_name "config/zsh/" "$HOME/.config"
   # TODO(andrei): change shell for user
 }
 
 function setup_nvim() {
-  if ! has nvim; then
-    install "neovim"
-  fi
-  link_same_name "config/nvim/" ".config/"
+  ensure_installed "nvim" "neovim"
+  link_same_name "config/nvim/" "$HOME/.config"
   make_dir "$HOME/.local/share/nvim/site/spell"
   get_file "ftp://vim.tsu.ru/pub/vim/runtime/spell/ru.utf-8.spl" "$HOME/.local/share/nvim/site/spell/ru.utf-8.spl"
   get_file "ftp://vim.tsu.ru/pub/vim/runtime/spell/de.utf-8.spl" "$HOME/.local/share/nvim/site/spell/de.utf-8.spl"
 }
 
 function setup_tmux() {
-  if ! has tmux; then
-    install "tmux"
-  fi
-  link_same_name "config/tmux/" ".config/"
+  ensure_installed "tmux"
+  link_same_name "config/tmux/" "$HOME/.config"
   make_dir "$HOME/.local/bin"
-  link_same_name "bin/tmux-sessionizer" ".local/bin/"
-  link_same_name "bin/tmux-realpath" ".local/bin/"
+  link_same_name "bin/tmux-sessionizer" "$HOME/.local/bin"
+  link_same_name "bin/tmux-realpath" "$HOME/.local/bin"
 }
 
 function setup_gnome() {
@@ -174,7 +175,41 @@ function setup_gnome() {
   # TODO(andrei): relogin
 }
 
-components=('zsh' 'nvim' 'tmux' 'gnome')
+FIREFOX_PATH="$HOME/.mozilla/firefox"
+FIREFOX_DISTRIBUTION_PATHES=("/usr/lib/firefox/distribution", "/usr/lib64/firefox/distribution")
+
+function setup_firefox() {
+  ensure_installed "firefox"
+  local default_profile=$(grep "Default=.*\.default*" "${FIREFOX_PATH}/profiles.ini" | cut -d"=" -f2)
+  local default_profile_path="${FIREFOX_PATH}/${default_profile}"
+  log_info "default firefox profile: ${default_profile_path}"
+  local userjs="${default_profile_path}/user.js"
+  local userjs_exists=true
+  test -e $userjs || userjs_exists=false
+  get_file "https://raw.githubusercontent.com/yokoffing/Betterfox/refs/heads/main/user.js" "$userjs"
+  if [[ "$userjs_exists" == false ]]; then
+    execute "cat config/firefox/user.js >> ${userjs}"
+  fi
+  link_same_name "config/firefox/chrome" "$default_profile_path"
+  if is_mac; then
+    execute "defaults delete ~/Library/Preferences/org.mozilla.firefox"
+    execute "cat config/firefox/policies.json | jq '.policies' | plutil -convert xml1 - -o out.plist"
+    execute "defaults import ~/Library/Preferences/org.mozilla.firefox out.plist"
+    execute "rm out.plist"
+  else
+    local distribution_path=""
+    for e in "${FIREFOX_DISTRIBUTION_PATHES[@]}"; do
+      if [[ -e $e ]]; then
+        distribution_path=$e
+      fi
+    done
+    log_info "distribution path: $distribution_path"
+    test -e "$distribution_path" || log_fatal "distribution_path is empty"
+    link_same_name "config/firefox/policies.json" "$distribution_path"
+  fi
+}
+
+components=('zsh' 'nvim' 'tmux' 'gnome' 'firefox')
 
 execute=false
 verbose=false
