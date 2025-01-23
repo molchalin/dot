@@ -74,6 +74,10 @@ if has bat; then
     alias cat="bat --plain"
 fi
 
+if has rg; then
+    alias fgrep="rg -F"
+fi
+
 alias rm="rm -i"
 alias mv="mv -i"
 
@@ -127,6 +131,8 @@ if [ -e ~/.zshrc.local ]; then
 fi
 
 # end FZF
+
+export DFT_DISPLAY=side-by-side-show-both
 
 # never ever beep ever
 setopt NO_BEEP
