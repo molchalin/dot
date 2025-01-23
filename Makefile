@@ -1,5 +1,5 @@
 .PHONY: install
-install: brew oh-my-zsh fzf bin/gocryptfs
+install: brew fzf bin/gocryptfs
 
 .PHONY: configure
 configure: config/kitty/gruvbox-material-dark-medium.conf config/bat/themes/gruvbox-material-dark.tmTheme
@@ -25,9 +25,6 @@ endif
 .PHONY: fzf
 fzf:
 	$$(brew --prefix)/opt/fzf/install --no-update-rc --completion --key-bindings
-
-config/kitty/gruvbox-material-dark-medium.conf:
-	kitten themes --dump-theme 'Gruvbox Material Dark Medium' > config/kitty/gruvbox-material-dark-medium.conf
 
 config/bat/themes/gruvbox-material-dark.tmTheme:
 	mkdir -p config/bat/themes
