@@ -166,6 +166,8 @@ function setup_gnome() {
   set_gnome_option org.gnome.desktop.peripherals.keyboard repeat-interval 25
   set_gnome_option org.gnome.desktop.input-sources xkb-options "['caps:escape', 'compose:rctrl']"
 
+  set_gnome_option org.gnome.desktop.interface clock-format '24h'
+
   install_sf_fonts
   set_gnome_option org.gnome.desktop.interface font-name 'SF Pro Display 11'
   set_gnome_option org.gnome.desktop.interface monospace-font-name 'SF Mono 10'
