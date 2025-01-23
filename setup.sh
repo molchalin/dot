@@ -218,7 +218,23 @@ function setup_kitty() {
   install_font "SymbolsNerdFont" "ttf-nerd-fonts-symbols" "font-symbols-only-nerd-font"
 }
 
-components=('zsh' 'nvim' 'tmux' 'gnome' 'firefox' 'kitty')
+function setup_tools() {
+  ensure_installed "bat"
+  get_file "https://raw.githubusercontent.com/molchalin/gruvbox-material-bat/main/gruvbox-material-dark.tmTheme" "config/bat/themes/gruvbox-material-dark.tmTheme"
+  link_same_name "config/bat" "$HOME/.config"
+  execute "bat cache --build"
+  ensure_installed "fzf"
+  ensure_installed "fd"
+  ensure_installed "jq"
+  ensure_installed "tree"
+  ensure_installed "rg" "ripgrep"
+  if is_mac; then
+    ensure_installed "coreutils"
+  fi
+}
+
+# TODO(andrei): git, docker, cryptfs, binaries, desktop apps
+components=('zsh' 'nvim' 'tmux' 'gnome' 'firefox' 'kitty' 'tools')
 
 execute=false
 verbose=false

@@ -1,8 +1,5 @@
 .PHONY: install
-install: brew fzf bin/gocryptfs
-
-.PHONY: configure
-configure: config/kitty/gruvbox-material-dark-medium.conf config/bat/themes/gruvbox-material-dark.tmTheme
+install: brew bin/gocryptfs
 
 .PHONY: stow
 stow:
@@ -21,18 +18,6 @@ ifndef BREW
 	eval "$(/opt/homebrew/bin/brew shellenv)"
 endif
 	brew bundle --no-upgrade
-
-.PHONY: fzf
-fzf:
-	$$(brew --prefix)/opt/fzf/install --no-update-rc --completion --key-bindings
-
-config/bat/themes/gruvbox-material-dark.tmTheme:
-	mkdir -p config/bat/themes
-	curl https://raw.githubusercontent.com/molchalin/gruvbox-material-bat/main/gruvbox-material-dark.tmTheme -o config/bat/themes/gruvbox-material-dark.tmTheme
-
-.PHONY: bat-cache
-bat-cache:
-	bat cache --build
 
 bin/gocryptfs:
 	git clone https://github.com/rfjakob/gocryptfs.git /tmp/gocryptfs && \
