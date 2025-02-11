@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -o errexit
-set -o pipefail  
+set -o pipefail
 
 ensure-gocryptfs-mounted;
 
@@ -11,11 +11,10 @@ function today-note() {
     file=$(printf "%s/%s" $NOTES_BASE $(date '+%F.md'))
     if [[ ! -e $file ]]; then
         touch $file
-        date "+%H:%M" >> $file
+        LANG=ru_RU date "+%H:%M %A" >> $file
     fi
     $EDITOR $file
 }
-
 
 function random-note() {
     notes=( $(find $NOTES_BASE -ipath '*.md' ) )
