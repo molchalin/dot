@@ -34,7 +34,7 @@ function install() {
   if is_mac; then
     execute "brew install $mac_pkg"
   else
-    execute "pacman -S $linux_pkg"
+    execute "yay $linux_pkg"
   fi
 }
 
@@ -62,7 +62,7 @@ function link() {
   if [[ -h "$link_path" ]]; then
     log_info "$link_path -> $file_path already exists"
   elif [[ -e "$link_path" ]]; then
-    log_info "some file already exists at $link_path"
+    log_fatal "some file already exists at $link_path"
   else
     execute "ln -s '$file_path' '$link_path'"
   fi
