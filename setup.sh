@@ -234,8 +234,22 @@ function setup_tools() {
   fi
 }
 
-# TODO(andrei): git, docker, cryptfs, binaries, desktop apps
-components=('zsh' 'nvim' 'tmux' 'gnome' 'firefox' 'kitty' 'tools')
+function setup_git() {
+  ensure_installed "git"
+  ensure_installed "delta" "git-delta"
+  ensure_installed "difft" "difftastic"
+  link_same_name "config/git" "$HOME/.config"
+}
+
+function setup_docker() {
+  ensure_installed "docker"
+  if is_mac; then
+    ensure_installed "colima"
+  fi
+}
+
+# TODO(andrei): cryptfs, binaries, desktop apps
+components=('zsh' 'nvim' 'tmux' 'gnome' 'firefox' 'kitty' 'tools' 'git' 'docker')
 
 execute=false
 verbose=false
