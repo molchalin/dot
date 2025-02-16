@@ -128,8 +128,16 @@ function install_font() {
 }
 
 function install_sf_fonts() {
-  install_font "SF Pro" "otf-san-francisco" "font-sf-pro"
+  install_font "SF Pro Display" "otf-san-francisco" "font-sf-pro"
   install_font "SF Mono" "otf-san-francisco-mono" "font-sf-mono"
+}
+
+function install_inter_font() {
+  install_font "Inter" "inter-font"
+}
+
+function install_jb_font() {
+  install_font "JetBrains Mono" "ttf-jetbrains-mono" "font-jetbrains-mono"
 }
 
 set -o errexit
@@ -169,7 +177,8 @@ function setup_gnome() {
   set_gnome_option org.gnome.desktop.interface clock-format '24h'
 
   install_sf_fonts
-  set_gnome_option org.gnome.desktop.interface font-name 'SF Pro Display 11'
+  install_inter_font
+  set_gnome_option org.gnome.desktop.interface font-name 'Inter 11'
   set_gnome_option org.gnome.desktop.interface monospace-font-name 'SF Mono 10'
   set_gnome_option org.gnome.desktop.interface document-font-name 'SF Pro Text 11'
 
