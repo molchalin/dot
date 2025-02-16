@@ -136,3 +136,7 @@ export DFT_DISPLAY=side-by-side-show-both
 
 # never ever beep ever
 setopt NO_BEEP
+
+# add % if there is no a trailing new line
+setopt PROMPT_SP
+setopt PROMPT_CR
