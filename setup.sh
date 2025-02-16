@@ -236,8 +236,8 @@ function setup_tools() {
   ensure_installed "fzf"
   ensure_installed "fd"
   ensure_installed "jq"
-  ensure_installed "tree"
   ensure_installed "rg" "ripgrep"
+  ensure_installed "eza"
   if is_mac; then
     ensure_installed "coreutils"
   fi

@@ -35,9 +35,6 @@ znap source ohmyzsh lib/directories # ls and cd aliases
 znap source ohmyzsh plugins/git
 znap source ohmyzsh plugins/golang
 
-znap clone 'git@github.com:trapd00r/LS_COLORS'
-znap source LS_COLORS lscolors
-
 ZSH_WEB_SEARCH_ENGINES=(
   cambridge "https://dictionary.cambridge.org/dictionary/english/"
   verbformen "https://www.verbformen.ru/?w="
@@ -81,10 +78,17 @@ fi
 alias rm="rm -i"
 alias mv="mv -i"
 
-if is_mac; then
-    alias ls="gls --color"
+if has eza; then
+    alias tree="eza --tree"
+    alias ls="eza"
 else
-    alias ls="ls --color"
+    if is_mac; then
+        if has gls; then
+            alias ls="gls --color"
+        fi
+    else
+        alias ls="ls --color"
+    fi
 fi
 
 alias gld="git -c diff.external=difft log --ext-diff"
