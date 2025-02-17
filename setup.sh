@@ -212,8 +212,8 @@ function setup_gnome() {
   install_sf_fonts
   install_inter_font
   set_gnome_option org.gnome.desktop.interface font-name 'Inter 11'
-  set_gnome_option org.gnome.desktop.interface monospace-font-name 'SF Mono 10'
-  set_gnome_option org.gnome.desktop.interface document-font-name 'SF Pro Text 11'
+  set_gnome_option org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 10'
+  set_gnome_option org.gnome.desktop.interface document-font-name 'Inter 11'
 
   link_config "environment.d"
 
@@ -234,8 +234,17 @@ function setup_firefox() {
   local userjs_exists=true
   test -e $userjs || userjs_exists=false
   get_file "https://raw.githubusercontent.com/yokoffing/Betterfox/refs/heads/main/user.js" "$userjs"
+
+  local font_mono="JetBrains Mono"
+  local font_display="Inter"
+  local font_text="Inter"
+  if is_mac; then
+    font_mono="SF Pro Mono"
+    font_display="SF Pro Display"
+    font_text="SF Pro Text"
+  fi
   if [[ "$userjs_exists" == false ]]; then
-    execute "cat config/firefox/user.js >> ${userjs}"
+    execute "cat config/firefox/user.js | sed 's/__FONT_MONO__/${font_mono}/' | sed 's/__FONT_DISPLAY__/${font_display}/' | sed 's/__FONT_TEXT__/${font_text}/' >> ${userjs}"
   fi
   link_same_name "config/firefox/chrome" "$default_profile_path"
   if is_mac; then

@@ -25,9 +25,9 @@ user_pref("layout.css.prefers-color-scheme.content-override", 1);
 
 // set font
 user_pref("font.language.group", "x-cyrillic");
-user_pref("font.name.monospace.x-cyrillic", "SF Mono");
-user_pref("font.name.monospace.x-western", "SF Mono");
-user_pref("font.name.sans-serif.x-cyrillic", "SF Pro Display");
-user_pref("font.name.sans-serif.x-western", "SF Pro Display");
-user_pref("font.name.serif.x-cyrillic", "SF Pro Text");
-user_pref("font.name.serif.x-western", "SF Pro Text");
+user_pref("font.name.monospace.x-cyrillic", "__FONT_MONO__");
+user_pref("font.name.monospace.x-western", "__FONT_MONO__");
+user_pref("font.name.sans-serif.x-cyrillic", "__FONT_DISPLAY__");
+user_pref("font.name.sans-serif.x-western", "__FONT_DISPLAY__");
+user_pref("font.name.serif.x-cyrillic", "__FONT_TEXT__");
+user_pref("font.name.serif.x-western", "__FONT_TEXT__");
