@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -o errexit
+set -o pipefail
+
 RED='\033[0;31m'
 BLUE='\033[0;34m'
 GRAY='\033[1;30m'
@@ -16,6 +19,15 @@ function log_fatal() {
   exit 1;
 }
 
+function prettify_path() {
+  local path=$1
+  if [[ "$path" =~ ^"$HOME"(/|$) ]]; then
+    echo "~${path/#$HOME}"
+  else
+    echo $path
+  fi
+}
+
 function is_mac() {
   [[ $OSTYPE == darwin*   ]]
 }
@@ -27,23 +39,24 @@ function execute() {
   fi
 }
 
-function install() {
+function install_package() {
   local linux_pkg=$1
   local mac_pkg=${2:-$1}
   # TODO(a.eremeev): ensure_package_manager_installed
   if is_mac; then
+    # TODO(andrei): cask?
     execute "brew install $mac_pkg"
   else
     execute "yay $linux_pkg"
   fi
 }
 
-function ensure_installed() {
+function install() {
   local bin=$1
   local linux_pkg=${2:-$bin}
   local mac_pkg=$3
   if ! has "$bin"; then
-    install "$linux_pkg" "$mac_pkg"
+    install_package "$linux_pkg" "$mac_pkg"
   fi
 }
 
@@ -59,10 +72,13 @@ function has() {
 function link() {
   local file_path="$PWD/$1"
   local link_path="$2"
+
+  local link_path_pretty=$(prettify_path $link_path)
+  local file_path_pretty=$(prettify_path $file_path)
   if [[ -h "$link_path" ]]; then
-    log_info "$link_path -> $file_path already exists"
+    log_info "$link_path_pretty -> $file_path_pretty already exists"
   elif [[ -e "$link_path" ]]; then
-    log_fatal "some file already exists at $link_path"
+    log_fatal "some file already exists at $link_path_pretty"
   else
     execute "ln -s '$file_path' '$link_path'"
   fi
@@ -72,12 +88,23 @@ function link_same_name() {
   link "$1" "$2/"$(basename $1)
 }
 
+function link_config() {
+  make_dir "$HOME/.config"
+  link_same_name "config/$1" "$HOME/.config"
+}
+
+function link_bin() {
+  make_dir "$HOME/.local/bin"
+  link_same_name "bin/$1" "$HOME/.local/bin"
+}
+
 function make_dir() {
   local dir_path="$1"
+  local dir_path_pretty=$(prettify_path $dir_path)
   if [[ -d "$dir_path" ]]; then
-    log_info "$dir_path already exists"
+    log_info "$dir_path_pretty already exists"
   elif [[ -e "$dir_path" ]]; then
-    log_info "some file already exists at $dir_path"
+    log_info "some file already exists at $dir_path_pretty"
   else
     execute "mkdir -p '$dir_path'"
   fi
@@ -86,8 +113,9 @@ function make_dir() {
 function get_file() {
   local url="$1"
   local path="$2"
+  local path_pretty=$(prettify_path $path)
   if [[ -e "$path" ]]; then
-    log_info "$path already exists"
+    log_info "$path_pretty already exists"
   else
     execute "curl '$url' -o '$path'"
   fi
@@ -106,7 +134,7 @@ function install_emoji_picker() {
   local exit_code=0
   gnome-extensions show emoji-copy@felipeftn 2>&1 > /dev/null || exit_code=$?
   if [[ $exit_code -ne 0 ]]; then
-    install "gnome-shell-extension-emoji-copy"
+    install_package "gnome-shell-extension-emoji-copy"
   else
     log_info "emoji-copy is already installed"
   fi
@@ -121,7 +149,7 @@ function install_font() {
   fc-list -q "${font_name}" || exit_code=$?
   if [[ $exit_code -ne 0 ]]; then
     log_info "font $font_name is not installed"
-    install "'$font_package'" "'$font_package_mac_os'"
+    install_package "'$font_package'" "'$font_package_mac_os'"
   else
     log_info "font $font_name is already installed"
   fi
@@ -140,30 +168,35 @@ function install_jb_font() {
   install_font "JetBrains Mono" "ttf-jetbrains-mono" "font-jetbrains-mono"
 }
 
-set -o errexit
-set -o pipefail
+function install_cryptfs_from_source() {
+  if ! has "gocryptfs"; then
+    execute "git clone https://github.com/rfjakob/gocryptfs.git /tmp/gocryptfs"
+    execute "pushd /tmp/gocryptfs && ./build-without-openssl.bash && popd"
+    execute "mv /tmp/gocryptfs/gocryptfs ~/.local/bin/"
+  fi
+}
 
 function setup_zsh() {
-  ensure_installed "zsh"
+  install "zsh"
   link "config/zshrc" "$HOME/.zshrc"
-  link_same_name "config/zsh" "$HOME/.config"
+  link_config "zsh"
   # TODO(andrei): change shell for user
 }
 
 function setup_nvim() {
-  ensure_installed "nvim" "neovim"
-  link_same_name "config/nvim" "$HOME/.config"
+  install "nvim" "neovim"
+  link_config "nvim"
   make_dir "$HOME/.local/share/nvim/site/spell"
   get_file "ftp://vim.tsu.ru/pub/vim/runtime/spell/ru.utf-8.spl" "$HOME/.local/share/nvim/site/spell/ru.utf-8.spl"
   get_file "ftp://vim.tsu.ru/pub/vim/runtime/spell/de.utf-8.spl" "$HOME/.local/share/nvim/site/spell/de.utf-8.spl"
 }
 
 function setup_tmux() {
-  ensure_installed "tmux"
-  link_same_name "config/tmux" "$HOME/.config"
-  make_dir "$HOME/.local/bin"
-  link_same_name "bin/tmux-sessionizer" "$HOME/.local/bin"
-  link_same_name "bin/tmux-realpath" "$HOME/.local/bin"
+  install "tmux"
+  link_config "tmux"
+  link_bin "tmux-sessionizer"
+  link_bin "tmux-realpath"
+  link_bin "pomodoro"
 }
 
 function setup_gnome() {
@@ -190,10 +223,11 @@ FIREFOX_DISTRIBUTION_PATHES=("/usr/lib/firefox/distribution", "/usr/lib64/firefo
 
 function setup_firefox() {
   install_sf_fonts
-  ensure_installed "firefox"
+  install "firefox"
   local default_profile=$(grep "Default=.*\.default*" "${FIREFOX_PATH}/profiles.ini" | cut -d"=" -f2)
   local default_profile_path="${FIREFOX_PATH}/${default_profile}"
-  log_info "default firefox profile: ${default_profile_path}"
+  local default_profile_path_pretty=$(prettify_path $default_profile_path)
+  log_info "default firefox profile: ${default_profile_path_pretty}"
   local userjs="${default_profile_path}/user.js"
   local userjs_exists=true
   test -e $userjs || userjs_exists=false
@@ -214,51 +248,87 @@ function setup_firefox() {
         distribution_path=$e
       fi
     done
-    log_info "distribution path: $distribution_path"
+    local distribution_path_pretty=$(prettify_path $distribution_path)
+    log_info "distribution path: $distribution_path_pretty"
     test -e "$distribution_path" || log_fatal "distribution_path is empty"
     link_same_name "config/firefox/policies.json" "$distribution_path"
   fi
 }
 
 function setup_kitty() {
-  ensure_installed "kitty"
+  install "kitty"
   execute "kitten themes --dump-theme 'Gruvbox Material Dark Medium' > config/kitty/gruvbox-material-dark-medium.conf"
-  link_same_name "config/kitty" "$HOME/.config"
+  link_config "kitty"
   install_font "JetBrains Mono" "ttf-jetbrains-mono" "font-jetbrains-mono"
   install_font "SymbolsNerdFont" "ttf-nerd-fonts-symbols" "font-symbols-only-nerd-font"
 }
 
 function setup_tools() {
-  ensure_installed "bat"
+  install "bat"
   get_file "https://raw.githubusercontent.com/molchalin/gruvbox-material-bat/main/gruvbox-material-dark.tmTheme" "config/bat/themes/gruvbox-material-dark.tmTheme"
-  link_same_name "config/bat" "$HOME/.config"
+  link_config "bat"
   execute "bat cache --build"
   ensure_installed "fzf"
   ensure_installed "fd"
   ensure_installed "jq"
   ensure_installed "rg" "ripgrep"
   ensure_installed "eza"
+  install "fzf"
+  install "fd"
+  install "jq"
+  install "rg" "ripgrep"
+  install "eza"
   if is_mac; then
-    ensure_installed "coreutils"
+    install "gls" "coreutils"
   fi
 }
 
 function setup_git() {
-  ensure_installed "git"
-  ensure_installed "delta" "git-delta"
-  ensure_installed "difft" "difftastic"
-  link_same_name "config/git" "$HOME/.config"
+  install "git"
+  install "delta" "git-delta"
+  install "difft" "difftastic"
+  link_config "git"
+  link_bin "git-diff-wrapper"
 }
 
 function setup_docker() {
-  ensure_installed "docker"
+  install "docker"
   if is_mac; then
-    ensure_installed "colima"
+    install "colima"
   fi
 }
 
-# TODO(andrei): cryptfs, binaries, desktop apps
-components=('zsh' 'nvim' 'tmux' 'gnome' 'firefox' 'kitty' 'tools' 'git' 'docker')
+function setup_cryptfs() {
+  if is_mac; then
+    install_cryptfs_from_source
+    # TODO(andrei): macfuse
+  else
+    install "gocryptfs"
+  fi
+  link_bin "ensure-gocryptfs-mounted"
+}
+
+function setup_homeutil() {
+  link_bin "notes"
+  link_bin "spotdl"
+  link_bin "sync-ssh"
+  link_bin "breakfree"
+}
+
+# TODO(andrei): desktop apps
+components=(
+  'zsh'
+  'nvim'
+  'tmux'
+  'gnome'
+  'firefox'
+  'kitty'
+  'tools'
+  'git'
+  'docker'
+  'cryptfs'
+  'homeutil'
+)
 
 execute=false
 verbose=false

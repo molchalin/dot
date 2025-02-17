@@ -19,14 +19,6 @@ ifndef BREW
 endif
 	brew bundle --no-upgrade
 
-bin/gocryptfs:
-	git clone https://github.com/rfjakob/gocryptfs.git /tmp/gocryptfs && \
-	pushd /tmp/gocryptfs && \
-	./build-without-openssl.bash && \
-	popd && \
-	mv /tmp/gocryptfs/gocryptfs bin/gocryptfs && \
-	rm -rf /tmp/gocryptfs
-
 .PHONY: clean
 clean:
 	rm -f ~/.zshrc
