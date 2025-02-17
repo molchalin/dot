@@ -215,6 +215,8 @@ function setup_gnome() {
   set_gnome_option org.gnome.desktop.interface monospace-font-name 'SF Mono 10'
   set_gnome_option org.gnome.desktop.interface document-font-name 'SF Pro Text 11'
 
+  link_config "environment.d"
+
   # TODO(andrei): relogin
 }
 
