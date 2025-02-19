@@ -130,6 +130,9 @@ if has fzf; then
      zvm_after_init_commands+=('znap eval fzf-zsh "fzf --zsh"')
 fi
 
+# shift tab backward cycle
+bindkey '^[[Z' reverse-menu-complete
+
 if [ -e ~/.zshrc.local ]; then
     source ~/.zshrc.local
 fi
