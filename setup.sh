@@ -141,6 +141,20 @@ function install_emoji_picker() {
   execute "gnome-extensions enable emoji-copy@felipeftn"
 }
 
+function install_instant_workspace_switcher() {
+  local exit_code=0
+  gnome-extensions show instantworkspaceswitcher@amalantony.net 2>&1 > /dev/null || exit_code=$?
+  if [[ $exit_code -ne 0 ]]; then
+    execute "git clone https://github.com/amalantony/gnome-shell-extension-instant-workspace-switcher.git /tmp/instant-workspace"
+    make_dir "$HOME/.local/share/gnome-shell/extensions"
+    execute "cp -r /tmp/instant-workspace/instantworkspaceswitcher@amalantony.net ~/.local/share/gnome-shell/extensions"
+    execute "rm -rf /tmp/instant-workspace"
+  else
+    log_info "emoji-copy is already installed"
+  fi
+  execute "gnome-extensions enable instantworkspaceswitcher@amalantony.net"
+}
+
 function install_font() {
   local font_name="$1"
   local font_package="$2"
@@ -201,6 +215,7 @@ function setup_tmux() {
 
 function setup_gnome() {
   install_emoji_picker
+  install_instant_workspace_switcher
   set_gnome_option org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'ru')]"
   set_gnome_option org.gnome.desktop.wm.keybindings switch-input-source "['<Primary>space']"
   set_gnome_option org.gnome.desktop.peripherals.keyboard delay 175
@@ -214,6 +229,15 @@ function setup_gnome() {
   set_gnome_option org.gnome.desktop.interface font-name 'Inter 11'
   set_gnome_option org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 10'
   set_gnome_option org.gnome.desktop.interface document-font-name 'Inter 11'
+
+  for ((i = 1 ; i < 10 ; i++)); do
+    set_gnome_option org.gnome.shell.keybindings "switch-to-application-$i" '[]'
+  done
+
+  for ((i = 1 ; i <= 10 ; i++)); do
+    j=$(($i % 10))
+    set_gnome_option org.gnome.desktop.wm.keybindings "switch-to-workspace-$i" "['<Super>$j']"
+  done
 
   link_config "environment.d"
 
