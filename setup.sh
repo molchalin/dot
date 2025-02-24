@@ -241,6 +241,14 @@ function setup_gnome() {
 
   link_config "environment.d"
 
+  locale -a | grep -q 'en_GB.utf8' || exit_code=$?
+  if [[ $exit_code -ne 0 ]]; then
+    execute "sudo sed -i 's/#en_GB.UTF-8/en_GB.UTF-8/' /etc/locale.gen"
+    execute "sudo locale-gen"
+  else
+    log_info "locale en_GB.utf-8 already exists"
+  fi
+
   # TODO(andrei): relogin
 }
 
