@@ -26,6 +26,7 @@ return {
       "dot",
       "helm",
       "comment",
+      "typst",
     },
     highlight = { enable = true },
     indent    = { enable = false },
