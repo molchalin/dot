@@ -17,6 +17,12 @@ vim.opt.list      = true
 vim.opt.listchars = { tab = "| ", nbsp = "␣"}
 vim.opt.showbreak = "↳ "
 
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
+vim.opt.smarttab = true
+
 vim.opt.clipboard = "unnamedplus"
 
 -- disable sound
@@ -71,7 +77,17 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function(ev)
     vim.bo[ev.buf].commentstring = "// %s"
   end,
-  pattern = { "proto", "cpp", "c", "java" },
+  pattern = { "proto", "cpp", "c", "java", "typst" },
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("SetDefaultTabstop", { clear = true }),
+  callback = function(ev)
+    vim.bo[ev.buf].tabstop = 2
+    vim.bo[ev.buf].shiftwidth = 2
+    vim.bo[ev.buf].softtabstop = 2
+  end,
+  pattern = { "java", "cpp", "c", "java", "typst", "lua", "sh" }
 })
 
 local matchdelete_if_not_empty = function(id_name)
