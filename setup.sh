@@ -150,9 +150,27 @@ function install_instant_workspace_switcher() {
     execute "cp -r /tmp/instant-workspace/instantworkspaceswitcher@amalantony.net ~/.local/share/gnome-shell/extensions"
     execute "rm -rf /tmp/instant-workspace"
   else
-    log_info "emoji-copy is already installed"
+    log_info "instant_workspace_switcher is already installed"
   fi
   execute "gnome-extensions enable instantworkspaceswitcher@amalantony.net"
+}
+
+function install_lockscreen_extension() {
+  local exit_code=0
+  local name="lockscreen-extension@pratap.fastmail.fm"
+  local tmp_dir="/tmp/lockscreen"
+  gnome-extensions show $name 2>&1 > /dev/null || exit_code=$?
+  if [[ $exit_code -ne 0 ]]; then
+    execute "git clone https://github.com/PRATAP-KUMAR/lockscreen-extension $tmp_dir"
+    execute "pushd $tmp_dir && ./install.sh && popd"
+    execute "rm -rf $tmp_dir"
+  else
+    log_info "$name is already installed"
+  fi
+  execute "gnome-extensions enable $name"
+  local schema_dir="$HOME/.local/share/gnome-shell/extensions/lockscreen-extension@pratap.fastmail.fm/schemas"
+  local ext="org.gnome.shell.extensions.lockscreen-extension"
+  execute "gsettings --schemadir $schema_dir set $ext hide-lockscreen-extension-button true"
 }
 
 function install_font() {
@@ -216,6 +234,8 @@ function setup_tmux() {
 function setup_gnome() {
   install_emoji_picker
   install_instant_workspace_switcher
+  install_lockscreen_extension
+
   set_gnome_option org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'ru')]"
   set_gnome_option org.gnome.desktop.wm.keybindings switch-input-source "['<Primary>space']"
   set_gnome_option org.gnome.desktop.peripherals.keyboard delay 175
