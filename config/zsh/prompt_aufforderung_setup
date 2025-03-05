@@ -20,20 +20,15 @@ function prompt_aufforderung_setup() {
      local prompt_dir='%F{green}%~%f'
 
      PS1=$prompt_dir' $(prompt_aufforderung)'"$prompt_symbol "
-     RPS1='$(prompt_aufforderung_exec_time)'$prompt_code$prompt_time
+     RPS1='${prompt_aufforderung_exec_time}'$prompt_code$prompt_time
 }
 
 function prompt_aufforderung_preexec() {
     timer=$SECONDS
 }
 
-function prompt_aufforderung_precmd() {
-    unset timer
-    vcs_info
-}
-
-function prompt_aufforderung_exec_time() {
-    local timer_seconds=$(($SECONDS - ${timer:-$SECONDS}))
+function prompt_aufforderung_human_time() {
+    local timer_seconds=$(($SECONDS - $1))
     if [ $timer_seconds -gt 0 ]; then
         echo -n '%F{cyan}~> '
         local timer_minutes=$(($timer_seconds / 60))
@@ -43,6 +38,16 @@ function prompt_aufforderung_exec_time() {
         fi
         echo -n "${timer_seconds}s%f "
     fi
+}
+
+function prompt_aufforderung_precmd() {
+    if (( $timer )); then
+        prompt_aufforderung_exec_time=$(prompt_aufforderung_human_time $timer)
+        unset timer
+    else
+        unset prompt_aufforderung_exec_time
+    fi
+    vcs_info
 }
 
 function prompt_aufforderung() {
