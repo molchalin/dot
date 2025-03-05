@@ -227,6 +227,13 @@ function setup_tmux() {
   install "tmux"
   link_config "tmux"
   link_bin "tmux-sessionizer"
+  local config_exists=true
+  test -e "$HOME/.config/tmux-sessionizer/list" || config_exists=false
+  if [[ "$config_exists" == false ]]; then
+    make_dir "$HOME/.config/tmux-sessionizer"
+    execute "cp $PWD/config/tmux-sessionizer/list $HOME/.config/tmux-sessionizer/"
+  fi
+  link_bin "tmux.plx"
   link_bin "tmux-realpath"
   link_bin "pomodoro"
 }

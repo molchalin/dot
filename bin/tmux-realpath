@@ -1,9 +1,18 @@
-#!/usr/bin/env bash
+#!/usr/bin/env perl
 
-REALPATH=realpath
+$root = $ARGV[0];
+$cur = $ARGV[1];
 
-if [[ "$(uname)" == 'Darwin' ]]; then
-    REALPATH=grealpath
-fi
+$res = "";
 
-$REALPATH --relative-to="$1" "$2" | perl -anE 'chomp; print " $_" if ($_ ne ".")'
+if (index($cur, $root) == 0) {
+    $res = substr($cur, length($root)+1);
+} elsif (index($cur, $ENV{HOME}) == 0) {
+    $res = "~" . substr($cur, length($ENV{HOME}));
+} else {
+    $res = $cur
+}
+
+if ($res) {
+    print " $res";
+}

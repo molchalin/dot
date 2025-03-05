@@ -1,42 +1,12 @@
 #!/usr/bin/env bash
 
-export PROJECTS="$HOME/Development/"
-ORDER_FILE="$HOME/.local/state/tmux-sessionizer/order"
-mkdir -p "$HOME/.local/state/tmux-sessionizer/"
-touch $ORDER_FILE
-
-if [[ $1 == "edit" ]]; then
-    $EDITOR $ORDER_FILE
-	exit 0;
-fi
-
-if [[ -n $TMUX ]]; then
-    current=$(tmux display-message -p '#{session_path}')
-fi
-
-selected_name=$(\
-    fd . $PROJECTS --type d --max-depth 1 \
-    | cat $ORDER_FILE - \
-    | sed 's;/$;;' \
-    | awk '!x[$0]++' \
-    | grep -v -Fx "$current" \
-    | perl -anE 'if (index($_, $ENV{PROJECTS}) == 0) { print(substr($_, length($ENV{PROJECTS}))) } elsif (index($_, $ENV{HOME}) == 0) { print("~" . substr($_, length($ENV{HOME})))} else { print($_) }' \
-    | fzf --border none)
+selected_name=$(tmux.plx list | fzf --border none --scheme history -d / --nth -1 --with-nth -1)
 
 if [[ -z $selected_name ]]; then
     exit 0
 fi
 
-selected_path=$(echo "$selected_name" | perl -anE 'if (index($_, "/") == 0) { print $_ } elsif (index($_, "~") == 0) { print($ENV{HOME} . substr($_, 1)) } else { print("$ENV{PROJECTS}$_") }')
-
-TMP_FILE="/tmp/tmux-sessionizer-buffer"
-
-echo "$selected_path" \
-    | cat - $ORDER_FILE \
-    | awk '!x[$0]++' \
-    > $TMP_FILE
-
-mv $TMP_FILE $ORDER_FILE
+selected_path=$(tmux.plx choose "$selected_name")
 
 tmux_running=$(pgrep tmux)
 
