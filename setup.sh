@@ -121,6 +121,17 @@ function get_file() {
   fi
 }
 
+function get_file_func() {
+  local path="$1"
+  local func=$2
+  local path_pretty=$(prettify_path $path)
+  if [[ -e "$path" ]]; then
+    log_info "$path_pretty already exists"
+  else
+    $func
+  fi
+}
+
 function set_gnome_option() {
   local schema="$1"
   local key="$2"
@@ -130,44 +141,45 @@ function set_gnome_option() {
   execute "gsettings set '$schema' '$key' \"$value\""
 }
 
-function install_emoji_picker() {
+must_relogin=false
+
+function install_gnome_extension() {
+  local name="$1"
+  local install_func=$2
+
   local exit_code=0
-  gnome-extensions show emoji-copy@felipeftn 2>&1 > /dev/null || exit_code=$?
+  gnome-extensions show "$name" &> /dev/null || exit_code=$?
   if [[ $exit_code -ne 0 ]]; then
-    install_package "gnome-shell-extension-emoji-copy"
+    $install_func
+    must_relogin=true
   else
-    log_info "emoji-copy is already installed"
+    log_info "$name is already installed"
+    gnome-extensions info emoji-copy@felipeftn | grep -q 'State: ENABLED' || exit_code=$?
+    if [[ $exit_code -ne  0 ]]; then
+      execute "gnome-extensions enable $name"
+    fi
   fi
-  execute "gnome-extensions enable emoji-copy@felipeftn"
+}
+
+function install_emoji_picker() {
+  install_package "gnome-shell-extension-emoji-copy"
+}
+
+function tmp_dir_name() {
+  echo "$tmp_root_dir/$1"
 }
 
 function install_instant_workspace_switcher() {
-  local exit_code=0
-  gnome-extensions show instantworkspaceswitcher@amalantony.net 2>&1 > /dev/null || exit_code=$?
-  if [[ $exit_code -ne 0 ]]; then
-    execute "git clone https://github.com/amalantony/gnome-shell-extension-instant-workspace-switcher.git /tmp/instant-workspace"
-    make_dir "$HOME/.local/share/gnome-shell/extensions"
-    execute "cp -r /tmp/instant-workspace/instantworkspaceswitcher@amalantony.net ~/.local/share/gnome-shell/extensions"
-    execute "rm -rf /tmp/instant-workspace"
-  else
-    log_info "instant_workspace_switcher is already installed"
-  fi
-  execute "gnome-extensions enable instantworkspaceswitcher@amalantony.net"
+  local tmp_dir=$(tmp_dir_name "instant-workspace")
+  execute "git clone https://github.com/amalantony/gnome-shell-extension-instant-workspace-switcher.git $tmp_dir"
+  make_dir "$HOME/.local/share/gnome-shell/extensions"
+  execute "cp -r $tmp_dir/instantworkspaceswitcher@amalantony.net ~/.local/share/gnome-shell/extensions"
 }
 
 function install_lockscreen_extension() {
-  local exit_code=0
-  local name="lockscreen-extension@pratap.fastmail.fm"
-  local tmp_dir="/tmp/lockscreen"
-  gnome-extensions show $name 2>&1 > /dev/null || exit_code=$?
-  if [[ $exit_code -ne 0 ]]; then
-    execute "git clone https://github.com/PRATAP-KUMAR/lockscreen-extension $tmp_dir"
-    execute "pushd $tmp_dir && ./install.sh && popd"
-    execute "rm -rf $tmp_dir"
-  else
-    log_info "$name is already installed"
-  fi
-  execute "gnome-extensions enable $name"
+  local tmp_dir=$(tmp_dir_name "lockscreen-extension")
+  execute "git clone https://github.com/PRATAP-KUMAR/lockscreen-extension $tmp_dir"
+  execute "pushd $tmp_dir && ./install.sh && popd"
   local schema_dir="$HOME/.local/share/gnome-shell/extensions/lockscreen-extension@pratap.fastmail.fm/schemas"
   local ext="org.gnome.shell.extensions.lockscreen-extension"
   execute "gsettings --schemadir $schema_dir set $ext hide-lockscreen-extension-button true"
@@ -202,9 +214,10 @@ function install_jb_font() {
 
 function install_cryptfs_from_source() {
   if ! has "gocryptfs"; then
-    execute "git clone https://github.com/rfjakob/gocryptfs.git /tmp/gocryptfs"
-    execute "pushd /tmp/gocryptfs && ./build-without-openssl.bash && popd"
-    execute "mv /tmp/gocryptfs/gocryptfs ~/.local/bin/"
+    local tmp_dir=$(tmp_dir_name "gocryptfs")
+    execute "git clone https://github.com/rfjakob/gocryptfs.git $tmp_dir_name"
+    execute "pushd $tmp_dir_name && ./build-without-openssl.bash && popd"
+    execute "mv $tmp_dir_name/gocryptfs ~/.local/bin/"
   fi
 }
 
@@ -239,9 +252,9 @@ function setup_tmux() {
 }
 
 function setup_gnome() {
-  install_emoji_picker
-  install_instant_workspace_switcher
-  install_lockscreen_extension
+  install_gnome_extension "emoji-copy@felipeftn" install_emoji_picker
+  install_gnome_extension "instantworkspaceswitcher@amalantony.net" install_instant_workspace_switcher
+  install_gnome_extension "lockscreen-extension@pratap.fastmail.fm" install_lockscreen_extension
 
   set_gnome_option org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'ru')]"
   set_gnome_option org.gnome.desktop.wm.keybindings switch-input-source "['<Primary>space']"
@@ -276,24 +289,20 @@ function setup_gnome() {
     log_info "locale en_GB.utf-8 already exists"
   fi
 
-  # TODO(andrei): relogin
+  if [[ "$must_relogin" == true ]]; then
+    log_fatal "You must relogin to proceed installation"
+  fi
 }
 
 FIREFOX_PATH="$HOME/.mozilla/firefox"
-FIREFOX_DISTRIBUTION_PATHES=("/usr/lib/firefox/distribution", "/usr/lib64/firefox/distribution")
 
-function setup_firefox() {
-  install_sf_fonts
-  install "firefox"
+function detect_profile_path() {
   local default_profile=$(grep "Default=.*\.default*" "${FIREFOX_PATH}/profiles.ini" | cut -d"=" -f2)
-  local default_profile_path="${FIREFOX_PATH}/${default_profile}"
-  local default_profile_path_pretty=$(prettify_path $default_profile_path)
-  log_info "default firefox profile: ${default_profile_path_pretty}"
-  local userjs="${default_profile_path}/user.js"
-  local userjs_exists=true
-  test -e $userjs || userjs_exists=false
-  get_file "https://raw.githubusercontent.com/yokoffing/Betterfox/refs/heads/main/user.js" "$userjs"
+  echo "${FIREFOX_PATH}/${default_profile}"
+}
 
+function create_user_js() {
+  get_file "https://raw.githubusercontent.com/yokoffing/Betterfox/refs/heads/main/user.js" "$userjs"
   local font_mono="JetBrains Mono"
   local font_display="Inter"
   local font_text="Inter"
@@ -302,10 +311,11 @@ function setup_firefox() {
     font_display="SF Pro Display"
     font_text="SF Pro Text"
   fi
-  if [[ "$userjs_exists" == false ]]; then
-    execute "cat config/firefox/user.js | sed 's/__FONT_MONO__/${font_mono}/' | sed 's/__FONT_DISPLAY__/${font_display}/' | sed 's/__FONT_TEXT__/${font_text}/' >> ${userjs}"
-  fi
-  link_same_name "config/firefox/chrome" "$default_profile_path"
+  execute "cat config/firefox/user.js | sed 's/__FONT_MONO__/${font_mono}/' | sed 's/__FONT_DISPLAY__/${font_display}/' | sed 's/__FONT_TEXT__/${font_text}/' >> ${userjs}"
+}
+
+FIREFOX_DISTRIBUTION_PATHES=("/usr/lib/firefox/distribution", "/usr/lib64/firefox/distribution")
+function set_firefox_profile_options() {
   if is_mac; then
     execute "defaults delete ~/Library/Preferences/org.mozilla.firefox"
     execute "cat config/firefox/policies.json | jq '.policies' | plutil -convert xml1 - -o out.plist"
@@ -323,6 +333,21 @@ function setup_firefox() {
     test -e "$distribution_path" || log_fatal "distribution_path is empty"
     link_same_name "config/firefox/policies.json" "$distribution_path"
   fi
+}
+
+function setup_firefox() {
+  install_sf_fonts
+  install "firefox"
+
+  local default_profile_path=$(detect_profile_path)
+  local default_profile_path_pretty=$(prettify_path $default_profile_path)
+  log_info "default firefox profile: ${default_profile_path_pretty}"
+
+  userjs="${default_profile_path}/user.js"
+  get_file_func "$userjs" create_user_js
+  link_same_name "config/firefox/chrome" "$default_profile_path"
+
+  set_firefox_profile_options
 }
 
 function setup_kitty() {
@@ -408,6 +433,16 @@ while getopts "ev:" arg; do
     v) verbose=true;;
   esac
 done
+
+tmp_root_dir=$(mktemp -d)
+log_info "temporary directory: $tmp_root_dir"
+
+function cleanup() {
+  log_info "remove temporary $tmp_root_dir"
+  rm -rf "$tmp_root_dir"
+}
+
+trap cleanup EXIT
 
 input=${@: -1}
 for component in "${components[@]}"; do
