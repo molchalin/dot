@@ -13,20 +13,27 @@ return {
     "chaoren/vim-wordmotion",
   },
   {
-    "easymotion/vim-easymotion",
-    event = "VeryLazy",
-    config = function()
-      vim.keymap.set("n", "<leader>",  "<Plug>(easymotion-prefix)")
-    end,
-  },
-  {
-    'stevearc/oil.nvim',
-    opts = {},
-  },
-  {
     'echasnovski/mini.splitjoin',
     version = false,
     opts = {},
+  },
+  {
+    'echasnovski/mini.jump',
+    version = false,
+    opts = {
+      delay = {
+        idle_stop = 10000,
+      },
+    },
+  },
+  {
+    'echasnovski/mini.jump2d',
+    version = false,
+    opts = {
+      mappings = {
+        start_jumping = '<leader>f',
+      },
+    },
   },
   {
     'tpope/vim-speeddating',

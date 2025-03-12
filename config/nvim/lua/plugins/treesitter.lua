@@ -27,6 +27,8 @@ return {
       "helm",
       "comment",
       "typst",
+      "luadoc",
+      "vimdoc",
     },
     highlight = { enable = true },
     indent    = { enable = false },

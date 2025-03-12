@@ -1,27 +1,23 @@
 return {
-  "nvim-telescope/telescope.nvim",
+  "folke/snacks.nvim",
   event = "VeryLazy",
   keys = {
-    { "<C-p>",     "<cmd>Telescope find_files<CR>",  remap = false },
-    { "<C-f>",     "<cmd>Telescope live_grep<CR>",   remap = false },
-    { "<C-g>",     "<cmd>Telescope grep_string<CR>", remap = false },
-    { "ge",        "<cmd>Telescope diagnostics<CR>", remap = false },
-    { "<leader>r", "<cmd>Telescope resume<CR>",      remap = false },
+    { "<C-p>",      function() Snacks.picker.files()        end, remap = false },
+    { "<C-f>",      function() Snacks.picker.grep()         end, remap = false },
+    { "<C-g>",      function() Snacks.picker.grep_word()    end, remap = false },
+    { "-",          function() Snacks.picker.explorer()     end, remap = false },
+    { "<leader>gl", function() Snacks.picker.git_log_file() end, remap = false },
   },
   opts = {
-    defaults = {
-      file_ignore_patterns = {
-        "thirdparty/",
+    picker = {
+      ui_select = true,
+      layout = {
+        preset = "telescope",
       },
-    },
-  },
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    {
-      "nvim-telescope/telescope-ui-select.nvim",
-      config = function()
-        require("telescope").load_extension("ui-select")
-      end
+      matcher = {
+        history_bonus = true,
+        frecency = true,
+      },
     },
   },
 }

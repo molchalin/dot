@@ -43,8 +43,6 @@ local on_attach = function(c, b)
     })
   end
 
-  telescope = require("telescope.builtin")
-
   local bufopts = { noremap=true, silent=true, buffer=b }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration,    bufopts)
   vim.keymap.set('n', 'K',  vim.lsp.buf.hover,          bufopts)
@@ -55,10 +53,10 @@ local on_attach = function(c, b)
   vim.keymap.set('n', 'cl', vim.lsp.codelens.run,       bufopts)
   vim.keymap.set('n', 'gl', vim.diagnostic.open_float,  bufopts)
 
-  vim.keymap.set('n', 'gd',        telescope.lsp_definitions,      bufopts)
-  vim.keymap.set('n', 'gr',        telescope.lsp_references,       bufopts)
-  vim.keymap.set('n', 'gi',        telescope.lsp_implementations,  bufopts)
-  vim.keymap.set('n', 'ge',        telescope.diagnostics,          bufopts)
+  vim.keymap.set('n', 'gd',        Snacks.picker.lsp_definitions,      bufopts)
+  vim.keymap.set('n', 'gr',        Snacks.picker.lsp_references,       bufopts)
+  vim.keymap.set('n', 'gi',        Snacks.picker.lsp_implementations,  bufopts)
+  vim.keymap.set('n', 'ge',        Snacks.picker.diagnostics_buffer,   bufopts)
 
 end
 
@@ -66,8 +64,8 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "nvim-telescope/telescope.nvim",
       "hrsh7th/nvim-cmp",
+      "folke/snacks.nvim"
     },
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities() --nvim-cmp
