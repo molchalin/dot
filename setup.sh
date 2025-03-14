@@ -136,9 +136,11 @@ function set_gnome_option() {
   local schema="$1"
   local key="$2"
   local value="$3"
-  local prev_value=$(gsettings get "$schema" "$key")
-  log_info "gsetings set '$schema' '$key': $prev_value -> '$value'"
-  execute "gsettings set '$schema' '$key' \"$value\""
+  local prev_value=$(gsettings get "$schema" "$key" | sed "s/^'//" | sed "s/'$//")
+  if [[ "$prev_value" != "$value" ]]; then
+    log_info "gsetings set '$schema' '$key': $prev_value -> '$value'"
+    execute "gsettings set '$schema' '$key' \"$value\""
+  fi
 }
 
 must_relogin=false
@@ -256,13 +258,16 @@ function setup_gnome() {
   install_gnome_extension "instantworkspaceswitcher@amalantony.net" install_instant_workspace_switcher
   install_gnome_extension "lockscreen-extension@pratap.fastmail.fm" install_lockscreen_extension
 
+  # keyboard settings
   set_gnome_option org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'ru')]"
   set_gnome_option org.gnome.desktop.wm.keybindings switch-input-source "['<Primary>space']"
-  set_gnome_option org.gnome.desktop.peripherals.keyboard delay 175
-  set_gnome_option org.gnome.desktop.peripherals.keyboard repeat-interval 25
+  set_gnome_option org.gnome.desktop.peripherals.keyboard delay "uint32 175"
+  set_gnome_option org.gnome.desktop.peripherals.keyboard repeat-interval "uint32 25"
   set_gnome_option org.gnome.desktop.input-sources xkb-options "['caps:escape', 'compose:rctrl']"
 
   set_gnome_option org.gnome.desktop.interface clock-format '24h'
+
+  set_gnome_option org.gnome.gnome-screenshot auto-save-directory "file:///home/$USER/Desktop"
 
   install_sf_fonts
   install_inter_font
@@ -270,17 +275,23 @@ function setup_gnome() {
   set_gnome_option org.gnome.desktop.interface monospace-font-name 'JetBrains Mono 10'
   set_gnome_option org.gnome.desktop.interface document-font-name 'Inter 11'
 
+  # WM settings
   for ((i = 1 ; i < 10 ; i++)); do
-    set_gnome_option org.gnome.shell.keybindings "switch-to-application-$i" '[]'
+    set_gnome_option org.gnome.shell.keybindings "switch-to-application-$i" '@as []'
   done
 
   for ((i = 1 ; i <= 10 ; i++)); do
     j=$(($i % 10))
     set_gnome_option org.gnome.desktop.wm.keybindings "switch-to-workspace-$i" "['<Super>$j']"
+    set_gnome_option org.gnome.desktop.wm.keybindings "move-to-workspace-$i" "['<Super><Shift>$j']"
   done
 
-  link_config "environment.d"
+  set_gnome_option org.gnome.desktop.wm.keybindings "switch-windows" "['<Super>j']"
+  set_gnome_option org.gnome.desktop.wm.keybindings "switch-windows-backward" "['<Super>k']"
+  set_gnome_option org.gnome.desktop.wm.keybindings "close" "['<Super><Shift>q']"
 
+  # monday is the first day of the week
+  link_config "environment.d"
   locale -a | grep -q 'en_GB.utf8' || exit_code=$?
   if [[ $exit_code -ne 0 ]]; then
     execute "sudo sed -i 's/#en_GB.UTF-8/en_GB.UTF-8/' /etc/locale.gen"
