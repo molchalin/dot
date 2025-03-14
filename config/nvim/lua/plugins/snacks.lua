@@ -1,6 +1,7 @@
 return {
   "folke/snacks.nvim",
-  event = "VeryLazy",
+  priority = 1000,
+  lazy = false,
   keys = {
     { "<C-p>",      function() Snacks.picker.files()        end, remap = false },
     { "<C-f>",      function() Snacks.picker.grep()         end, remap = false },
@@ -13,6 +14,9 @@ return {
       ui_select = true,
       layout = {
         preset = "telescope",
+      },
+      words = {
+        enabled = true,
       },
       matcher = {
         history_bonus = true,

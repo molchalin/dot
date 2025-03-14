@@ -57,6 +57,7 @@ local on_attach = function(c, b)
   vim.keymap.set('n', 'gr',        Snacks.picker.lsp_references,       bufopts)
   vim.keymap.set('n', 'gi',        Snacks.picker.lsp_implementations,  bufopts)
   vim.keymap.set('n', 'ge',        Snacks.picker.diagnostics_buffer,   bufopts)
+  Snacks.words.enable()
 
 end
 

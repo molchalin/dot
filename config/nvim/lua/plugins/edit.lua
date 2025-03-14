@@ -22,6 +22,7 @@ return {
     version = false,
     opts = {
       delay = {
+        highlight = 10000000,
         idle_stop = 10000,
       },
     },
