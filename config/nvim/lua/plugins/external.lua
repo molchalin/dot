@@ -1,11 +1,20 @@
 return{
   {
-    "iamcco/markdown-preview.nvim",
+    "MeanderingProgrammer/render-markdown.nvim",
     event = "VeryLazy",
     ft = "markdown",
-    build = function ()
-      vim.fn["mkdp#util#install"]()
-    end,
+    opts = {
+      completions = {
+        lsp = {
+          enabled = true
+        },
+      },
+      anti_conceal = {
+        enabled = true,
+        above = 3,
+        below = 3,
+      },
+    },
   },
   {
     "tpope/vim-fugitive",
