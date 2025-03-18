@@ -23,5 +23,7 @@ return {
         frecency = true,
       },
     },
+    explorer = {
+    },
   },
 }
