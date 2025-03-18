@@ -6,8 +6,8 @@ set -o pipefail
 URL=$(echo "$1" | perl -anE '/(.*)\?.*$/; say $1')
 echo "Downloading $URL";
 
-TMPDIR=$RANDOM
-mkdir "$TMPDIR"
+TMPDIR=$(mktemp -d)
+
 pushd "$TMPDIR"
 
 docker run --rm -v $(pwd):/music spotdl/spotify-downloader download "$URL" | tee output
@@ -15,17 +15,27 @@ popd
 
 ALBUM_NAME=$(cat "$TMPDIR/output" | fgrep 'Found' | perl -anE '/Found .* in (.*) \(Album\)/; say $1')
 echo "album: $ALBUM_NAME"
+if [[ -z "$ALBUM_NAME" ]]; then
+  exit 1
+fi
 rm "$TMPDIR/output"
 
 ARTIST_NAME=$(ls "$TMPDIR" | head -n 1 | cut -d '-' -f 1)
 echo "artist: $ARTIST_NAME"
+if [[ -z "$ARTIST_NAME" ]]; then
+  exit 1
+fi
 
 DIR_NAME="${ARTIST_NAME}- $ALBUM_NAME"
 echo "$DIR_NAME"
 
 mv "$TMPDIR" "$DIR_NAME"
 
-if ls /Volumes/WALKMAN/ > /dev/null; then
+if [[ -d "/Volumes/WALKMAN/" ]]; then
   mv "$DIR_NAME" /Volumes/WALKMAN/MUSIC/
   fd -H "^\._" /Volumes/WALKMAN --exec rm "{}" \;
+fi
+
+if [[ -d "/run/media/$USER/WALKMAN/" ]]; then
+  mv "$DIR_NAME" "/run/media/$USER/WALKMAN/MUSIC/"
 fi
