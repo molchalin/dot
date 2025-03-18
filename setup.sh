@@ -156,7 +156,7 @@ function install_gnome_extension() {
     must_relogin=true
   else
     log_info "$name is already installed"
-    gnome-extensions info emoji-copy@felipeftn | grep -q 'State: ENABLED' || exit_code=$?
+    gnome-extensions info "$name" | grep -iq 'Enabled: Yes' || exit_code=$?
     if [[ $exit_code -ne  0 ]]; then
       execute "gnome-extensions enable $name"
     fi
@@ -185,6 +185,31 @@ function install_lockscreen_extension() {
   local schema_dir="$HOME/.local/share/gnome-shell/extensions/lockscreen-extension@pratap.fastmail.fm/schemas"
   local ext="org.gnome.shell.extensions.lockscreen-extension"
   execute "gsettings --schemadir $schema_dir set $ext hide-lockscreen-extension-button true"
+}
+
+function install_blur_my_shell() {
+  local tmp_dir=$(tmp_dir_name "blur-my-shell")
+  execute "git clone https://github.com/aunetx/blur-my-shell $tmp_dir"
+  execute "pushd $tmp_dir && make install && popd"
+}
+
+function install_hide_topbar() {
+  local tmp_dir=$(tmp_dir_name "hide-topbar")
+  execute "git clone https://gitlab.gnome.org/tuxor1337/hidetopbar.git $tmp_dir"
+  execute "pushd $tmp_dir && make && gnome-extensions install ./hidetopbar.zip && popd"
+}
+
+function install_grand_theft_focus() {
+  local tmp_dir=$(tmp_dir_name "grand-theft-focus")
+  execute "git clone https://github.com/zalckos/GrandTheftFocus.git $tmp_dir"
+  make_dir "$HOME/.local/share/gnome-shell/extensions"
+  execute "cp -r $tmp_dir/grand-theft-focus@zalckos.github.com ~/.local/share/gnome-shell/extensions"
+}
+
+function install_shyriiwook() {
+  local tmp_dir=$(tmp_dir_name "shyriiwook")
+  execute "git clone git@github.com:madhead/shyriiwook.git $tmp_dir"
+  execute "pushd $tmp_dir && make install && popd"
 }
 
 function install_font() {
@@ -257,6 +282,10 @@ function setup_gnome() {
   install_gnome_extension "emoji-copy@felipeftn" install_emoji_picker
   install_gnome_extension "instantworkspaceswitcher@amalantony.net" install_instant_workspace_switcher
   install_gnome_extension "lockscreen-extension@pratap.fastmail.fm" install_lockscreen_extension
+  install_gnome_extension "blur-my-shell@aunetx" install_blur_my_shell
+  install_gnome_extension "hidetopbar@mathieu.bidon.ca" install_hide_topbar
+  install_gnome_extension "grand-theft-focus@zalckos.github.com" install_grand_theft_focus
+  install_gnome_extension "shyriiwook@madhead.me" install_shyriiwook
 
   # keyboard settings
   set_gnome_option org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'ru')]"
@@ -265,9 +294,21 @@ function setup_gnome() {
   set_gnome_option org.gnome.desktop.peripherals.keyboard repeat-interval "uint32 25"
   set_gnome_option org.gnome.desktop.input-sources xkb-options "['caps:escape', 'compose:rctrl']"
 
-  set_gnome_option org.gnome.desktop.interface clock-format '24h'
+  local custom_binding="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom"
+  local custom_binding0="${custom_binding}0/"
+  local custom_binding1="${custom_binding}1/"
+  local media_keys="org.gnome.settings-daemon.plugins.media-keys"
+  local custom_schema="$media_keys.custom-keybinding"
+  local command="gdbus call --session --dest org.gnome.Shell --object-path /me/madhead/Shyriiwook --method me.madhead.Shyriiwook.activate"
+  set_gnome_option "$media_keys" custom-keybindings "['$custom_binding0', '$custom_binding1']"
+  set_gnome_option "$custom_schema:$custom_binding0" binding "<Super>e"
+  set_gnome_option "$custom_schema:$custom_binding0" name "Switch to English"
+  set_gnome_option "$custom_schema:$custom_binding0" command "$command us"
+  set_gnome_option "$custom_schema:$custom_binding1" binding "<Super>r"
+  set_gnome_option "$custom_schema:$custom_binding1" name "Switch to Russian"
+  set_gnome_option "$custom_schema:$custom_binding1" command "$command ru"
 
-  set_gnome_option org.gnome.gnome-screenshot auto-save-directory "file:///home/$USER/Desktop"
+  set_gnome_option org.gnome.desktop.interface clock-format '24h'
 
   install_sf_fonts
   install_inter_font
@@ -289,6 +330,8 @@ function setup_gnome() {
   set_gnome_option org.gnome.desktop.wm.keybindings "switch-windows" "['<Super>j']"
   set_gnome_option org.gnome.desktop.wm.keybindings "switch-windows-backward" "['<Super>k']"
   set_gnome_option org.gnome.desktop.wm.keybindings "close" "['<Super><Shift>q']"
+  set_gnome_option org.gnome.shell.keybindings 'toggle-overview' "['<Super>space']"
+  set_gnome_option org.gnome.mutter 'overlay-key' ''
 
   # monday is the first day of the week
   link_config "environment.d"
@@ -303,6 +346,13 @@ function setup_gnome() {
   if [[ "$must_relogin" == true ]]; then
     log_fatal "You must relogin to proceed installation"
   fi
+}
+
+function setup_desktop() {
+  install "zathura"
+  install "zathura-pdf-poppler"
+  link_config "zathura"
+  execute "xdg-mime default org.pwmt.zathura.desktop application/pdf"
 }
 
 FIREFOX_PATH="$HOME/.mozilla/firefox"
@@ -401,6 +451,12 @@ function setup_docker() {
   install "docker"
   if is_mac; then
     install "colima"
+  else
+    local has_docker_group=true
+    groups | grep -q 'docker' || has_docker_group=false
+    if [[ "$has_docker_group" == false ]]; then
+      execute "sudo usermod -aG docker $USER"
+    fi
   fi
 }
 
@@ -434,6 +490,7 @@ components=(
   'docker'
   'cryptfs'
   'homeutil'
+  'desktop'
 )
 
 execute=false
