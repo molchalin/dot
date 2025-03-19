@@ -274,7 +274,6 @@ function setup_tmux() {
     execute "cp $PWD/config/tmux-sessionizer/list $HOME/.config/tmux-sessionizer/"
   fi
   link_bin "tmux.plx"
-  link_bin "tmux-realpath"
   link_bin "pomodoro"
 }
 

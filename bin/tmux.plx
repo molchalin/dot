@@ -55,6 +55,20 @@ sub current_path {
     }
 }
 
+sub realpath {
+    my ($root, $cur) = @_;
+    my $res = "";
+
+    if (index($cur, $root) == 0) {
+        $res = substr($cur, length($root));
+    } elsif (index($cur, $ENV{HOME}) == 0) {
+        $res = "~" . substr($cur, length($ENV{HOME}));
+    } else {
+        $res = $cur;
+    }
+    return $res;
+}
+
 if ($ARGV[0] eq "list") {
     my (@config) = read_config;
     my (@order) = read_history;
@@ -79,4 +93,20 @@ if ($ARGV[0] eq "list") {
     say {$fh} unprettify($ARGV[1]);
     close $fh;
     say unprettify($ARGV[1]);
+} elsif ($ARGV[0] eq "realpath") {
+    my $res = realpath $ARGV[1], $ARGV[2];
+    if ($res) {
+        print " $res";
+    }
+} elsif ($ARGV[0] eq "window-list") {
+    chomp(my @lines = <STDIN>);
+    foreach (@lines) {
+        my ($active, $index, $name, $root, $cur) = split /,/, $_;
+        my $state = "  ";
+        if ($active) {
+            $state = "->";
+        }
+        my $path = realpath $root, $cur;
+        say "$state $index $name $path";
+    }
 }

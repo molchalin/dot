@@ -54,8 +54,8 @@ return {
         a = {format_mode("PREFIX", "COPY  ", "NORMAL")},
         b = {'\\ueb46  #S'},
         -- c = '',
-        win = {'#I', '\\uea83#(tmux-realpath "#{session_path}" "#{pane_current_path}")', '#W'},
-        cwin = {'#I', '\\ueaf6#(tmux-realpath "#{session_path}" "#{pane_current_path}")', '#W'},
+        win = {'#I', '\\uea83#(tmux.plx realpath "#{session_path}" "#{pane_current_path}")', '#W'},
+        cwin = {'#I', '\\ueaf6#(tmux.plx realpath "#{session_path}" "#{pane_current_path}")', '#W'},
         x = {
           "#(pomodoro status)#{forecast}",
           '%Y-%m-%d',
