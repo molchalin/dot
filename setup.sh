@@ -347,11 +347,24 @@ function setup_gnome() {
   fi
 }
 
-function setup_desktop() {
+function setup_desktop_linux() {
   install "zathura"
   install "zathura-pdf-poppler"
   link_config "zathura"
   execute "xdg-mime default org.pwmt.zathura.desktop application/pdf"
+}
+
+function setup_desktop_mac() {
+  install "karabiner"
+  link_config "karabiner"
+}
+
+function setup_desktop() {
+  if is_mac; then
+    setup_desktop_mac
+  else
+    setup_desktop_linux
+  fi
 }
 
 FIREFOX_PATH="$HOME/.mozilla/firefox"
