@@ -59,8 +59,9 @@ sub realpath {
     my ($root, $cur) = @_;
     my $res = "";
 
-    if (index($cur, $root) == 0) {
-        $res = substr($cur, length($root));
+    if ($cur eq $root) {
+    } elsif (index($cur, $root) == 0) {
+        $res = substr($cur, length($root) + 1);
     } elsif (index($cur, $ENV{HOME}) == 0) {
         $res = "~" . substr($cur, length($ENV{HOME}));
     } else {
