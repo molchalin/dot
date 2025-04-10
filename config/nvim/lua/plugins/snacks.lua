@@ -25,5 +25,10 @@ return {
     },
     explorer = {
     },
+    image = {
+      convert = {
+        notify = false,
+      },
+    },
   },
 }
