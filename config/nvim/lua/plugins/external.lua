@@ -3,16 +3,15 @@ return{
     "MeanderingProgrammer/render-markdown.nvim",
     event = "VeryLazy",
     ft = "markdown",
+    keys = {
+      { "<leader>m", ":RenderMarkdown toggle<CR>" , remap = false },
+    },
     opts = {
+      enabled = false,
       completions = {
         lsp = {
-          enabled = true
+          enabled = true,
         },
-      },
-      anti_conceal = {
-        enabled = true,
-        above = 3,
-        below = 3,
       },
     },
   },
