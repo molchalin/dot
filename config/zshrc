@@ -145,7 +145,7 @@ function command_not_found_handler() {
     local RED='\033[0;31m'
     local BOLD_RED='\033[1;31m'
     local NC='\033[0m'
-	echo "${RED}command not found: ${BOLD_RED}$1${NC}"
+    echo "${RED}command not found: ${BOLD_RED}$1${NC}"
     return 127
 }
 
