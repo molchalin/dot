@@ -5,3 +5,4 @@ config/zsh/*.zwc
 share/nvim/site/spell
 Brewfile.lock.json
 config/tmux/tmuxline.conf
+config/karabiner/automatic_backups/
