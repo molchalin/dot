@@ -484,7 +484,9 @@ function setup_cryptfs() {
 
 function setup_homeutil() {
   link_bin "notes"
-  link_bin "spotdl"
+  link_bin "yohoho"
+  install "yt-dlp"
+  install "aria2c" "aria2"
   link_bin "sync-ssh"
   link_bin "breakfree"
 }
