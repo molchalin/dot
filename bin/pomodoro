@@ -3,6 +3,10 @@
 set -o errexit
 set -o pipefail
 
+if [[ $OSTYPE == darwin*   ]]; then
+    alias date=gdate
+fi
+
 LOG_FILE="$HOME/.local/state/pomodoro/log.jsonl"
 if [[ ! -e $LOG_FILE ]]; then
     mkdir -p $(dirname $LOG_FILE)
