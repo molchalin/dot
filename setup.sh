@@ -484,11 +484,20 @@ function setup_cryptfs() {
 
 function setup_homeutil() {
   link_bin "notes"
-  link_bin "yohoho"
-  install "yt-dlp"
   install "aria2c" "aria2"
   link_bin "sync-ssh"
   link_bin "breakfree"
+
+  link_bin "yohoho"
+  install "yt-dlp"
+  if is_mac; then
+    install "pipx"
+    if ! has "spotdl"; then
+      execute "pipx install spotdl"
+    fi
+  else
+    install "spotdl"
+  fi
 }
 
 # TODO(andrei): desktop apps

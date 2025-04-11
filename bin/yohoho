@@ -1,10 +1,15 @@
 #!/bin/bash
-
 set -o errexit
 set -o pipefail
 
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+function log_info() {
+  echo -e "${BLUE}[I] $@${NC}";
+}
+
 URL=$1
-echo "Downloading $URL";
 
 if [[ -d "/Volumes/WALKMAN/" ]]; then
   DST_DIR="/Volumes/WALKMAN/"
@@ -18,39 +23,41 @@ if [[ -z "$DST_DIR" ]]; then
   DST_DIR="$HOME/Downloads"
 fi
 
-if [[ -d "$DST_DIR/MUSIC" ]]; then
-  DST_DIR="$DST_DIR/MUSIC"
+if [[ -d "${DST_DIR}MUSIC/" ]]; then
+  DST_DIR="${DST_DIR}MUSIC/"
 fi
 
+log_info "Downloading $URL to $DST_DIR";
+
 if [[ $URL =~ "youtube" ]]; then
-  echo "youtube"
-  if [[ -d "$DST_DIR/0PODCAST" ]]; then
-    DST_DIR="$DST_DIR/0PODCAST"
+  log_info "Download from youtube"
+  if [[ -d "${DST_DIR}0PODCAST/" ]]; then
+    DST_DIR="${DST_DIR}0PODCAST/"
   fi
   yt-dlp -x -P "$DST_DIR" --audio-format mp3 $URL
 else
-
+  log_info "Download from spotify"
   TMPDIR=$(mktemp -d)
   pushd "$TMPDIR"
-
-  docker run --rm -v $(pwd):/music spotdl/spotify-downloader download "$URL" | tee output
+  log_info $(pwd)
+  spotdl download "$URL" | tee output
   popd
 
   ALBUM_NAME=$(cat "$TMPDIR/output" | fgrep 'Found' | perl -anE '/Found .* in (.*) \(Album\)/; say $1')
-  echo "album: $ALBUM_NAME"
   if [[ -z "$ALBUM_NAME" ]]; then
+    log_info "album: $ALBUM_NAME"
     exit 1
   fi
   rm "$TMPDIR/output"
 
   ARTIST_NAME=$(ls "$TMPDIR" | head -n 1 | cut -d '-' -f 1)
-  echo "artist: $ARTIST_NAME"
   if [[ -z "$ARTIST_NAME" ]]; then
+    log_info "artist: $ARTIST_NAME"
     exit 1
   fi
 
   SRC="${ARTIST_NAME}- $ALBUM_NAME"
-  echo "$SRC"
+  log_info "Result album dir: $SRC"
   mv "$TMPDIR" "$SRC"
   mv "$SRC" "$DST_DIR"
 fi
