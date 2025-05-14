@@ -12,7 +12,7 @@ if [[ "$1" == "preview" ]]; then
     exit 0;
 fi
 
-selected_name=$(tmux.plx list | fzf --border none --scheme history -d / --nth -1 --with-nth -1 --preview 'tmux-sessionizer preview {}')
+selected_name=$(tmux.plx list | fzf --ignore-case --border none --scheme history -d / --nth -1 --with-nth -1 --preview 'tmux-sessionizer preview {}')
 
 if [[ -z $selected_name ]]; then
     exit 0
