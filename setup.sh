@@ -143,6 +143,23 @@ function set_gnome_option() {
   fi
 }
 
+function set_mac_option() {
+  local schema="$1"
+  local key="$2"
+  local type="$3"
+  local value="$4"
+  local prev_value=$(defaults read "$schema" "$key")
+  if [[ "$prev_value" != "$value" ]]; then
+    log_info "defaults write '$schema' '$key': $prev_value -> '$value'"
+    execute "defaults write '$schema' '$key' $type $value"
+  fi
+}
+
+function set_mac_plist() {
+  local schema="$1"
+  execute "plutil -convert xml1 config/plist/$schema.json -o - | defaults import '$schema' -"
+}
+
 must_relogin=false
 
 function install_gnome_extension() {
@@ -355,8 +372,18 @@ function setup_desktop_linux() {
 }
 
 function setup_desktop_mac() {
-  install "karabiner"
+  PATH="$PATH:/Library/Application Support/org.pqrs/Karabiner-Elements/bin/" install "karabiner_cli" "karabiner"
   link_config "karabiner"
+  set_mac_option "NSGlobalDomain" "KeyRepeat" "-int" "2"
+  set_mac_option "NSGlobalDomain" "InitialKeyRepeat" "-int" "15"
+  set_mac_option "com.apple.dock" "mru-spaces" "-bool" "0"
+  set_mac_option "com.apple.dock" "show-recents" "-bool" "0"
+  set_mac_option "NSGlobalDomain" "NSAutomaticSpellingCorrectionEnabled" "-bool" "0"
+  set_mac_option "NSGlobalDomain" "NSAutomaticCapitalizationEnabled" "-bool" "0"
+  set_mac_plist "com.apple.spotlight"
+  set_mac_plist "com.apple.symbolichotkeys"
+  execute "mdutil -i off"
+  install "telegram"
 }
 
 function setup_desktop() {
@@ -490,6 +517,7 @@ function setup_homeutil() {
 
   link_bin "yohoho"
   install "yt-dlp"
+  install "ffmpeg"
   if is_mac; then
     install "pipx"
     if ! has "spotdl"; then
