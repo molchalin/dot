@@ -34,7 +34,7 @@ if [[ $URL =~ "youtube" ]]; then
   if [[ -d "${DST_DIR}0PODCAST/" ]]; then
     DST_DIR="${DST_DIR}0PODCAST/"
   fi
-  yt-dlp -x -P "$DST_DIR" --audio-format mp3 $URL
+  yt-dlp --sponsorblock-remove "sponsor,selfpromo" -x -P "$DST_DIR" --audio-format mp3 $URL
 else
   log_info "Download from spotify"
   TMPDIR=$(mktemp -d)
@@ -42,6 +42,11 @@ else
   log_info $(pwd)
   spotdl download "$URL" | tee output
   popd
+
+  if [[ $URL =~ "track" ]]; then
+    mv $TMPDIR/*.mp3 "$DST_DIR"
+    exit 0;
+  fi
 
   ALBUM_NAME=$(cat "$TMPDIR/output" | fgrep 'Found' | perl -anE '/Found .* in (.*) \(Album\)/; say $1')
   if [[ -z "$ALBUM_NAME" ]]; then
