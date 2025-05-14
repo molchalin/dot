@@ -91,6 +91,8 @@ else
     fi
 fi
 
+alias o="open"
+
 alias gld="git -c diff.external=difft log --ext-diff"
 alias gshd="git -c diff.external=difft show --ext-diff"
 alias gdd="git -c diff.external=difft diff"
