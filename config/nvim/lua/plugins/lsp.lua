@@ -71,6 +71,7 @@ return {
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities() --nvim-cmp
       local lspconfig = require 'lspconfig'
+      local configs = require 'lspconfig/configs'
       lspconfig.gopls.setup{
         on_attach  = on_attach,
         cmd = {"gopls", "serve"},
@@ -90,13 +91,25 @@ return {
           },
         },
       }
-
-      lspconfig.golangci_lint_ls.setup{
-        on_attach  = on_attach,
-        capabilities = capabilities,
-        filetypes = {"go", "gomod"},
-      }
-
+      --
+      -- if not configs.golangcilsp then
+      --   configs.golangcilsp = {
+      --     default_config = {
+      --       cmd = {'golangci-lint-langserver'},
+      --       root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
+      --       init_options = {
+      --         command = { "golangci-lint", "run", "--output.json.path", "stdout", "--show-stats=false", "--issues-exit-code=1" },
+      --       },
+      --     }
+      --   }
+      -- end
+      --
+      -- lspconfig.golangci_lint_ls.setup{
+      --   on_attach  = on_attach,
+      --   capabilities = capabilities,
+      --   filetypes = {"go", "gomod"},
+      -- }
+      --
       lspconfig.rust_analyzer.setup{
         capabilities = capabilities,
         on_attach = on_attach,

@@ -26,6 +26,7 @@ return {
     explorer = {
     },
     image = {
+      enabled = false,
       convert = {
         notify = false,
       },
