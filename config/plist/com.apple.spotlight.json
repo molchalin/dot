@@ -1,129 +1,84 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>orderedItems</key>
-	<array>
-		<dict>
-			<key>enabled</key>
-			<true/>
-			<key>name</key>
-			<string>APPLICATIONS</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>MENU_SPOTLIGHT_SUGGESTIONS</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>MENU_CONVERSION</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<true/>
-			<key>name</key>
-			<string>MENU_EXPRESSION</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>MENU_DEFINITION</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<true/>
-			<key>name</key>
-			<string>SYSTEM_PREFS</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>DOCUMENTS</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>DIRECTORIES</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>PRESENTATIONS</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>SPREADSHEETS</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>PDF</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>MESSAGES</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>CONTACT</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>EVENT_TODO</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>IMAGES</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>BOOKMARKS</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>MUSIC</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>MOVIES</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>FONTS</string>
-		</dict>
-		<dict>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>MENU_OTHER</string>
-		</dict>
-	</array>
-</dict>
-</plist>
+{
+  "orderedItems": [
+    {
+      "enabled": true,
+      "name": "APPLICATIONS"
+    },
+    {
+      "enabled": false,
+      "name": "MENU_SPOTLIGHT_SUGGESTIONS"
+    },
+    {
+      "enabled": false,
+      "name": "MENU_CONVERSION"
+    },
+    {
+      "enabled": true,
+      "name": "MENU_EXPRESSION"
+    },
+    {
+      "enabled": false,
+      "name": "MENU_DEFINITION"
+    },
+    {
+      "enabled": true,
+      "name": "SYSTEM_PREFS"
+    },
+    {
+      "enabled": false,
+      "name": "DOCUMENTS"
+    },
+    {
+      "enabled": false,
+      "name": "DIRECTORIES"
+    },
+    {
+      "enabled": false,
+      "name": "PRESENTATIONS"
+    },
+    {
+      "enabled": false,
+      "name": "SPREADSHEETS"
+    },
+    {
+      "enabled": false,
+      "name": "PDF"
+    },
+    {
+      "enabled": false,
+      "name": "MESSAGES"
+    },
+    {
+      "enabled": false,
+      "name": "CONTACT"
+    },
+    {
+      "enabled": false,
+      "name": "EVENT_TODO"
+    },
+    {
+      "enabled": false,
+      "name": "IMAGES"
+    },
+    {
+      "enabled": false,
+      "name": "BOOKMARKS"
+    },
+    {
+      "enabled": false,
+      "name": "MUSIC"
+    },
+    {
+      "enabled": false,
+      "name": "MOVIES"
+    },
+    {
+      "enabled": false,
+      "name": "FONTS"
+    },
+    {
+      "enabled": false,
+      "name": "MENU_OTHER"
+    }
+  ]
+}
