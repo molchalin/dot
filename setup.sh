@@ -526,6 +526,13 @@ function setup_homeutil() {
   else
     install "spotdl"
   fi
+  install "syncthing"
+  if is_mac; then
+    execute "brew services start syncthing"
+  else
+    execute "systemctl --user enable syncthing.service"
+    execute "systemctl --user start syncthing.service"
+  fi
 }
 
 # TODO(andrei): desktop apps
