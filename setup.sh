@@ -44,8 +44,11 @@ function install_package() {
   local mac_pkg=${2:-$1}
   # TODO(a.eremeev): ensure_package_manager_installed
   if is_mac; then
-    # TODO(andrei): cask?
-    execute "brew install $mac_pkg"
+    local exit_code=0
+    brew list "$mac_pkg" &> /dev/null || exit_code=$?
+    if [[ $exit_code -ne 0 ]]; then
+      execute "brew install $mac_pkg"
+    fi
   else
     execute "yay $linux_pkg"
   fi
@@ -372,7 +375,7 @@ function setup_desktop_linux() {
 }
 
 function setup_desktop_mac() {
-  PATH="$PATH:/Library/Application Support/org.pqrs/Karabiner-Elements/bin/" install "karabiner_cli" "karabiner"
+  install "karabiner-elements"
   link_config "karabiner"
   set_mac_option "NSGlobalDomain" "KeyRepeat" "-int" "2"
   set_mac_option "NSGlobalDomain" "InitialKeyRepeat" "-int" "15"
@@ -383,7 +386,6 @@ function setup_desktop_mac() {
   set_mac_plist "com.apple.spotlight"
   set_mac_plist "com.apple.symbolichotkeys"
   execute "mdutil -i off"
-  install "telegram"
 }
 
 function setup_desktop() {
@@ -392,6 +394,7 @@ function setup_desktop() {
   else
     setup_desktop_linux
   fi
+  install "telegram-desktop"
 }
 
 FIREFOX_PATH="$HOME/.mozilla/firefox"
@@ -510,6 +513,7 @@ function setup_cryptfs() {
 }
 
 function setup_homeutil() {
+  setup_cryptfs
   link_bin "notes"
   install "aria2c" "aria2"
   link_bin "sync-ssh"
@@ -533,6 +537,7 @@ function setup_homeutil() {
     execute "systemctl --user enable syncthing.service"
     execute "systemctl --user start syncthing.service"
   fi
+  install "outline"
 }
 
 # TODO(andrei): desktop apps
@@ -546,7 +551,6 @@ components=(
   'tools'
   'git'
   'docker'
-  'cryptfs'
   'homeutil'
   'desktop'
 )
