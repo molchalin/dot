@@ -109,6 +109,17 @@
           524288
         ]
       }
+    },
+    "9": {
+      "enabled": true,
+      "value": {
+        "type": "standard",
+        "parameters": [
+          65535,
+          48,
+          524288
+        ]
+      }
     }
   }
 }
