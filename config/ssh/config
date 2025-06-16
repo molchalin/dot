@@ -1,0 +1,8 @@
+Include ~/.ssh/config_local
+Include ~/.ssh/config_hosts
+
+# share connections
+ControlMaster auto
+ControlPath ~/.local/state/ssh/control/%h_%p_%r
+# close connection only 10m after last use
+ControlPersist 10m

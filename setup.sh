@@ -515,8 +515,8 @@ function setup_cryptfs() {
 function setup_homeutil() {
   setup_cryptfs
   link_bin "notes"
+
   install "aria2c" "aria2"
-  link_bin "sync-ssh"
   link_bin "breakfree"
 
   link_bin "yohoho"
@@ -538,6 +538,10 @@ function setup_homeutil() {
     execute "systemctl --user start syncthing.service"
   fi
   install "outline"
+
+  link_bin "sync-ssh"
+  make_dir "$HOME/.ssh"
+  link_same_name "config/ssh/config" "$HOME/.ssh"
 }
 
 # TODO(andrei): desktop apps
