@@ -107,6 +107,7 @@ function setup_tmux() {
   install "tmux"
   link_config "tmux"
   link_bin "tmux-sessionizer"
+  make_dir "$HOME/.local/state/tmux-sessionizer"
   local config_exists=true
   test -e "$HOME/.config/tmux-sessionizer/list" || config_exists=false
   if [[ "$config_exists" == false ]]; then
@@ -148,6 +149,9 @@ function setup_gnome() {
   set_gnome_option "$custom_schema:$custom_binding1" command "$command ru"
 
   set_gnome_option org.gnome.desktop.interface clock-format '24h'
+  set_gnome_option org.gnome.desktop.interface show-battery-percentage 'true'
+  set_gnome_option org.gnome.desktop.wm.preferences num-workspaces '10'
+  set_gnome_option org.gnome.mutter dynamic-workspaces 'false'
 
   install_sf_fonts
   install_inter_font
@@ -237,7 +241,7 @@ function create_user_js() {
   execute "cat config/firefox/user.js | sed 's/__FONT_MONO__/${font_mono}/' | sed 's/__FONT_DISPLAY__/${font_display}/' | sed 's/__FONT_TEXT__/${font_text}/' >> ${userjs}"
 }
 
-FIREFOX_DISTRIBUTION_PATHES=("/usr/lib/firefox/distribution", "/usr/lib64/firefox/distribution")
+FIREFOX_DISTRIBUTION_PATHES=("/usr/lib/firefox/distribution" "/usr/lib64/firefox/distribution")
 function set_firefox_profile_options() {
   if is_mac; then
     execute "defaults delete ~/Library/Preferences/org.mozilla.firefox"
@@ -283,14 +287,10 @@ function setup_kitty() {
 
 function setup_tools() {
   install "bat"
+  make_dir "$PWD/config/bat/themes"
   get_file "https://raw.githubusercontent.com/molchalin/gruvbox-material-bat/main/gruvbox-material-dark.tmTheme" "config/bat/themes/gruvbox-material-dark.tmTheme"
   link_config "bat"
   execute "bat cache --build"
-  ensure_installed "fzf"
-  ensure_installed "fd"
-  ensure_installed "jq"
-  ensure_installed "rg" "ripgrep"
-  ensure_installed "eza"
   install "fzf"
   install "fd"
   install "jq"
