@@ -22,6 +22,9 @@ return {
         history_bonus = true,
         frecency = true,
       },
+      exclude = {
+        "subprojects/*",
+      },
     },
     explorer = {
     },

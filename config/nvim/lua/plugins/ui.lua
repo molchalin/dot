@@ -11,6 +11,7 @@ return {
     "mvllow/modes.nvim",
     event = "BufEnter",
     opts = {
+      set_cursor = false,
       line_opacity = 0.1,
     },
   },
