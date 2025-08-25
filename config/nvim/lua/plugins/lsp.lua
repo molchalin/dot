@@ -19,7 +19,7 @@ local organize_imports = function(client, bufnr, timeoutms)
 end
 
 local on_attach = function(c, b)
-  if c.name == "gopls" and c.server_capabilities.documentFormattingProvider then
+  if (c.name == "gopls" or c.name == "clangd") and c.server_capabilities.documentFormattingProvider then
     vim.api.nvim_create_autocmd({ "BufWritePre" }, {
       buffer = b,
       callback = function()
@@ -121,43 +121,6 @@ return {
         on_attach = on_attach,
         filetypes = {'cpp', 'c'},
       }
-
-      lspconfig.jdtls.setup{
-        capabilities = capabilities,
-        on_attach = on_attach,
-        filetypes = {"java"},
-        cmd = { 'jdtls' },
-        root_dir = function(fname)
-          local root = require("lspconfig/util").root_pattern(".git")(fname)
-          if root == nil then
-            return nil
-          end
-          return root  .. "/eclipse"
-        end,
-        settings = {
-          java = {
-            configuration = {
-              runtimes = {
-                {
-                  name = "JavaSE-11",
-                  path = "/usr/lib/jvm/java-11-openjdk/",
-                },
-                {
-                  name = "JavaSE-17",
-                  path = "/usr/lib/jvm/java-17-openjdk/",
-                },
-              },
-            },
-            format = {
-              enabled = os.getenv("NVIM_JAVA_STYLE") ~= "",
-              settings = {
-                profile = os.getenv("NVIM_JAVA_STYLE_PROFILE"),
-                url = os.getenv("NVIM_JAVA_STYLE"),
-              },
-            },
-          },
-        },
-      }
     end
   },
   {
@@ -185,9 +148,5 @@ return {
     build = function()
       vim.cmd(":GoUpdateBinaries")
     end
-  },
-  {
-    "mfussenegger/nvim-jdtls",
-    ft = "java",
   },
 }

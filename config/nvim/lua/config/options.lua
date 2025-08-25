@@ -1,3 +1,5 @@
+vim.cmd('runtime macros/matchit.vim')
+
 vim.opt.number         = true
 vim.opt.relativenumber = true
 
@@ -121,7 +123,7 @@ vim.api.nvim_create_autocmd({"BufEnter", "WinEnter", "InsertLeave"}, {
     end
 
     local textwidth = 120
-    if string.find(vim.fn.hostname(), "quobyte") then
+    if string.find(vim.fn.hostname(), "andreyeremeev") then
       if vim.bo[ev.buf].filetype == 'java' then
         textwidth = 100
       elseif vim.bo[ev.buf].filetype == 'gitcommit' then
