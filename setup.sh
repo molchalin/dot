@@ -32,25 +32,11 @@ function install_instant_workspace_switcher() {
   execute "cp -r $tmp_dir/instantworkspaceswitcher@amalantony.net ~/.local/share/gnome-shell/extensions"
 }
 
-function install_lockscreen_extension() {
-  local tmp_dir=$(tmp_dir_name "lockscreen-extension")
-  execute "git clone https://github.com/PRATAP-KUMAR/lockscreen-extension $tmp_dir"
-  execute "pushd $tmp_dir && ./install.sh && popd"
-  local schema_dir="$HOME/.local/share/gnome-shell/extensions/lockscreen-extension@pratap.fastmail.fm/schemas"
-  local ext="org.gnome.shell.extensions.lockscreen-extension"
-  execute "gsettings --schemadir $schema_dir set $ext hide-lockscreen-extension-button true"
-}
-
 function install_blur_my_shell() {
+  # TODO(a.eremeev): save settings of this extension?
   local tmp_dir=$(tmp_dir_name "blur-my-shell")
   execute "git clone https://github.com/aunetx/blur-my-shell $tmp_dir"
   execute "pushd $tmp_dir && make install && popd"
-}
-
-function install_hide_topbar() {
-  local tmp_dir=$(tmp_dir_name "hide-topbar")
-  execute "git clone https://gitlab.gnome.org/tuxor1337/hidetopbar.git $tmp_dir"
-  execute "pushd $tmp_dir && make && gnome-extensions install ./hidetopbar.zip && popd"
 }
 
 function install_grand_theft_focus() {
@@ -121,11 +107,12 @@ function setup_tmux() {
 function setup_gnome() {
   install_gnome_extension "emoji-copy@felipeftn" install_emoji_picker
   install_gnome_extension "instantworkspaceswitcher@amalantony.net" install_instant_workspace_switcher
-  install_gnome_extension "lockscreen-extension@pratap.fastmail.fm" install_lockscreen_extension
   install_gnome_extension "blur-my-shell@aunetx" install_blur_my_shell
-  install_gnome_extension "hidetopbar@mathieu.bidon.ca" install_hide_topbar
   install_gnome_extension "grand-theft-focus@zalckos.github.com" install_grand_theft_focus
   install_gnome_extension "shyriiwook@madhead.me" install_shyriiwook
+
+  # default extensions
+  install_gnome_extension system-monitor@gnome-shell-extensions.gcampax.github.com
 
   # keyboard settings
   set_gnome_option org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'ru')]"
