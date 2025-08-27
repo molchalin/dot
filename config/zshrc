@@ -52,8 +52,6 @@ fi
 
 export EDITOR=vim
 
-set -o vi
-
 export PATH=$HOME/.local/bin/:$PATH
 
 if has go; then
@@ -66,6 +64,8 @@ if has nvim; then
 fi
 alias vi=vim
 alias v=vim
+
+set -o vi
 
 if has bat; then
     alias cat="bat --plain"
