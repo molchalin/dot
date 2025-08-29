@@ -124,7 +124,7 @@ vim.api.nvim_create_autocmd({"BufEnter", "WinEnter", "InsertLeave"}, {
 
     local textwidth = 120
     if string.find(vim.fn.hostname(), "andreyeremeev") then
-      if vim.bo[ev.buf].filetype == 'java' then
+      if vim.bo[ev.buf].filetype == 'go' then
         textwidth = 100
       elseif vim.bo[ev.buf].filetype == 'gitcommit' then
         textwidth = 72
