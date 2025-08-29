@@ -13,12 +13,12 @@ return {
     "chaoren/vim-wordmotion",
   },
   {
-    'echasnovski/mini.splitjoin',
+    'nvim-mini/mini.splitjoin',
     version = false,
     opts = {},
   },
   {
-    'echasnovski/mini.jump',
+    'nvim-mini/mini.jump',
     version = false,
     opts = {
       delay = {
@@ -28,7 +28,7 @@ return {
     },
   },
   {
-    'echasnovski/mini.jump2d',
+    'nvim-mini/mini.jump2d',
     version = false,
     opts = {
       mappings = {
