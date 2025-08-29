@@ -159,7 +159,7 @@ function install_gnome_extension() {
     must_relogin=true
   else
     log_info "$name is already installed"
-    gnome-extensions info "$name" | grep -iq 'Enabled: Yes' || exit_code=$?
+    gnome-extensions info "$name" | grep -iq 'State: ENABLED' || exit_code=$?
     if [[ $exit_code -ne  0 ]]; then
       execute "gnome-extensions enable $name"
     fi
