@@ -26,6 +26,7 @@ znap_source 'git@github.com:zdharma-continuum/fast-syntax-highlighting'
 znap_source 'git@github.com:MichaelAquilina/zsh-you-should-use'
 znap_source 'git@github.com:MichaelAquilina/zsh-auto-notify'
 znap_source 'git@github.com:zsh-users/zsh-completions'
+znap_source 'git@github.com:romkatv/zsh-defer'
 
 znap clone 'git@github.com:ohmyzsh/ohmyzsh'
 znap source ohmyzsh lib/completion
@@ -107,11 +108,9 @@ REAL_SSH=$(which ssh)
 function ssh() {
     if [[ -n ${TMUX_PANE} ]]; then
         tmux rename-window -t ${TMUX_PANE} "ssh $@"
+        zsh-defer tmux setw automatic-rename
     fi
     $REAL_SSH "$@"
-    if [[ -n ${TMUX_PANE} ]]; then
-        tmux setw automatic-rename
-    fi
 }
 
 function git-vimdiff () {
