@@ -90,6 +90,17 @@ return {
             experimentalPostfixCompletions = false,
           },
         },
+        before_init = function(_, config)
+          if vim.fn.executable("go") ~= 1 then
+            return
+          end
+          local module = vim.fn.trim(vim.fn.system("go list -m"))
+          if vim.v.shell_error ~= 0 then
+            return
+          end
+          module = module:gsub("\n", ",")
+          config.settings.gopls["formatting.local"] = module
+         end,
       }
       --
       -- if not configs.golangcilsp then
