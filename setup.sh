@@ -137,6 +137,7 @@ function setup_gnome() {
 
   set_gnome_option org.gnome.desktop.interface clock-format '24h'
   set_gnome_option org.gnome.desktop.interface show-battery-percentage 'true'
+  set_gnome_option org.gnome.desktop.interface enable-hot-corners 'false'
   set_gnome_option org.gnome.desktop.wm.preferences num-workspaces '10'
   set_gnome_option org.gnome.mutter dynamic-workspaces 'false'
 
