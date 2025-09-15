@@ -24,6 +24,8 @@ znap_source 'git@github.com:jeffreytse/zsh-vi-mode'
 znap_source 'git@github.com:zsh-users/zsh-autosuggestions'
 znap_source 'git@github.com:zdharma-continuum/fast-syntax-highlighting'
 znap_source 'git@github.com:MichaelAquilina/zsh-you-should-use'
+
+export AUTO_NOTIFY_THRESHOLD=30
 znap_source 'git@github.com:MichaelAquilina/zsh-auto-notify'
 znap_source 'git@github.com:zsh-users/zsh-completions'
 znap_source 'git@github.com:romkatv/zsh-defer'
