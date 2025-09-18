@@ -115,10 +115,6 @@ function ssh() {
     $REAL_SSH "$@"
 }
 
-function git-vimdiff () {
-    GIT_EXTERNAL_DIFF=git-diff-wrapper git --no-pager diff $@;
-}
-
 if is_linux; then
     alias pbcopy='xclip -selection clipboard'
     alias pbpaste='xclip -selection clipboard -o'

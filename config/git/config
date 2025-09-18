@@ -12,9 +12,13 @@
 	hunk-header-decoration-style = none
 [merge]
 	conflictstyle = diff3
+	tool = myvimdiff
 [diff]
 	colorMoved = default
+	tool = myvimdiff
+[difftool "myvimdiff"]
+	cmd = nvim -d "$LOCAL" "$REMOTE"
 [init]
-    templatedir = ~/.config/git/templates
+	templatedir = ~/.config/git/templates
 [include]
-    path = ~/.config/git/config.local
+	path = ~/.config/git/config.local

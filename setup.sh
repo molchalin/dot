@@ -294,7 +294,6 @@ function setup_git() {
   install "delta" "git-delta"
   install "difft" "difftastic"
   link_config "git"
-  link_bin "git-diff-wrapper"
 }
 
 function setup_docker() {
