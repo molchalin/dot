@@ -1,19 +1,11 @@
 return{
   {
-    "MeanderingProgrammer/render-markdown.nvim",
-    event = "VeryLazy",
+    "iamcco/markdown-preview.nvim",
     ft = "markdown",
     keys = {
-      { "<leader>m", ":RenderMarkdown toggle<CR>" , remap = false },
+      { "<leader>m", ":MarkdownPreviewToggle<CR>" , remap = false },
     },
-    opts = {
-      enabled = false,
-      completions = {
-        lsp = {
-          enabled = true,
-        },
-      },
-    },
+    build = ":call mkdp#util#install()",
   },
   {
     "tpope/vim-fugitive",
