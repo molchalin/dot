@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+prev_value="$(tmux show-option -gqv "@forecast-location")"
+
+if [[ -z "$1" ]]; then
+  curl "wttr.in/$prev_value?format=%l"
+  exit 0;
+fi
+
+if [[ "$prev_value" != "$1" ]]; then
+    tmux set-option -gq @forecast-location "$1"
+    rm -f /tmp/tmux-weather.cache
+fi

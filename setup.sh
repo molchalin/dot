@@ -102,6 +102,7 @@ function setup_tmux() {
   fi
   link_bin "tmux.plx"
   link_bin "pomodoro"
+  link_bin "tmux-weather-location"
 }
 
 function setup_gnome() {
