@@ -26,7 +26,10 @@ znap_source 'git@github.com:zdharma-continuum/fast-syntax-highlighting'
 znap_source 'git@github.com:MichaelAquilina/zsh-you-should-use'
 
 export AUTO_NOTIFY_THRESHOLD=30
-znap_source 'git@github.com:MichaelAquilina/zsh-auto-notify'
+export AUTO_NOTIFY_CANCEL_ON_SIGINT=1
+export AUTO_NOTIFY_EXPIRE_TIME=5000
+export AUTO_NOTIFY_URGENCY_ON_ERROR="normal"
+znap_source 'git@github.com:molchalin/zsh-auto-notify'
 znap_source 'git@github.com:zsh-users/zsh-completions'
 znap_source 'git@github.com:romkatv/zsh-defer'
 
