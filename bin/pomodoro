@@ -3,11 +3,16 @@
 set -o errexit
 set -o pipefail
 
-if [[ $OSTYPE == darwin*   ]]; then
+function is_mac() {
+  [[ $OSTYPE == darwin*   ]]
+}
+
+if is_mac; then
     alias date=gdate
 fi
 
 LOG_FILE="$HOME/.local/state/pomodoro/log.jsonl"
+NOTIFICATION_FILE="$HOME/.local/state/pomodoro/notification"
 if [[ ! -e $LOG_FILE ]]; then
     mkdir -p $(dirname $LOG_FILE)
     touch $LOG_FILE
@@ -20,6 +25,7 @@ function start-pomodoro() {
     END=$(($NOW + $MINUTES * 60))
     DAY=$(date "+%F")
     jq -cn '$ARGS.named' --arg end "$END" --arg meta.day "$DAY" --arg meta.text "$INFO" --arg dur "${MINUTES}m" >> $LOG_FILE
+    touch $NOTIFICATION_FILE
 }
 
 function status-pomodoro() {
@@ -27,6 +33,12 @@ function status-pomodoro() {
     NOW=$(date "+%s")
     RES=$(( $END - $NOW ))
     if [[ $RES -lt 0 ]]; then
+        if [[ -e $NOTIFICATION_FILE ]]; then
+            rm $NOTIFICATION_FILE
+            if ! is_mac; then
+                notify-send --urgency=critical --hint=int:transient:1 "🍅 Timer has fired" "Time for a break ☕"
+            fi
+        fi
         exit 0;
     fi
     echo -n "\ue003 "
