@@ -3,6 +3,7 @@ config/kitty/gruvbox-material-dark-medium.conf
 config/bat/themes/
 config/zsh/*.zwc
 share/nvim/site/spell
+config/nvim/spell
 Brewfile.lock.json
 config/tmux/tmuxline.conf
 config/karabiner/automatic_backups/
