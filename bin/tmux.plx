@@ -32,7 +32,7 @@ sub read_config {
     chomp(my @lines = <$handle>);
     close $handle;
     my @result = ();
-    foreach my $a (map {unprettify $_} @lines) {
+    foreach my $a (map {unprettify $_} map { (split /,/, $_)[0] } @lines) {
         if ($a =~ /.*$/) {
             push @result, grep {-d $_} glob($a);
         } else {
@@ -40,6 +40,25 @@ sub read_config {
         }
     }
     return @result;
+}
+
+sub read_aliases {
+    open my $handle, "<", "$ENV{HOME}/.config/tmux-sessionizer/list";
+    chomp(my @lines = <$handle>);
+    close $handle;
+    my $result1 = {};
+    my $result2 = {};
+    foreach my $a (@lines) {
+        my @arr = split /,/, $a;
+        my $path = unprettify $arr[0];
+        my $alias = $arr[0];
+        if (@arr != 1) {
+            $alias = $arr[1];
+        }
+        $result1->{$path} = $alias;
+        $result2->{$alias} = $path;
+    }
+    return $result1, $result2;
 }
 
 sub uniq {
@@ -73,6 +92,7 @@ sub realpath {
 if ($ARGV[0] eq "list") {
     my (@config) = read_config;
     my (@order) = read_history;
+    my ($path_to_alias, $alias_to_path) = read_aliases;
     my $cur = current_path;
 
     my %config = map { $_ => 1 } @config;
@@ -86,14 +106,16 @@ if ($ARGV[0] eq "list") {
         }
         close $fh;
     }
-    for (map {pretty $_} grep {$_ ne $cur} @list) {
+    for (map {pretty $_} map {$path_to_alias->{$_}} grep {$_ ne $cur} @list) {
         say $_;
     }
 } elsif ($ARGV[0] eq "choose") {
     open(my $fh, ">> $ENV{HOME}/.local/state/tmux-sessionizer/order");
-    say {$fh} unprettify($ARGV[1]);
+    my ($path_to_alias, $alias_to_path) = read_aliases;
+    my $path = $alias_to_path->{$ARGV[1]};
+    say {$fh} $path;
     close $fh;
-    say unprettify($ARGV[1]);
+    say $path;
 } elsif ($ARGV[0] eq "realpath") {
     my $res = realpath $ARGV[1], $ARGV[2];
     if ($res) {
