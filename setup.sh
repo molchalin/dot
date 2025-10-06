@@ -288,6 +288,7 @@ function setup_tools() {
   if is_mac; then
     install "gls" "coreutils"
   fi
+  link_bin "loop_command"
 }
 
 function setup_git() {
