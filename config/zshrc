@@ -155,11 +155,10 @@ function command_not_found_handler() {
 # traps the shell quit and switch to the last session if it's the last pane
 # if last session is not available anymore, switch to default
 function __trap_exit_tmux() {
-    [[ $(tmux list-windows | wc -l) -eq 1 ]] || exit
-    [[ $(tmux list-panes | wc -l) -eq 1 ]] || exit
+    [[ $(tmux list-windows | wc -l) -eq 1 ]] || return
+    [[ $(tmux list-panes | wc -l) -eq 1 ]] || return
     local current_session=$(tmux display-message -p '#S')
     local next=$(tmux ls | cut -d: -f1 | fgrep -xv "${current_session}" | head -n 1)
-    echo "$current_session -> $next" >> ~/jepa.log
     if [[ -n "$next" ]]; then
         tmux switch-client -t "$next"
     fi
