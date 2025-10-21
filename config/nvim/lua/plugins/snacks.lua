@@ -25,8 +25,17 @@ return {
       exclude = {
         "subprojects/*",
       },
-    },
-    explorer = {
+      sources = {
+        explorer = {
+          win = {
+            list = {
+              keys = {
+                ["<c-t>"] = "tab",
+              },
+            },
+          },
+        },
+      },
     },
     image = {
       enabled = false,
