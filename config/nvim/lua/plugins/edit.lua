@@ -30,9 +30,12 @@ return {
   {
     'nvim-mini/mini.jump2d',
     version = false,
+    keys = {
+      { "<leader>f", function() MiniJump2d.start(MiniJump2d.builtin_opts.single_character) end, remap = false },
+    },
     opts = {
       mappings = {
-        start_jumping = '<leader>f',
+        start_jumping = '',
       },
     },
   },
