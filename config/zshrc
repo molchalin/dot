@@ -174,3 +174,13 @@ setopt NO_BEEP
 # add % if there is no a trailing new line
 setopt PROMPT_SP
 setopt PROMPT_CR
+
+if is_mac; then
+  export TMUX_OS_ICON=" "
+else
+  if [ $(grep "Arch" /etc/*-release | wc -l) -gt "0" ]; then
+    export TMUX_OS_ICON=" "
+  elif [ $(grep "Ubuntu" /etc/*-release | wc -l) -gt "0" ]; then
+    export TMUX_OS_ICON=" "
+  fi
+fi

@@ -63,7 +63,7 @@ return {
           '%H:%M'
         },
         y = { '#{ping}ms' },
-        z = "#(whoami)",
+        z = "#{USER}#{TMUX_OS_ICON}",
         options = {
           ["status-justify"] = 'left',
         },
