@@ -35,7 +35,7 @@ local on_attach = function(c, b)
 
   if c.name == "gopls" and c.server_capabilities.codeActionProvider then
     vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-      buffer = bufnr,
+      buffer = b,
       callback = function()
         organize_imports(c, b, 1500)
       end,
@@ -101,16 +101,12 @@ return {
           config.settings.gopls["formatting.local"] = module
          end,
       })
-      setup("rust_analyzer", {
-        capabilities = capabilities,
-        on_attach = on_attach,
-        filetypes = {'rust'},
-      })
-      setup("clangd", {
-        capabilities = capabilities,
-        on_attach = on_attach,
-        filetypes = {'cpp', 'c'},
-      })
+      for _, lsp in ipairs({"bashls", "rust_analyzer", "clangd"}) do
+        setup(lsp, {
+          capabilities = capabilities,
+          on_attach = on_attach,
+        })
+      end
     end
   },
   {
@@ -138,23 +134,5 @@ return {
     build = function()
       vim.cmd(":GoUpdateBinaries")
     end
-  },
-  {
-    "rachartier/tiny-inline-diagnostic.nvim",
-    event = "VeryLazy",
-    priority = 1000,
-    config = function()
-      vim.diagnostic.config({
-        virtual_text = false,
-        -- underline = false,
-        severity_sort = true,
-      })
-      require("tiny-inline-diagnostic").setup({
-        preset = "classic",
-        -- severity = {
-        --    vim.diagnostic.severity.ERROR,
-        -- },
-      })
-    end,
   },
 }

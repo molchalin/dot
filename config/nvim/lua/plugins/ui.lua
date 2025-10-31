@@ -125,4 +125,28 @@ return {
       },
     },
   },
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy",
+    priority = 1000,
+    config = function()
+      vim.diagnostic.config({
+        virtual_text = false,
+        severity_sort = true,
+      })
+      require("tiny-inline-diagnostic").setup({
+        preset = "classic",
+        options = {
+          multilines = {
+            enabled = true,
+            always_show = true,
+            severity = { vim.diagnostic.severity.ERROR },
+          },
+          add_messages = {
+            messages = true,
+          },
+        },
+      })
+    end,
+  },
 }
