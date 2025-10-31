@@ -37,6 +37,10 @@ return {
         },
       },
     },
+    explorer = {
+      replace_netrw = true,
+      trash = true,
+    },
     image = {
       enabled = false,
       convert = {

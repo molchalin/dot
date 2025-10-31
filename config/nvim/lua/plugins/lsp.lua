@@ -51,7 +51,6 @@ local on_attach = function(c, b)
   vim.keymap.set('n', 'ca', vim.lsp.buf.code_action,    bufopts)
   vim.keymap.set('v', 'gf', vim.lsp.buf.format,         bufopts)
   vim.keymap.set('n', 'cl', vim.lsp.codelens.run,       bufopts)
-  vim.keymap.set('n', 'gl', vim.diagnostic.open_float,  bufopts)
 
   vim.keymap.set('n', 'gd',        Snacks.picker.lsp_definitions,      bufopts)
   vim.keymap.set('n', 'gr',        Snacks.picker.lsp_references,       bufopts)
@@ -59,6 +58,11 @@ local on_attach = function(c, b)
   vim.keymap.set('n', 'ge',        Snacks.picker.diagnostics_buffer,   bufopts)
   Snacks.words.enable()
 
+end
+
+local setup = function(name, opts)
+  vim.lsp.config(name, opts)
+  vim.lsp.enable(name)
 end
 
 return {
@@ -70,13 +74,8 @@ return {
     },
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities() --nvim-cmp
-      local lspconfig = require 'lspconfig'
-      local configs = require 'lspconfig/configs'
-      lspconfig.gopls.setup{
+      setup("gopls", {
         on_attach  = on_attach,
-        cmd = {"gopls", "serve"},
-        filetypes = {"go", "gomod"},
-        root_dir = require("lspconfig/util").root_pattern("go.work", "go.mod", ".git"),
         capabilities = capabilities,
         settings = {
           gopls = {
@@ -101,37 +100,17 @@ return {
           module = module:gsub("\n", ",")
           config.settings.gopls["formatting.local"] = module
          end,
-      }
-      --
-      -- if not configs.golangcilsp then
-      --   configs.golangcilsp = {
-      --     default_config = {
-      --       cmd = {'golangci-lint-langserver'},
-      --       root_dir = lspconfig.util.root_pattern('.git', 'go.mod'),
-      --       init_options = {
-      --         command = { "golangci-lint", "run", "--output.json.path", "stdout", "--show-stats=false", "--issues-exit-code=1" },
-      --       },
-      --     }
-      --   }
-      -- end
-      --
-      -- lspconfig.golangci_lint_ls.setup{
-      --   on_attach  = on_attach,
-      --   capabilities = capabilities,
-      --   filetypes = {"go", "gomod"},
-      -- }
-      --
-      lspconfig.rust_analyzer.setup{
+      })
+      setup("rust_analyzer", {
         capabilities = capabilities,
         on_attach = on_attach,
         filetypes = {'rust'},
-      }
-
-      lspconfig.clangd.setup{
+      })
+      setup("clangd", {
         capabilities = capabilities,
         on_attach = on_attach,
         filetypes = {'cpp', 'c'},
-      }
+      })
     end
   },
   {
@@ -159,5 +138,23 @@ return {
     build = function()
       vim.cmd(":GoUpdateBinaries")
     end
+  },
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy",
+    priority = 1000,
+    config = function()
+      vim.diagnostic.config({
+        virtual_text = false,
+        -- underline = false,
+        severity_sort = true,
+      })
+      require("tiny-inline-diagnostic").setup({
+        preset = "classic",
+        -- severity = {
+        --    vim.diagnostic.severity.ERROR,
+        -- },
+      })
+    end,
   },
 }
