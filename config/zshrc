@@ -23,7 +23,6 @@ function znap_source() {
 znap_source 'git@github.com:jeffreytse/zsh-vi-mode'
 znap_source 'git@github.com:zsh-users/zsh-autosuggestions'
 znap_source 'git@github.com:zdharma-continuum/fast-syntax-highlighting'
-znap_source 'git@github.com:MichaelAquilina/zsh-you-should-use'
 
 export AUTO_NOTIFY_THRESHOLD=30
 export AUTO_NOTIFY_CANCEL_ON_SIGINT=1
@@ -32,14 +31,12 @@ export AUTO_NOTIFY_URGENCY_ON_ERROR="normal"
 znap_source 'git@github.com:molchalin/zsh-auto-notify'
 znap_source 'git@github.com:zsh-users/zsh-completions'
 znap_source 'git@github.com:romkatv/zsh-defer'
+znap_source 'git@github.com:olets/zsh-abbr'
 
 znap clone 'git@github.com:ohmyzsh/ohmyzsh'
 znap source ohmyzsh lib/completion
 znap source ohmyzsh lib/history
-znap source ohmyzsh lib/git
 znap source ohmyzsh lib/directories # ls and cd aliases
-znap source ohmyzsh plugins/git
-znap source ohmyzsh plugins/golang
 
 ZSH_WEB_SEARCH_ENGINES=(
   cambridge "https://dictionary.cambridge.org/dictionary/english/"
@@ -64,12 +61,15 @@ if has go; then
     export PATH=$PATH:$(go env GOPATH)/bin
 fi
 
+function add_abbr() {
+    alias "$@"
+    abbr --session --quiet "$@"
+    local al=$(echo "$1" | cut -d '=' -f 1)
+}
 if has nvim; then
-    alias vim=nvim
     export EDITOR=nvim
+    add_abbr v=nvim
 fi
-alias vi=vim
-alias v=vim
 
 set -o vi
 
@@ -97,17 +97,29 @@ else
     fi
 fi
 
-alias o="open"
+add_abbr o="open"
 
-alias gld="git -c diff.external=difft log --ext-diff"
-alias gshd="git -c diff.external=difft show --ext-diff"
-alias gdd="git -c diff.external=difft diff"
-alias gdty="git difftool -y"
+add_abbr g=git
 
-# don't use git checkout
-unalias gco gcb gcB gcd gcm gcor
+add_abbr "gc"="git commit"
+add_abbr "gca"="git commit --amend"
+add_abbr "gco"="git checkout"
+add_abbr "gl"="git pull"
+add_abbr "gp"="git push"
+add_abbr "gpf"="git push --force"
+add_abbr "gst"="git status"
+add_abbr "grb"="git rebase"
+add_abbr "grbc"="git rebase --continue"
+add_abbr "grba"="git rebase --abort"
+add_abbr "gd"="git diff"
+add_abbr "gdt"="git difftool"
+add_abbr "gdty"="git difftool -y"
+add_abbr "ga"="git add"
+add_abbr "gsth"="git stash"
+add_abbr "gsthp"="git stash pop"
+add_abbr "glg"="git log"
 
-alias mvprogress="rsync -aP --remove-source-files"
+add_abbr mvprogress="rsync -aP --remove-source-files"
 
 REAL_SSH=$(which ssh)
 
