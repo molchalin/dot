@@ -118,6 +118,7 @@ if ($ARGV[0] eq "list") {
     say $path;
 } elsif ($ARGV[0] eq "realpath") {
     my $res = realpath $ARGV[1], $ARGV[2];
+    $res = length($res) > 20 ? substr($res, -20) : $res;
     if ($res) {
         print " $res";
     }
