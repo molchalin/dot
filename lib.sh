@@ -1,6 +1,3 @@
-set -o errexit
-set -o pipefail
-
 RED='\033[0;31m'
 BLUE='\033[0;34m'
 GRAY='\033[1;30m'

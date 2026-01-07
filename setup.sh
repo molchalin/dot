@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -o errexit
+set -o pipefail
+
 source lib.sh
 
 function link_config() {
@@ -208,6 +211,7 @@ function setup_desktop() {
     setup_desktop_linux
   fi
   install "telegram-desktop"
+  install "ticktick"
 }
 
 FIREFOX_PATH="$HOME/.mozilla/firefox"
