@@ -16,6 +16,17 @@ function today-note() {
     $EDITOR $file
 }
 
+function yesterday-note() {
+    file=$(printf "%s/%s" $NOTES_BASE $(date -v-1d '+%F.md'))
+    if [[ ! -e $file ]]; then
+        touch $file
+        LANG=ru_RU date -v-1d "+%A" >> $file
+        echo >> $file
+        LANG=ru_RU date "+пишу %F %H:%M" >> $file
+    fi
+    $EDITOR $file
+}
+
 function random-note() {
     notes=( $(find $NOTES_BASE -ipath '*.md' ) )
     number=$(( $RANDOM % ${#notes[@]}))
@@ -35,6 +46,9 @@ function feed() {
 case $1 in
     today)
         today-note
+        ;;
+    yesterday)
+        yesterday-note
         ;;
     last)
         last-note
