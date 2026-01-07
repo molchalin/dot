@@ -82,7 +82,8 @@ if has rg; then
 fi
 
 alias rm="rm -i"
-alias mv="mv -i"
+alias mv="mv -vi"
+alias cp="cp -vi"
 
 if has eza; then
     alias tree="eza --tree"
