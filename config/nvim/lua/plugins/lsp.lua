@@ -101,12 +101,13 @@ return {
           config.settings.gopls["formatting.local"] = module
          end,
       })
-      for _, lsp in ipairs({"bashls", "rust_analyzer", "clangd"}) do
+      for _, lsp in ipairs({"bashls", "rust_analyzer", "clangd", "jdtls"}) do
         setup(lsp, {
           capabilities = capabilities,
           on_attach = on_attach,
         })
       end
+
     end
   },
   {
@@ -134,5 +135,9 @@ return {
     build = function()
       vim.cmd(":GoUpdateBinaries")
     end
+  },
+  {
+    "mfussenegger/nvim-jdtls",
+    ft = "java",
   },
 }
