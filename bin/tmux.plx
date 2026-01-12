@@ -118,11 +118,20 @@ if ($ARGV[0] eq "list") {
     say $path;
 } elsif ($ARGV[0] eq "realpath") {
     my $res = realpath $ARGV[1], $ARGV[2];
-    $res = length($res) > 20 ? substr($res, -20) : $res;
+    $res = length($res) > 30 ? "..." . substr($res, -30) : $res;
     if ($res) {
         print " $res";
     }
 } elsif ($ARGV[0] eq "window-list") {
+    my $blue = "\033[0;34m";
+    my $nc = "\033[0m";
+
+    my ($path_to_alias, $alias_to_path) = read_aliases;
+    my $path = pretty $alias_to_path->{$ARGV[1]};
+
+    say "[$ARGV[1]] $blue$path$nc";
+    say "";
+
     chomp(my @lines = <STDIN>);
     foreach (@lines) {
         my ($active, $index, $name, $root, $cur) = split /,/, $_;

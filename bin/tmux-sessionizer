@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 
-BLUE='\033[0;34m'
-NC='\033[0m'
-
 if [[ "$1" == "preview" ]]; then
-    echo -e "$BLUE$2$NC"
-    echo ""
     if tmux has-session -t=$2 2> /dev/null; then
-        tmux list-windows -F "#{window_active},#{window_index},#{window_name},#{session_path},#{pane_current_path}" -t=$2 | tmux.plx "window-list"
+        tmux list-windows -F "#{window_active},#{window_index},#{window_name},#{session_path},#{pane_current_path}" -t=$2 | tmux.plx "window-list" "$2"
+    else
+        tmux.plx "window-list" "$2"
     fi
     exit 0;
 fi
