@@ -118,7 +118,7 @@ add_abbr "gdty"="git difftool -y"
 add_abbr "ga"="git add"
 add_abbr "gsth"="git stash"
 add_abbr "gsthp"="git stash pop"
-add_abbr "glg"="git log"
+add_abbr "glg"="git log --stat"
 
 add_abbr mvprogress="rsync -aP --remove-source-files"
 
