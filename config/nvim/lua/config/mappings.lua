@@ -8,8 +8,11 @@ local noremap = function(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-noremap("n", "<leader>e",  ":tabedit<space>")
-noremap("n", "<leader>q",  "<cmd>wq<cr>")
+noremap("n", "<leader>e", ":tabedit<space>")
+noremap("n", "<leader>q", "<cmd>wq<cr>")
+noremap("n", "<leader>n", ":bnext<cr>",   { desc = "next buffer" })
+noremap("n", "<leader>p", ":bprev<cr>",   { desc = "previous buffer" })
+noremap("n", "<leader>x", ":bdelete<cr>", { desc = "close buffer" })
 
 noremap("n", "*", "*``", { desc = "don't jump to next match" })
 

@@ -3,11 +3,12 @@ return {
   priority = 1000,
   lazy = false,
   keys = {
-    { "<C-p>",      function() Snacks.picker.files()        end, remap = false },
-    { "<C-f>",      function() Snacks.picker.grep()         end, remap = false },
-    { "<C-g>",      function() Snacks.picker.grep_word()    end, remap = false },
-    { "-",          function() Snacks.picker.explorer()     end, remap = false },
-    { "<leader>gl", function() Snacks.picker.git_log_file() end, remap = false },
+    { "<C-p>",            function() Snacks.picker.files()        end, remap = false },
+    { "<C-f>",            function() Snacks.picker.grep()         end, remap = false },
+    { "<C-g>",            function() Snacks.picker.grep_word()    end, remap = false },
+    { "-",                function() Snacks.picker.explorer()     end, remap = false },
+    { "<leader>gl",       function() Snacks.picker.git_log_file() end, remap = false },
+    { "<leader><leader>", function() Snacks.picker.buffers()      end, remap = false },
   },
   opts = {
     picker = {

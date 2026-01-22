@@ -32,7 +32,7 @@ return {
       tabline = {
         lualine_a = {
           {
-            'tabs',
+            'buffers',
             mode = 2,
             max_length = vim.o.columns,
           },
