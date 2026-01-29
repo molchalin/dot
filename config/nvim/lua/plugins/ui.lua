@@ -17,6 +17,14 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    keys = {
+      { "<leader>1", ":LualineBuffersJump! 1<cr>", remap = false },
+      { "<leader>2", ":LualineBuffersJump! 2<cr>", remap = false },
+      { "<leader>3", ":LualineBuffersJump! 3<cr>", remap = false },
+      { "<leader>4", ":LualineBuffersJump! 4<cr>", remap = false },
+      { "<leader>5", ":LualineBuffersJump! 5<cr>", remap = false },
+    },
     opts = {
       options = {
         theme = 'gruvbox-material',
@@ -38,6 +46,7 @@ return {
           },
         },
       },
+      extensions = {'quickfix'},
     },
   },
   {

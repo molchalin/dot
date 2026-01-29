@@ -94,7 +94,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 local matchdelete_if_not_empty = function(id_name)
   if vim.w[id_name] ~= nil then
-    vim.fn.matchdelete(vim.w[id_name])
+    pcall(vim.fn.matchdelete, vim.w[id_name])
     vim.w[id_name] = nil
   end
 end
