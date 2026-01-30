@@ -278,6 +278,13 @@ function setup_kitty() {
   install_font "SymbolsNerdFont" "ttf-nerd-fonts-symbols" "font-symbols-only-nerd-font"
 }
 
+function setup_wezterm() {
+  install "wezterm"
+  link_config "wezterm"
+  install_font "JetBrains Mono" "ttf-jetbrains-mono" "font-jetbrains-mono"
+  install_font "SymbolsNerdFont" "ttf-nerd-fonts-symbols" "font-symbols-only-nerd-font"
+}
+
 function setup_tools() {
   install "bat"
   make_dir "$PWD/config/bat/themes"
@@ -364,6 +371,7 @@ components=(
   'gnome'
   'firefox'
   'kitty'
+  'wezterm'
   'tools'
   'git'
   'docker'
