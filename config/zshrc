@@ -139,7 +139,7 @@ if is_linux; then
 fi
 
 # begin FZF
-export FZF_DEFAULT_OPTS="--cycle --color=gutter:-1 --pointer '>' --border rounded --highlight-line"
+export FZF_DEFAULT_OPTS="--cycle --pointer '>' --border rounded --highlight-line"
 export FZF_CTRL_R_OPTS='--height=100% --margin 15%'
 
 if has fzf; then
