@@ -43,4 +43,5 @@ return {
     'tpope/vim-speeddating',
     event = "VeryLazy",
   },
+  { 'LunarVim/bigfile.nvim' },
 }
