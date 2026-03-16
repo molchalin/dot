@@ -19,7 +19,7 @@ local organize_imports = function(client, bufnr, timeoutms)
 end
 
 local on_attach = function(c, b)
-  if (c.name == "gopls" or c.name == "clangd") and c.server_capabilities.documentFormattingProvider then
+  if c.name == "gopls" and c.server_capabilities.documentFormattingProvider then
     vim.api.nvim_create_autocmd({ "BufWritePre" }, {
       buffer = b,
       callback = function()
@@ -101,7 +101,7 @@ return {
           config.settings.gopls["formatting.local"] = module
          end,
       })
-      for _, lsp in ipairs({"bashls", "rust_analyzer", "clangd", "jdtls"}) do
+      for _, lsp in ipairs({"bashls", "rust_analyzer", "clangd", "jdtls", "zk"}) do
         setup(lsp, {
           capabilities = capabilities,
           on_attach = on_attach,
