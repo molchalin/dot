@@ -24,6 +24,10 @@ return {
       { "<leader>3", ":LualineBuffersJump! 3<cr>", remap = false },
       { "<leader>4", ":LualineBuffersJump! 4<cr>", remap = false },
       { "<leader>5", ":LualineBuffersJump! 5<cr>", remap = false },
+      { "<leader>6", ":LualineBuffersJump! 6<cr>", remap = false },
+      { "<leader>7", ":LualineBuffersJump! 7<cr>", remap = false },
+      { "<leader>8", ":LualineBuffersJump! 8<cr>", remap = false },
+      { "<leader>9", ":LualineBuffersJump! 9<cr>", remap = false },
     },
     opts = {
       options = {
