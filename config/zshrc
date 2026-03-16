@@ -141,6 +141,7 @@ fi
 # begin FZF
 export FZF_DEFAULT_OPTS="--cycle --pointer '>' --border rounded --highlight-line"
 export FZF_CTRL_R_OPTS='--height=100% --margin 15%'
+export FZF_CTRL_T_COMMAND='fd --type f --strip-cwd-prefix'
 
 if has fzf; then
      zvm_after_init_commands+=('znap eval fzf-zsh "fzf --zsh"')
