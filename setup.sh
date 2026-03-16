@@ -363,6 +363,11 @@ function setup_homeutil() {
   link_same_name "config/ssh/config" "$HOME/.ssh"
 }
 
+function setup_zk() {
+  install "zk"
+  link_config "zk"
+}
+
 # TODO(andrei): desktop apps
 components=(
   'zsh'
@@ -377,6 +382,7 @@ components=(
   'docker'
   'homeutil'
   'desktop'
+  'zk'
 )
 
 execute=false
