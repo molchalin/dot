@@ -125,10 +125,13 @@ add_abbr mvprogress="rsync -aP --remove-source-files"
 REAL_SSH=$(which ssh)
 
 function ssh() {
-    if [[ -n ${TMUX_PANE} ]]; then
-        tmux rename-window -t ${TMUX_PANE} "ssh $@"
-        zsh-defer tmux setw automatic-rename
+    if [[ -n "${TMUX_PANE}" ]]; then
+        if [[ $# -eq 1 ]] && [[ ! "$1" =~ ^- ]]; then
+            tmux rename-window -t "${TMUX_PANE}" "ssh $1"
+            zsh-defer tmux setw automatic-rename
+        fi
     fi
+
     $REAL_SSH "$@"
 }
 
