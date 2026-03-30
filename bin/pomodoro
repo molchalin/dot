@@ -24,6 +24,18 @@ function start-pomodoro() {
     INFO="${2:-DEFAULT}"
     END=$(($NOW + $MINUTES * 60))
     DAY=$(date "+%F")
+
+    # Check if a session is already running
+    if [[ -s $LOG_FILE ]]; then
+        LAST_END=$(tail -n 1 $LOG_FILE | jq -r '.end')
+        if [[ $LAST_END -gt $NOW ]]; then
+            REMAINING=$(( $LAST_END - $NOW ))
+            FORMATTED=$(date --universal --date "@${REMAINING}" '+%M:%S')
+            echo "Pomodoro already running! Time remaining: ${FORMATTED}" >&2
+            exit 1
+        fi
+    fi
+
     jq -cn '$ARGS.named' --arg end "$END" --arg meta.day "$DAY" --arg meta.text "$INFO" --arg dur "${MINUTES}m" >> $LOG_FILE
     touch $NOTIFICATION_FILE
 }
