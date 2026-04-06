@@ -86,6 +86,7 @@ function setup_zsh() {
 
 function setup_nvim() {
   install "nvim" "neovim"
+  install "treesitter" "tree-sitter-cli"
   link_config "nvim"
   make_dir "$HOME/.local/share/nvim/site/spell"
   get_file "ftp://vim.tsu.ru/pub/vim/runtime/spell/ru.utf-8.spl" "$HOME/.local/share/nvim/site/spell/ru.utf-8.spl"
