@@ -66,6 +66,40 @@ function edit-pomodoro() {
     $EDITOR $LOG_FILE
 }
 
+function stop-pomodoro() {
+    if [[ ! -s $LOG_FILE ]]; then
+        echo "No pomodoro session found" >&2
+        exit 1
+    fi
+
+    NOW=$(date "+%s")
+    LAST_END=$(tail -n 1 $LOG_FILE | jq -r '.end')
+
+    if [[ $LAST_END -lt $NOW ]]; then
+        echo "No pomodoro session currently running" >&2
+        exit 1
+    fi
+
+    # Rewrite the last line with end set to now
+    LAST_LINE=$(tail -n 1 $LOG_FILE)
+    ALL_BUT_LAST=$(head -n -1 $LOG_FILE)
+    UPDATED_LINE=$(echo $LAST_LINE | jq -c --arg end "$NOW" --argjson stopped true '. + {end: $end, stopped: $stopped}')
+
+    if [[ -n $ALL_BUT_LAST ]]; then
+        printf "%s\n%s\n" "$ALL_BUT_LAST" "$UPDATED_LINE" > $LOG_FILE
+    else
+        printf "%s\n" "$UPDATED_LINE" > $LOG_FILE
+    fi
+
+    if [[ -e $NOTIFICATION_FILE ]]; then
+        rm $NOTIFICATION_FILE
+    fi
+
+    ELAPSED=$(( $NOW - ($LAST_END - $(tail -n 1 $LOG_FILE | jq -r '.dur | gsub("m";"") | tonumber') * 60) ))
+    FORMATTED=$(date --universal --date "@${ELAPSED}" '+%M:%S')
+    echo "Pomodoro stopped. Elapsed time: ${FORMATTED}"
+}
+
 case $1 in
     start)
         start-pomodoro "$2" "$3"
@@ -75,6 +109,9 @@ case $1 in
         ;;
     edit)
         edit-pomodoro
+        ;;
+    stop)
+        stop-pomodoro
         ;;
     *)
         printf "unknown command %q" $1
