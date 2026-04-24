@@ -338,7 +338,6 @@ function setup_homeutil() {
   link_bin "notes"
 
   install "aria2c" "aria2"
-  link_bin "breakfree"
 
   link_bin "yohoho"
   install "yt-dlp"
