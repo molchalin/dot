@@ -147,6 +147,8 @@ function setup_gnome() {
   set_gnome_option org.gnome.desktop.wm.preferences num-workspaces '10'
   set_gnome_option org.gnome.mutter dynamic-workspaces 'false'
 
+  set_gnome_option org.gnome.shell.keybindings show-screenshot-ui "['Print', '<Super><Shift>S']"
+
   install_sf_fonts
   install_inter_font
   set_gnome_option org.gnome.desktop.interface font-name 'Inter 11'
