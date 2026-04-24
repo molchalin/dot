@@ -24,6 +24,7 @@ return {
       },
       exclude = {
         "subprojects/*",
+        "*.a",
       },
       sources = {
         explorer = {
