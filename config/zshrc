@@ -46,6 +46,7 @@ ZSH_WEB_SEARCH_ENGINES=(
 znap source ohmyzsh plugins/web-search
 
 # ── Completions ─────────────────────────────────────
+eval $(abbr export-aliases | perl -anE 's/\-g //g; print $_')
 fpath+=( ~[zsh-completions]/src )
 if has docker; then
      znap fpath _docker 'docker completion zsh'
