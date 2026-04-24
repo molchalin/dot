@@ -1,23 +1,23 @@
+# ── Helpers ─────────────────────────────────────────
 is_mac()     { [[ $OSTYPE == darwin*   ]] }
 is_linux()   { [[ $OSTYPE == linux-gnu ]] }
 has()        { [[ -n "${commands[$1]}" ]] }
 
-#begin znap
+# ── Znap ────────────────────────────────────────────
 if [[ ! -r "$HOME/.local/share/zsh/plugins/znap/znap.zsh" ]]; then
     git clone --depth 1 https://github.com/marlonrichert/zsh-snap.git ~/.local/share/zsh/plugins/znap/
 fi
 
 source ~/.local/share/zsh/plugins/znap/znap.zsh
 
+# ── Prompt ──────────────────────────────────────────
 fpath+=( ~/.config/zsh )
-autoload -Uz promptinit
-promptinit
-prompt aufforderung
-znap prompt
+znap prompt aufforderung
 
+# ── Plugins ─────────────────────────────────────────
 function znap_source() {
     znap clone $1
-    znap source $(echo $1 | cut  -d '/' -f 2)
+    znap source "${1##*/}"
 }
 
 znap_source 'git@github.com:jeffreytse/zsh-vi-mode'
@@ -36,23 +36,22 @@ znap_source 'git@github.com:olets/zsh-abbr'
 znap clone 'git@github.com:ohmyzsh/ohmyzsh'
 znap source ohmyzsh lib/completion
 znap source ohmyzsh lib/history
+znap source ohmyzsh lib/functions
 znap source ohmyzsh lib/directories # ls and cd aliases
 
 ZSH_WEB_SEARCH_ENGINES=(
   cambridge "https://dictionary.cambridge.org/dictionary/english/"
   verbformen "https://www.verbformen.ru/?w="
 )
-
-znap source ohmyzsh lib/functions
 znap source ohmyzsh plugins/web-search
 
+# ── Completions ─────────────────────────────────────
 fpath+=( ~[zsh-completions]/src )
 if has docker; then
      znap fpath _docker 'docker completion zsh'
 fi
 
-#end znap
-
+# ── Env ─────────────────────────────────────────────
 export EDITOR=vim
 
 export PATH=$HOME/.local/bin:$PATH
@@ -61,18 +60,11 @@ if has go; then
     export PATH=$PATH:$(go env GOPATH)/bin
 fi
 
-function add_abbr() {
-    alias "$@"
-    abbr --session --quiet "$@"
-    local al=$(echo "$1" | cut -d '=' -f 1)
-}
 if has nvim; then
     export EDITOR=nvim
-    add_abbr v=nvim
 fi
 
-set -o vi
-
+# ── Aliases ─────────────────────────────────────────
 if has bat; then
     alias cat="bat --plain"
 fi
@@ -98,30 +90,6 @@ else
     fi
 fi
 
-add_abbr o="open"
-
-add_abbr g=git
-
-add_abbr "gc"="git commit"
-add_abbr "gca"="git commit --amend"
-add_abbr "gco"="git checkout"
-add_abbr "gl"="git pull"
-add_abbr "gp"="git push"
-add_abbr "gpf"="git push --force"
-add_abbr "gst"="git status"
-add_abbr "grb"="git rebase"
-add_abbr "grbc"="git rebase --continue"
-add_abbr "grba"="git rebase --abort"
-add_abbr "gd"="git diff"
-add_abbr "gdt"="git difftool"
-add_abbr "gdty"="git difftool -y"
-add_abbr "ga"="git add"
-add_abbr "gsth"="git stash"
-add_abbr "gsthp"="git stash pop"
-add_abbr "glg"="git log --stat"
-
-add_abbr mvprogress="rsync -aP --remove-source-files"
-
 REAL_SSH=$(which ssh)
 
 function ssh() {
@@ -141,7 +109,7 @@ if is_linux; then
     alias open='xdg-open'
 fi
 
-# begin FZF
+# ── FZF ───────────────────────────────────────────
 export FZF_DEFAULT_OPTS="--cycle --pointer '>' --border rounded --highlight-line"
 export FZF_CTRL_R_OPTS='--height=100% --margin 15%'
 export FZF_CTRL_T_COMMAND='fd --type f --strip-cwd-prefix'
@@ -156,8 +124,6 @@ bindkey '^[[Z' reverse-menu-complete
 if [ -e ~/.zshrc.local ]; then
     source ~/.zshrc.local
 fi
-
-# end FZF
 
 export DFT_DISPLAY=side-by-side-show-both
 
@@ -193,11 +159,9 @@ setopt PROMPT_SP
 setopt PROMPT_CR
 
 if is_mac; then
-  export TMUX_OS_ICON=" "
-else
-  if [ $(grep "Arch" /etc/*-release | wc -l) -gt "0" ]; then
+    export TMUX_OS_ICON=" "
+elif grep -q "Arch"   /etc/*-release 2>/dev/null; then
     export TMUX_OS_ICON=" "
-  elif [ $(grep "Ubuntu" /etc/*-release | wc -l) -gt "0" ]; then
+elif grep -q "Ubuntu" /etc/*-release 2>/dev/null; then
     export TMUX_OS_ICON=" "
-  fi
 fi

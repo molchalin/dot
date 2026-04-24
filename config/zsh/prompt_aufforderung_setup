@@ -1,58 +1,53 @@
 #!/usr/bin/env zsh
 
 function prompt_aufforderung_setup() {
-     autoload -Uz vcs_info
-     zstyle ':vcs_info:*' enable git
-     zstyle ':vcs_info:*' formats '%b%u%c '
-     zstyle ':vcs_info:*' actionformats '%F{red}[%a] %b '
-     zstyle ':vcs_info:*' check-for-changes true
-     zstyle ':vcs_info:*' stagedstr " %F{green}+"
-     zstyle ':vcs_info:*' unstagedstr " %F{red}*"
+    zmodload zsh/datetime
 
-     autoload -Uz add-zsh-hook
-     add-zsh-hook precmd  prompt_aufforderung_precmd
-     add-zsh-hook preexec prompt_aufforderung_preexec
+    autoload -Uz vcs_info
+    zstyle ':vcs_info:*' enable git
+    zstyle ':vcs_info:*' formats '%b%u%c%f '
+    zstyle ':vcs_info:*' actionformats '%F{red}[%a]%f %b '
+    zstyle ':vcs_info:*' check-for-changes true
+    zstyle ':vcs_info:*' stagedstr ' %F{green}+'
+    zstyle ':vcs_info:*' unstagedstr ' %F{red}*'
 
-     # orange lambda
-     local prompt_symbol='%F{166}λ%f'
-     local prompt_time='%F{white}%D{%H:%M}%f'
-     local prompt_code='%(?..%F{red}?%?%f )'
-     local prompt_dir='%F{green}%~%f'
+    autoload -Uz add-zsh-hook
+    add-zsh-hook precmd  prompt_aufforderung_precmd
+    add-zsh-hook preexec prompt_aufforderung_preexec
 
-     PS1=$prompt_dir' $(prompt_aufforderung)'"$prompt_symbol "
-     RPS1='${prompt_aufforderung_exec_time}'$prompt_code$prompt_time
+    PS1='%F{green}%~%f %B%F{blue}${vcs_info_msg_0_}%f%b%F{166}λ%f '
+    RPS1='${prompt_aufforderung_exec_time}%(?..%F{red}?%?%f )%F{white}%D{%H:%M}%f'
+
+    prompt_opts=(cr subst percent sp)
 }
 
 function prompt_aufforderung_preexec() {
-    timer=$SECONDS
-}
-
-function prompt_aufforderung_human_time() {
-    local timer_seconds=$(($SECONDS - $1))
-    if [ $timer_seconds -gt 0 ]; then
-        echo -n '%F{cyan}~> '
-        local timer_minutes=$(($timer_seconds / 60))
-        local timer_seconds=$(($timer_seconds % 60))
-        if [ $timer_minutes -gt 0 ]; then
-            echo -n "${timer_minutes}m"
-        fi
-        echo -n "${timer_seconds}s%f "
-    fi
+    _prompt_timer=$EPOCHREALTIME
 }
 
 function prompt_aufforderung_precmd() {
-    if (( $timer )); then
-        prompt_aufforderung_exec_time=$(prompt_aufforderung_human_time $timer)
-        unset timer
+    if (( _prompt_timer )); then
+        local -F elapsed=$(( EPOCHREALTIME - _prompt_timer ))
+
+        if (( elapsed >= 1 )); then
+            local -i secs=$(( elapsed ))
+            local -i mins=$(( secs / 60 ))
+            secs=$(( secs % 60 ))
+
+            local out='%F{cyan}~> '
+            (( mins > 0 )) && out+="${mins}m"
+            out+="${secs}s%f "
+            prompt_aufforderung_exec_time=$out
+        else
+            unset prompt_aufforderung_exec_time
+        fi
+
+        unset _prompt_timer
     else
         unset prompt_aufforderung_exec_time
     fi
+
     vcs_info
 }
 
-function prompt_aufforderung() {
-    echo -n "%B%F{blue}${vcs_info_msg_0_}%f%b"
-}
-
-prompt_opts=(subst percent)
 prompt_aufforderung_setup "$@"

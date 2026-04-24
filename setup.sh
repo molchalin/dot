@@ -81,6 +81,7 @@ function setup_zsh() {
   install "zsh"
   link "config/zshrc" "$HOME/.zshrc"
   link_config "zsh"
+  link_config "zsh-abbr"
   # TODO(andrei): change shell for user
 }
 

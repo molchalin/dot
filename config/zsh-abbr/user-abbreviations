@@ -1,0 +1,23 @@
+abbr add o="open"
+abbr add g=git
+abbr add v=nvim
+
+abbr add "gc"="git commit"
+abbr add "gca"="git commit --amend"
+abbr add "gco"="git checkout"
+abbr add "gl"="git pull"
+abbr add "gp"="git push"
+abbr add "gpf"="git push --force"
+abbr add "gst"="git status"
+abbr add "grb"="git rebase"
+abbr add "grbc"="git rebase --continue"
+abbr add "grba"="git rebase --abort"
+abbr add "gd"="git diff"
+abbr add "gdt"="git difftool"
+abbr add "gdty"="git difftool -y"
+abbr add "ga"="git add"
+abbr add "gsth"="git stash"
+abbr add "gsthp"="git stash pop"
+abbr add "glg"="git log --stat"
+
+abbr add mvprogress="rsync -aP --remove-source-files"
