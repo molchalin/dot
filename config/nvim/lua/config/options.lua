@@ -179,3 +179,9 @@ vim.opt.langmap = vim.fn.join({
     escape(ru_shift) .. ';' .. escape(en_shift),
     escape(ru) .. ';' .. escape(en),
 }, ',')
+
+require('vim._core.ui2').enable({
+  enable = true,
+})
+
+vim.opt.diffopt = "internal,filler,closeoff,indent-heuristic,linematch:60"
