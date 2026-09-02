@@ -77,6 +77,7 @@ fi
 alias rm="rm -i"
 alias mv="mv -vi"
 alias cp="cp -vi"
+alias watch="watch --color"
 
 if has eza; then
     alias tree="eza --tree"
