@@ -22,6 +22,7 @@ function start-pomodoro() {
     NOW=$(date "+%s")
     MINUTES="${1:-25}"
     INFO="${2:-DEFAULT}"
+    TYPE="${3:-work}"
     END=$(($NOW + $MINUTES * 60))
     DAY=$(date "+%F")
 
@@ -36,19 +37,28 @@ function start-pomodoro() {
         fi
     fi
 
-    jq -cn '$ARGS.named' --arg end "$END" --arg meta.day "$DAY" --arg meta.text "$INFO" --arg dur "${MINUTES}m" >> $LOG_FILE
+    jq -cn '$ARGS.named' --arg end "$END" --arg meta.day "$DAY" --arg meta.text "$INFO" --arg dur "${MINUTES}m" --arg type "$TYPE" >> $LOG_FILE
     touch $NOTIFICATION_FILE
 }
 
 function status-pomodoro() {
-    END=$(tail -n 1 $LOG_FILE | jq -r '.end')
+    LAST_SESSION=$(tail -n 1 $LOG_FILE)
+    END=$(echo $LAST_SESSION | jq -r '.end')
+    TYPE=$(echo $LAST_SESSION | jq -r '.type // "work"')
     NOW=$(date "+%s")
     RES=$(( $END - $NOW ))
     if [[ $RES -lt 0 ]]; then
         if [[ -e $NOTIFICATION_FILE ]]; then
             rm $NOTIFICATION_FILE
             if ! is_mac; then
-                notify-send --urgency=critical --hint=int:transient:1 "🍅 Timer has fired" "Time for a break ☕"
+                if [[ $TYPE == "break" ]]; then
+                    notify-send --urgency=critical --hint=int:transient:1 "☕ Break is over" "Time to get back to work 🍅" || true
+                else
+                    notify-send --urgency=critical --hint=int:transient:1 "🍅 Timer has fired" "Time for a break ☕" || true
+                fi
+            fi
+            if [[ $TYPE != "break" ]]; then
+                start-pomodoro 5 "BREAK" "break"
             fi
         fi
         exit 0;

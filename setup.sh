@@ -3,7 +3,8 @@
 set -o errexit
 set -o pipefail
 
-source lib.sh
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+source ./lib.sh
 
 function link_config() {
   make_dir "$HOME/.config"
@@ -70,10 +71,12 @@ function install_jb_font() {
 
 function install_cryptfs_from_source() {
   if ! has "gocryptfs"; then
-    local tmp_dir=$(tmp_dir_name "gocryptfs")
-    execute "git clone https://github.com/rfjakob/gocryptfs.git $tmp_dir_name"
-    execute "pushd $tmp_dir_name && ./build-without-openssl.bash && popd"
-    execute "mv $tmp_dir_name/gocryptfs ~/.local/bin/"
+    local tmp_dir
+    tmp_dir=$(tmp_dir_name "gocryptfs")
+    make_dir "$HOME/.local/bin"
+    execute "git clone https://github.com/rfjakob/gocryptfs.git $(printf '%q' "$tmp_dir")"
+    execute "(cd $(printf '%q' "$tmp_dir") && ./build-without-openssl.bash)"
+    execute "mv $(printf '%q' "$tmp_dir/gocryptfs") $(printf '%q' "$HOME/.local/bin/")"
   fi
 }
 
@@ -174,8 +177,7 @@ function setup_gnome() {
 
   # monday is the first day of the week
   link_config "environment.d"
-  locale -a | grep -q 'en_GB.utf8' || exit_code=$?
-  if [[ $exit_code -ne 0 ]]; then
+  if ! locale -a | grep -Fx 'en_GB.utf8' > /dev/null; then
     execute "sudo sed -i 's/#en_GB.UTF-8/en_GB.UTF-8/' /etc/locale.gen"
     execute "sudo locale-gen"
   else
@@ -388,32 +390,52 @@ components=(
   'zk'
 )
 
+function usage() {
+  printf 'Usage: %s [-e] [-v] COMPONENT\n' "${0##*/}"
+  printf '  -e  Execute changes (default: dry run)\n'
+  printf '  -v  Enable verbose logging\n'
+  printf 'Components: %s\n' "${components[*]}"
+}
+
 execute=false
 verbose=false
-while getopts "ev:" arg; do
+while getopts ":evh" arg; do
   case $arg in
     e) execute=true;;
     v) verbose=true;;
+    h) usage; exit 0;;
+    *) usage >&2; exit 2;;
   esac
 done
+shift "$((OPTIND - 1))"
+
+if [[ $# -ne 1 ]]; then
+  usage >&2
+  exit 2
+fi
+
+input=$1
+valid_component=false
+for component in "${components[@]}"; do
+  if [[ "$input" == "$component" ]]; then
+    valid_component=true
+    break
+  fi
+done
+if [[ "$valid_component" == false ]]; then
+  printf 'Unknown component: %s\n' "$input" >&2
+  usage >&2
+  exit 2
+fi
 
 tmp_root_dir=$(mktemp -d)
-log_info "temporary directory: $tmp_root_dir"
 
 function cleanup() {
   log_info "remove temporary $tmp_root_dir"
-  rm -rf "$tmp_root_dir"
+  rm -rf -- "$tmp_root_dir"
 }
 
 trap cleanup EXIT
+log_info "temporary directory: $tmp_root_dir"
 
-input=${@: -1}
-for component in "${components[@]}"; do
-  if [[ $input == $component ]]; then
-    function_name="setup_$input"
-	$function_name
-	exit 0
-  fi
-done
-
-echo "unknown component $input"
+"setup_$input"

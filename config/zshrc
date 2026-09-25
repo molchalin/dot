@@ -45,6 +45,11 @@ ZSH_WEB_SEARCH_ENGINES=(
 )
 znap source ohmyzsh plugins/web-search
 
+# Local abbreviations must be loaded before exporting aliases.
+if [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh-abbr/local-abbreviations.zsh" ]]; then
+    source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh-abbr/local-abbreviations.zsh"
+fi
+
 # ── Completions ─────────────────────────────────────
 eval $(abbr export-aliases | perl -anE 's/\-g //g; print $_')
 fpath+=( ~[zsh-completions]/src )

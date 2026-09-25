@@ -7,3 +7,8 @@ config/nvim/spell
 Brewfile.lock.json
 config/tmux/tmuxline.conf
 config/karabiner/automatic_backups/
+
+# Machine-specific overrides (keep loaders tracked).
+/config/zsh-abbr/local-abbreviations.zsh
+/config/nvim/local_init.lua
+/config/nvim/local_gopls.lua
